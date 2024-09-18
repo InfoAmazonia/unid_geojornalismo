@@ -1,0 +1,1170 @@
+origem,destino,area_ha,terrai_cod,ano_origem,terrai_nom
+1. Floresta (1985),1. Floresta (2022),6166.047191054504,19301,1985,Jauary
+1. Floresta (1985),2. Formação Natural não Florestal (2022),6.0684297607421875,19301,1985,Jauary
+1. Floresta (1985),3. Agropecuária (2022),1590.2904454464294,19301,1985,Jauary
+1. Floresta (1985),5. Corpo D`água (2022),62.275446157130894,19301,1985,Jauary
+1. Floresta (1985),Total (2022),7824.681512418807,19301,1985,Jauary
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),3497.30528823073,19301,1985,Jauary
+1.1. Formação Florestal (1985),2.2. Formação Campestre (2022),1.69562353515625,19301,1985,Jauary
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),1424.9253536007266,19301,1985,Jauary
+1.1. Formação Florestal (1985),"5.1. Rio, Lago e Oceano (2022)",17.785869491684856,19301,1985,Jauary
+1.1. Formação Florestal (1985),Total (2022),4941.712134858299,19301,1985,Jauary
+1.4. Floresta Alagável (1985),1.4. Floresta Alagável (2022),2668.7419028237728,19301,1985,Jauary
+1.4. Floresta Alagável (1985),2.1. Campo Alagado e Área Pantanosa (2022),4.372806225585937,19301,1985,Jauary
+1.4. Floresta Alagável (1985),3.1. Pastagem (2022),165.36509184570278,19301,1985,Jauary
+1.4. Floresta Alagável (1985),"5.1. Rio, Lago e Oceano (2022)",44.48957666544604,19301,1985,Jauary
+1.4. Floresta Alagável (1985),Total (2022),2882.9693775605074,19301,1985,Jauary
+2. Formação Natural não Florestal (1985),1. Floresta (2022),108.8352046075082,19301,1985,Jauary
+2. Formação Natural não Florestal (1985),2. Formação Natural não Florestal (2022),3703.1790981688073,19301,1985,Jauary
+2. Formação Natural não Florestal (1985),3. Agropecuária (2022),479.28360279641583,19301,1985,Jauary
+2. Formação Natural não Florestal (1985),5. Corpo D`água (2022),2663.347341347084,19301,1985,Jauary
+2. Formação Natural não Florestal (1985),Total (2022),6954.645246919816,19301,1985,Jauary
+2.1. Campo Alagado e Área Pantanosa (1985),1.1. Formação Florestal (2022),6.562400736179722,19301,1985,Jauary
+2.1. Campo Alagado e Área Pantanosa (1985),1.4. Floresta Alagável (2022),102.27280387132846,19301,1985,Jauary
+2.1. Campo Alagado e Área Pantanosa (1985),2.1. Campo Alagado e Área Pantanosa (2022),2891.1368740335383,19301,1985,Jauary
+2.1. Campo Alagado e Área Pantanosa (1985),2.2. Formação Campestre (2022),94.20020446947292,19301,1985,Jauary
+2.1. Campo Alagado e Área Pantanosa (1985),3.1. Pastagem (2022),43.817229406738235,19301,1985,Jauary
+2.1. Campo Alagado e Área Pantanosa (1985),"5.1. Rio, Lago e Oceano (2022)",2117.47199413644,19301,1985,Jauary
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),5255.461506653697,19301,1985,Jauary
+2.2. Formação Campestre (1985),2.1. Campo Alagado e Área Pantanosa (2022),107.69292003724335,19301,1985,Jauary
+2.2. Formação Campestre (1985),2.2. Formação Campestre (2022),610.149099628553,19301,1985,Jauary
+2.2. Formação Campestre (1985),3.1. Pastagem (2022),435.4663733896776,19301,1985,Jauary
+2.2. Formação Campestre (1985),"5.1. Rio, Lago e Oceano (2022)",545.8753472106442,19301,1985,Jauary
+2.2. Formação Campestre (1985),Total (2022),1699.183740266118,19301,1985,Jauary
+3. Agropecuária (1985),1. Floresta (2022),1013.98877935937,19301,1985,Jauary
+3. Agropecuária (1985),2. Formação Natural não Florestal (2022),317.9239956327558,19301,1985,Jauary
+3. Agropecuária (1985),3. Agropecuária (2022),1178.4198226547958,19301,1985,Jauary
+3. Agropecuária (1985),5. Corpo D`água (2022),4.551522839355467,19301,1985,Jauary
+3. Agropecuária (1985),Total (2022),2514.884120486277,19301,1985,Jauary
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),662.2333876819079,19301,1985,Jauary
+3.1. Pastagem (1985),1.4. Floresta Alagável (2022),351.7553916774623,19301,1985,Jauary
+3.1. Pastagem (1985),2.1. Campo Alagado e Área Pantanosa (2022),57.75989871014783,19301,1985,Jauary
+3.1. Pastagem (1985),2.2. Formação Campestre (2022),260.164096922608,19301,1985,Jauary
+3.1. Pastagem (1985),3.1. Pastagem (2022),1178.4198226547958,19301,1985,Jauary
+3.1. Pastagem (1985),"5.1. Rio, Lago e Oceano (2022)",4.551522839355467,19301,1985,Jauary
+3.1. Pastagem (1985),Total (2022),2514.8841204862774,19301,1985,Jauary
+5. Corpo D`água (1985),1. Floresta (2022),13.177444297688798,19301,1985,Jauary
+5. Corpo D`água (1985),2. Formação Natural não Florestal (2022),65.50921572076535,19301,1985,Jauary
+5. Corpo D`água (1985),5. Corpo D`água (2022),7404.984410160141,19301,1985,Jauary
+5. Corpo D`água (1985),Total (2022),7483.671070178595,19301,1985,Jauary
+"5.1. Rio, Lago e Oceano (1985)",1.1. Formação Florestal (2022),6.662738017171217,19301,1985,Jauary
+"5.1. Rio, Lago e Oceano (1985)",1.4. Floresta Alagável (2022),6.514706280517581,19301,1985,Jauary
+"5.1. Rio, Lago e Oceano (1985)",2.1. Campo Alagado e Área Pantanosa (2022),50.40462733106427,19301,1985,Jauary
+"5.1. Rio, Lago e Oceano (1985)",2.2. Formação Campestre (2022),15.104588389701089,19301,1985,Jauary
+"5.1. Rio, Lago e Oceano (1985)","5.1. Rio, Lago e Oceano (2022)",7404.984410160141,19301,1985,Jauary
+"5.1. Rio, Lago e Oceano (1985)",Total (2022),7483.671070178595,19301,1985,Jauary
+Total (1985),1. Floresta (2022),7302.04861931907,19301,1985,Jauary
+Total (1985),1.1. Formação Florestal (2022),4172.763814665989,19301,1985,Jauary
+Total (1985),1.4. Floresta Alagável (2022),3129.284804653081,19301,1985,Jauary
+Total (1985),2. Formação Natural não Florestal (2022),4092.6807392830706,19301,1985,Jauary
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),3111.3671263375795,19301,1985,Jauary
+Total (1985),2.2. Formação Campestre (2022),981.3136129454912,19301,1985,Jauary
+Total (1985),3. Agropecuária (2022),3247.9938708976415,19301,1985,Jauary
+Total (1985),3.1. Pastagem (2022),3247.9938708976415,19301,1985,Jauary
+Total (1985),5. Corpo D`água (2022),10135.158720503712,19301,1985,Jauary
+Total (1985),"5.1. Rio, Lago e Oceano (2022)",10135.158720503712,19301,1985,Jauary
+Total (1985),Total (2022),49555.76390000698,19301,1985,Jauary
+1. Floresta (2012),1. Floresta (2022),6689.391130998885,19301,2012,Jauary
+1. Floresta (2012),2. Formação Natural não Florestal (2022),1.7848316894531246,19301,2012,Jauary
+1. Floresta (2012),3. Agropecuária (2022),1343.4127036502025,19301,2012,Jauary
+1. Floresta (2012),5. Corpo D`água (2022),17.491608996582023,19301,2012,Jauary
+1. Floresta (2012),Total (2022),8052.080275335123,19301,2012,Jauary
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),3733.265080903415,19301,2012,Jauary
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),1161.558603539478,19301,2012,Jauary
+1.1. Formação Florestal (2012),"5.1. Rio, Lago e Oceano (2022)",0.5354576965332031,19301,2012,Jauary
+1.1. Formação Florestal (2012),Total (2022),4895.359142139426,19301,2012,Jauary
+1.4. Floresta Alagável (2012),1.4. Floresta Alagável (2022),2956.12605009547,19301,2012,Jauary
+1.4. Floresta Alagável (2012),2.1. Campo Alagado e Área Pantanosa (2022),1.7848316894531246,19301,2012,Jauary
+1.4. Floresta Alagável (2012),3.1. Pastagem (2022),181.8541001107245,19301,2012,Jauary
+1.4. Floresta Alagável (2012),"5.1. Rio, Lago e Oceano (2022)",16.95615130004882,19301,2012,Jauary
+1.4. Floresta Alagável (2012),Total (2022),3156.721133195697,19301,2012,Jauary
+2. Formação Natural não Florestal (2012),1. Floresta (2022),99.5468633855604,19301,2012,Jauary
+2. Formação Natural não Florestal (2012),2. Formação Natural não Florestal (2022),3738.090049690339,19301,2012,Jauary
+2. Formação Natural não Florestal (2012),3. Agropecuária (2022),219.96243604738711,19301,2012,Jauary
+2. Formação Natural não Florestal (2012),5. Corpo D`água (2022),856.5742379478863,19301,2012,Jauary
+2. Formação Natural não Florestal (2012),Total (2022),4914.173587071173,19301,2012,Jauary
+2.1. Campo Alagado e Área Pantanosa (2012),1.1. Formação Florestal (2022),11.293736171874995,19301,2012,Jauary
+2.1. Campo Alagado e Área Pantanosa (2012),1.4. Floresta Alagável (2022),87.18224667169319,19301,2012,Jauary
+2.1. Campo Alagado e Área Pantanosa (2012),2.1. Campo Alagado e Área Pantanosa (2022),3092.3801690530363,19301,2012,Jauary
+2.1. Campo Alagado e Área Pantanosa (2012),2.2. Formação Campestre (2022),111.813869634244,19301,2012,Jauary
+2.1. Campo Alagado e Área Pantanosa (2012),3.1. Pastagem (2022),25.328130114770076,19301,2012,Jauary
+2.1. Campo Alagado e Área Pantanosa (2012),"5.1. Rio, Lago e Oceano (2022)",855.9495791466168,19301,2012,Jauary
+2.1. Campo Alagado e Área Pantanosa (2012),Total (2022),4183.947730792235,19301,2012,Jauary
+2.2. Formação Campestre (2012),1.1. Formação Florestal (2022),0.53543095703125,19301,2012,Jauary
+2.2. Formação Campestre (2012),1.4. Floresta Alagável (2022),0.5354495849609375,19301,2012,Jauary
+2.2. Formação Campestre (2012),2.1. Campo Alagado e Área Pantanosa (2022),43.19292974243164,19301,2012,Jauary
+2.2. Formação Campestre (2012),2.2. Formação Campestre (2022),490.70308126062736,19301,2012,Jauary
+2.2. Formação Campestre (2012),3.1. Pastagem (2022),194.63430593261705,19301,2012,Jauary
+2.2. Formação Campestre (2012),"5.1. Rio, Lago e Oceano (2022)",0.6246588012695312,19301,2012,Jauary
+2.2. Formação Campestre (2012),Total (2022),730.2258562789378,19301,2012,Jauary
+3. Agropecuária (2012),1. Floresta (2022),497.5077656693758,19301,2012,Jauary
+3. Agropecuária (2012),2. Formação Natural não Florestal (2022),373.78386991450327,19301,2012,Jauary
+3. Agropecuária (2012),3. Agropecuária (2022),1673.1686998922453,19301,2012,Jauary
+3. Agropecuária (2012),Total (2022),2544.4603354761243,19301,2012,Jauary
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),402.30514379715225,19301,2012,Jauary
+3.1. Pastagem (2012),1.4. Floresta Alagável (2022),95.20262187222352,19301,2012,Jauary
+3.1. Pastagem (2012),2.1. Campo Alagado e Área Pantanosa (2022),38.688724007568425,19301,2012,Jauary
+3.1. Pastagem (2012),2.2. Formação Campestre (2022),335.0951459069349,19301,2012,Jauary
+3.1. Pastagem (2012),3.1. Pastagem (2022),1673.1686998922453,19301,2012,Jauary
+3.1. Pastagem (2012),Total (2022),2544.4603354761243,19301,2012,Jauary
+5. Corpo D`água (2012),1. Floresta (2022),4.52086786336263,19301,2012,Jauary
+5. Corpo D`água (2012),2. Formação Natural não Florestal (2022),77.89685975538062,19301,2012,Jauary
+5. Corpo D`água (2012),5. Corpo D`água (2022),9184.750024502287,19301,2012,Jauary
+5. Corpo D`água (2012),Total (2022),9267.167752121031,19301,2012,Jauary
+"5.1. Rio, Lago e Oceano (2012)",1.1. Formação Florestal (2022),2.825326542561849,19301,2012,Jauary
+"5.1. Rio, Lago e Oceano (2012)",1.4. Floresta Alagável (2022),1.6955413208007812,19301,2012,Jauary
+"5.1. Rio, Lago e Oceano (2012)",2.1. Campo Alagado e Área Pantanosa (2022),54.7944238666369,19301,2012,Jauary
+"5.1. Rio, Lago e Oceano (2012)",2.2. Formação Campestre (2022),23.10243588874372,19301,2012,Jauary
+"5.1. Rio, Lago e Oceano (2012)","5.1. Rio, Lago e Oceano (2022)",9184.750024502287,19301,2012,Jauary
+"5.1. Rio, Lago e Oceano (2012)",Total (2022),9267.167752121031,19301,2012,Jauary
+Total (2012),1. Floresta (2022),7290.966627917184,19301,2012,Jauary
+Total (2012),1.1. Formação Florestal (2022),4150.224718372036,19301,2012,Jauary
+Total (2012),1.4. Floresta Alagável (2022),3140.741909545148,19301,2012,Jauary
+Total (2012),2. Formação Natural não Florestal (2022),4191.555611049676,19301,2012,Jauary
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),3230.841078359126,19301,2012,Jauary
+Total (2012),2.2. Formação Campestre (2022),960.71453269055,19301,2012,Jauary
+Total (2012),3. Agropecuária (2022),3236.5438395898345,19301,2012,Jauary
+Total (2012),3.1. Pastagem (2022),3236.5438395898345,19301,2012,Jauary
+Total (2012),5. Corpo D`água (2022),10058.815871446755,19301,2012,Jauary
+Total (2012),"5.1. Rio, Lago e Oceano (2022)",10058.815871446755,19301,2012,Jauary
+Total (2012),Total (2022),49555.763900006896,19301,2012,Jauary
+1. Floresta (1985),1. Floresta (2022),76567.2699260574,20702,1985,Kanela Memortumré
+1. Floresta (1985),2. Formação Natural não Florestal (2022),80.47780706554937,20702,1985,Kanela Memortumré
+1. Floresta (1985),3. Agropecuária (2022),5036.851300209246,20702,1985,Kanela Memortumré
+1. Floresta (1985),4. Área não Vegetada (2022),3.999665789794922,20702,1985,Kanela Memortumré
+1. Floresta (1985),Total (2022),81688.598699122,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),12947.178181710797,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),1.2. Formação Savânica (2022),103.12967223955944,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),2.1. Campo Alagado e Área Pantanosa (2022),43.86305239863376,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),2.2. Formação Campestre (2022),0.5332681884765625,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),242.32198141259343,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),3.2. Agricultura (2022),189.20539251586877,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),3.2.1. Lavoura Temporária (2022),189.20539251586877,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),3.2.1.1. Soja (2022),189.20539251586877,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),3.4. Mosaico de Usos (2022),138.52791596112417,20702,1985,Kanela Memortumré
+1.1. Formação Florestal (1985),Total (2022),14043.170249458792,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),1.1. Formação Florestal (2022),245.46887947435584,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),1.2. Formação Savânica (2022),63271.49319263268,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),2.1. Campo Alagado e Área Pantanosa (2022),7.19937745361328,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),2.2. Formação Campestre (2022),28.882109024825763,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),3.1. Pastagem (2022),998.9805200900907,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),3.2. Agricultura (2022),1863.6986544160104,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),3.2.1. Lavoura Temporária (2022),1863.6986544160104,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),3.2.1.1. Soja (2022),1846.9910116669869,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),3.2.1.5. Outras Lavouras Temporárias (2022),16.70764274902346,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),3.4. Mosaico de Usos (2022),1604.1168358135585,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),4.4. Outras Áreas não Vegetadas (2022),3.999665789794922,20702,1985,Kanela Memortumré
+1.2. Formação Savânica (1985),Total (2022),71751.23654352697,20702,1985,Kanela Memortumré
+2. Formação Natural não Florestal (1985),1. Floresta (2022),98.985034322126893,20702,1985,Kanela Memortumré
+2. Formação Natural não Florestal (1985),2. Formação Natural não Florestal (2022),16794.046358961245,20702,1985,Kanela Memortumré
+2. Formação Natural não Florestal (1985),3. Agropecuária (2022),233.9547823046882,20702,1985,Kanela Memortumré
+2. Formação Natural não Florestal (1985),4. Área não Vegetada (2022),1.244012628173828,20702,1985,Kanela Memortumré
+2. Formação Natural não Florestal (1985),Total (2022),17128.230188216232,20702,1985,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (1985),1.1. Formação Florestal (2022),47.569620183177335,20702,1985,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (1985),1.2. Formação Savânica (2022),2.0441935485839844,20702,1985,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (1985),2.1. Campo Alagado e Área Pantanosa (2022),182.2660401085231,20702,1985,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (1985),3.1. Pastagem (2022),1.5112356384277346,20702,1985,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (1985),3.4. Mosaico de Usos (2022),0.6222699584960937,20702,1985,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (1985),4.4. Outras Áreas não Vegetadas (2022),0.6220063842773437,20702,1985,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),234.6353658214856,20702,1985,Kanela Memortumré
+2.2. Formação Campestre (1985),1.2. Formação Savânica (2022),49.371220590365574,20702,1985,Kanela Memortumré
+2.2. Formação Campestre (1985),2.1. Campo Alagado e Área Pantanosa (2022),4.535364849853516,20702,1985,Kanela Memortumré
+2.2. Formação Campestre (1985),2.2. Formação Campestre (2022),16607.24495400287,20702,1985,Kanela Memortumré
+2.2. Formação Campestre (1985),3.1. Pastagem (2022),5.756629136962892,20702,1985,Kanela Memortumré
+2.2. Formação Campestre (1985),3.4. Mosaico de Usos (2022),226.06464757080147,20702,1985,Kanela Memortumré
+2.2. Formação Campestre (1985),4.4. Outras Áreas não Vegetadas (2022),0.6220062438964843,20702,1985,Kanela Memortumré
+2.2. Formação Campestre (1985),Total (2022),16893.594822394745,20702,1985,Kanela Memortumré
+3. Agropecuária (1985),1. Floresta (2022),282.7071487718291,20702,1985,Kanela Memortumré
+3. Agropecuária (1985),2. Formação Natural não Florestal (2022),0.6223116699218749,20702,1985,Kanela Memortumré
+3. Agropecuária (1985),3. Agropecuária (2022),1042.2914071164837,20702,1985,Kanela Memortumré
+3. Agropecuária (1985),Total (2022),1325.6208675582347,20702,1985,Kanela Memortumré
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),5.11545477756874,20702,1985,Kanela Memortumré
+3.1. Pastagem (1985),1.2. Formação Savânica (2022),1.0673496826171875,20702,1985,Kanela Memortumré
+3.1. Pastagem (1985),3.1. Pastagem (2022),6.392606951712816,20702,1985,Kanela Memortumré
+3.1. Pastagem (1985),3.4. Mosaico de Usos (2022),28.878953704833915,20702,1985,Kanela Memortumré
+3.1. Pastagem (1985),Total (2022),41.45436511673266,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),1.1. Formação Florestal (2022),228.57955590444536,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),1.2. Formação Savânica (2022),47.94478840719783,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),2.1. Campo Alagado e Área Pantanosa (2022),0.6223116699218749,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),3.1. Pastagem (2022),400.9513970535813,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),3.2. Agricultura (2022),0.5332735046386718,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),3.2.1. Lavoura Temporária (2022),0.5332735046386718,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),3.2.1.5. Outras Lavouras Temporárias (2022),0.5332735046386718,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),3.4. Mosaico de Usos (2022),605.5351759017171,20702,1985,Kanela Memortumré
+3.4. Mosaico de Usos (1985),Total (2022),1285.2330494507796,20702,1985,Kanela Memortumré
+4. Área não Vegetada (1985),1. Floresta (2022),2.5777159973144532,20702,1985,Kanela Memortumré
+4. Área não Vegetada (1985),3. Agropecuária (2022),7.999479931640621,20702,1985,Kanela Memortumré
+4. Área não Vegetada (1985),4. Área não Vegetada (2022),3.4664867797851566,20702,1985,Kanela Memortumré
+4. Área não Vegetada (1985),Total (2022),14.043682708740231,20702,1985,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (1985),1.2. Formação Savânica (2022),2.5777159973144532,20702,1985,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (1985),3.1. Pastagem (2022),7.999479931640621,20702,1985,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (1985),4.4. Outras Áreas não Vegetadas (2022),3.4664867797851566,20702,1985,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (1985),Total (2022),14.043682708740231,20702,1985,Kanela Memortumré
+5. Corpo D`água (1985),1. Floresta (2022),2.132920819091797,20702,1985,Kanela Memortumré
+5. Corpo D`água (1985),3. Agropecuária (2022),0.5333749572753905,20702,1985,Kanela Memortumré
+5. Corpo D`água (1985),4. Área não Vegetada (2022),1.5996981811523436,20702,1985,Kanela Memortumré
+5. Corpo D`água (1985),5. Corpo D`água (2022),0.6221764343261719,20702,1985,Kanela Memortumré
+5. Corpo D`água (1985),Total (2022),4.888170391845703,20702,1985,Kanela Memortumré
+"5.1. Rio, Lago e Oceano (1985)",1.2. Formação Savânica (2022),2.132920819091797,20702,1985,Kanela Memortumré
+"5.1. Rio, Lago e Oceano (1985)",3.4. Mosaico de Usos (2022),0.5333749572753905,20702,1985,Kanela Memortumré
+"5.1. Rio, Lago e Oceano (1985)",4.4. Outras Áreas não Vegetadas (2022),1.5996981811523436,20702,1985,Kanela Memortumré
+"5.1. Rio, Lago e Oceano (1985)","5.1. Rio, Lago e Oceano (2022)",0.6221764343261719,20702,1985,Kanela Memortumré
+"5.1. Rio, Lago e Oceano (1985)",Total (2022),4.888170391845703,20702,1985,Kanela Memortumré
+Total (1985),1. Floresta (2022),76953.67274596776,20702,1985,Kanela Memortumré
+Total (1985),1.1. Formação Florestal (2022),13473.911692050346,20702,1985,Kanela Memortumré
+Total (1985),1.2. Formação Savânica (2022),63479.76105391742,20702,1985,Kanela Memortumré
+Total (1985),2. Formação Natural não Florestal (2022),16875.146477696715,20702,1985,Kanela Memortumré
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),238.48614648054556,20702,1985,Kanela Memortumré
+Total (1985),2.2. Formação Campestre (2022),16636.66033121617,20702,1985,Kanela Memortumré
+Total (1985),3. Agropecuária (2022),6321.630344519334,20702,1985,Kanela Memortumré
+Total (1985),3.1. Pastagem (2022),1663.9138502150097,20702,1985,Kanela Memortumré
+Total (1985),3.2. Agricultura (2022),2053.4373204365174,20702,1985,Kanela Memortumré
+Total (1985),3.2.1. Lavoura Temporária (2022),2053.4373204365174,20702,1985,Kanela Memortumré
+Total (1985),3.2.1.1. Soja (2022),2036.1964041828555,20702,1985,Kanela Memortumré
+Total (1985),3.2.1.5. Outras Lavouras Temporárias (2022),17.24091625366213,20702,1985,Kanela Memortumré
+Total (1985),3.4. Mosaico de Usos (2022),2604.279173867807,20702,1985,Kanela Memortumré
+Total (1985),4. Área não Vegetada (2022),10.30986337890625,20702,1985,Kanela Memortumré
+Total (1985),4.4. Outras Áreas não Vegetadas (2022),10.30986337890625,20702,1985,Kanela Memortumré
+Total (1985),5. Corpo D`água (2022),0.6221764343261719,20702,1985,Kanela Memortumré
+Total (1985),"5.1. Rio, Lago e Oceano (2022)",0.6221764343261719,20702,1985,Kanela Memortumré
+Total (1985),Total (2022),204429.6378568672,20702,1985,Kanela Memortumré
+1. Floresta (2012),1. Floresta (2022),76812.13269607157,20702,2012,Kanela Memortumré
+1. Floresta (2012),2. Formação Natural não Florestal (2022),58.85388007743086,20702,2012,Kanela Memortumré
+1. Floresta (2012),3. Agropecuária (2022),4793.966755839914,20702,2012,Kanela Memortumré
+1. Floresta (2012),4. Área não Vegetada (2022),3.999097808837893,20702,2012,Kanela Memortumré
+1. Floresta (2012),Total (2022),81668.95242979773,20702,2012,Kanela Memortumré
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),12860.48739792528,20702,2012,Kanela Memortumré
+1.1. Formação Florestal (2012),1.2. Formação Savânica (2022),34.09191245593502,20702,2012,Kanela Memortumré
+1.1. Formação Florestal (2012),2.1. Campo Alagado e Área Pantanosa (2022),11.780160046338848,20702,2012,Kanela Memortumré
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),82.46665917312922,20702,2012,Kanela Memortumré
+1.1. Formação Florestal (2012),3.4. Mosaico de Usos (2022),132.29966548969338,20702,2012,Kanela Memortumré
+1.1. Formação Florestal (2012),Total (2022),13121.125795090378,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),1.1. Formação Florestal (2022),379.6609166022085,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),1.2. Formação Savânica (2022),63537.89246908814,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),2.1. Campo Alagado e Área Pantanosa (2022),12.976386560058591,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),2.2. Formação Campestre (2022),34.09733347103342,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),3.1. Pastagem (2022),906.7953955859618,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),3.2. Agricultura (2022),2051.8372929401744,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),3.2.1. Lavoura Temporária (2022),2051.8372929401744,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),3.2.1.1. Soja (2022),2036.9961050617565,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),3.2.1.5. Outras Lavouras Temporárias (2022),14.84118787841799,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),3.4. Mosaico de Usos (2022),1620.567742650955,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),4.4. Outras Áreas não Vegetadas (2022),3.999097808837893,20702,2012,Kanela Memortumré
+1.2. Formação Savânica (2012),Total (2022),72651.50122058773,20702,2012,Kanela Memortumré
+2. Formação Natural não Florestal (2012),1. Floresta (2022),44.626783317990785,20702,2012,Kanela Memortumré
+2. Formação Natural não Florestal (2012),2. Formação Natural não Florestal (2022),16749.785242522874,20702,2012,Kanela Memortumré
+2. Formação Natural não Florestal (2012),3. Agropecuária (2022),252.63974289550868,20702,2012,Kanela Memortumré
+2. Formação Natural não Florestal (2012),4. Área não Vegetada (2022),1.5105865234375002,20702,2012,Kanela Memortumré
+2. Formação Natural não Florestal (2012),Total (2022),17048.56235525981,20702,2012,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (2012),1.1. Formação Florestal (2022),2.8145040260943244,20702,2012,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (2012),1.2. Formação Savânica (2022),2.5773130981445314,20702,2012,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (2012),2.1. Campo Alagado e Área Pantanosa (2022),212.0375923424095,20702,2012,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (2012),3.1. Pastagem (2022),1.6886840759277346,20702,2012,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (2012),3.4. Mosaico de Usos (2022),0.8000617553710938,20702,2012,Kanela Memortumré
+2.1. Campo Alagado e Área Pantanosa (2012),Total (2022),219.91815529794724,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),1.1. Formação Florestal (2022),0.8888135559082031,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),1.2. Formação Savânica (2022),38.34615263784373,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),2.1. Campo Alagado e Área Pantanosa (2022),2.045042071533203,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),2.2. Formação Campestre (2022),16535.70260810893,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),3.1. Pastagem (2022),24.70837490844728,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),3.4. Mosaico de Usos (2022),225.44262215576256,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),4.4. Outras Áreas não Vegetadas (2022),1.5105865234375002,20702,2012,Kanela Memortumré
+2.2. Formação Campestre (2012),Total (2022),16828.644199961866,20702,2012,Kanela Memortumré
+3. Agropecuária (2012),1. Floresta (2022),107.44191992862484,20702,2012,Kanela Memortumré
+3. Agropecuária (2012),2. Formação Natural não Florestal (2022),0.6220107116699218,20702,2012,Kanela Memortumré
+3. Agropecuária (2012),3. Agropecuária (2022),1258.1168722071272,20702,2012,Kanela Memortumré
+3. Agropecuária (2012),Total (2022),1366.180802847422,20702,2012,Kanela Memortumré
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),28.086760485839875,20702,2012,Kanela Memortumré
+3.1. Pastagem (2012),1.2. Formação Savânica (2022),48.74432042300955,20702,2012,Kanela Memortumré
+3.1. Pastagem (2012),3.1. Pastagem (2022),391.71899508868097,20702,2012,Kanela Memortumré
+3.1. Pastagem (2012),3.4. Mosaico de Usos (2022),23.51332322751512,20702,2012,Kanela Memortumré
+3.1. Pastagem (2012),Total (2022),492.0633992250455,20702,2012,Kanela Memortumré
+3.2. Agricultura (2012),1.2. Formação Savânica (2022),0.8002277587890625,20702,2012,Kanela Memortumré
+3.2. Agricultura (2012),3.2. Agricultura (2022),1.244513293457031,20702,2012,Kanela Memortumré
+3.2. Agricultura (2012),Total (2022),2.044741052246094,20702,2012,Kanela Memortumré
+3.2.1. Lavoura Temporária (2012),1.2. Formação Savânica (2022),0.8002277587890625,20702,2012,Kanela Memortumré
+3.2.1. Lavoura Temporária (2012),3.2.1. Lavoura Temporária (2022),1.244513293457031,20702,2012,Kanela Memortumré
+3.2.1. Lavoura Temporária (2012),Total (2022),2.044741052246094,20702,2012,Kanela Memortumré
+3.2.1.1. Soja (2012),1.2. Formação Savânica (2022),0.8002277587890625,20702,2012,Kanela Memortumré
+3.2.1.1. Soja (2012),3.2.1.1. Soja (2022),0.80011611328125,20702,2012,Kanela Memortumré
+3.2.1.1. Soja (2012),Total (2022),1.6003438720703125,20702,2012,Kanela Memortumré
+3.2.1.5. Outras Lavouras Temporárias (2012),3.2.1.5. Outras Lavouras Temporárias (2022),0.4443971801757813,20702,2012,Kanela Memortumré
+3.2.1.5. Outras Lavouras Temporárias (2012),Total (2022),0.4443971801757813,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),1.1. Formação Florestal (2022),18.486164335913568,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),1.2. Formação Savânica (2022),11.324446925072769,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),2.2. Formação Campestre (2022),0.6220107116699218,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),3.1. Pastagem (2022),264.89528109717287,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),3.2. Agricultura (2022),0.7110314392089845,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),3.2.1. Lavoura Temporária (2022),0.7110314392089845,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),3.2.1.5. Outras Lavouras Temporárias (2022),0.7110314392089845,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),3.4. Mosaico de Usos (2022),576.0337280610922,20702,2012,Kanela Memortumré
+3.4. Mosaico de Usos (2012),Total (2022),873.4947254485483,20702,2012,Kanela Memortumré
+4. Área não Vegetada (2012),1. Floresta (2022),62.39355916137696,20702,2012,Kanela Memortumré
+4. Área não Vegetada (2012),2. Formação Natural não Florestal (2022),0.6221514526367188,20702,2012,Kanela Memortumré
+4. Área não Vegetada (2012),3. Agropecuária (2022),8.455495186576094,20702,2012,Kanela Memortumré
+4. Área não Vegetada (2012),4. Área não Vegetada (2022),6.214814290939032,20702,2012,Kanela Memortumré
+4. Área não Vegetada (2012),Total (2022),77.68602009152882,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),1.2. Formação Savânica (2022),62.39355916137696,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),2.1. Campo Alagado e Área Pantanosa (2022),0.6221514526367188,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),3.1. Pastagem (2022),5.522494551810469,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),3.2. Agricultura (2022),2.9330006347656252,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),3.2.1. Lavoura Temporária (2022),2.9330006347656252,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),3.2.1.1. Soja (2022),1.0665457641601566,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),3.2.1.5. Outras Lavouras Temporárias (2022),1.8664548706054689,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),4.4. Outras Áreas não Vegetadas (2022),6.214814290939032,20702,2012,Kanela Memortumré
+4.4. Outras Áreas não Vegetadas (2012),Total (2022),83.55202136106004,20702,2012,Kanela Memortumré
+Total (2012),1. Floresta (2022),77026.59495847955,20702,2012,Kanela Memortumré
+Total (2012),1.1. Formação Florestal (2022),13290.424556931244,20702,2012,Kanela Memortumré
+Total (2012),1.2. Formação Savânica (2022),63737.77085706589,20702,2012,Kanela Memortumré
+Total (2012),2. Formação Natural não Florestal (2022),16809.88328476461,20702,2012,Kanela Memortumré
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),239.46133247297692,20702,2012,Kanela Memortumré
+Total (2012),2.2. Formação Campestre (2022),16570.421952291636,20702,2012,Kanela Memortumré
+Total (2012),3. Agropecuária (2022),6313.178866129126,20702,2012,Kanela Memortumré
+Total (2012),3.1. Pastagem (2022),1677.7958844811303,20702,2012,Kanela Memortumré
+Total (2012),3.2. Agricultura (2022),2056.725838307606,20702,2012,Kanela Memortumré
+Total (2012),3.2.1. Lavoura Temporária (2022),2056.725838307606,20702,2012,Kanela Memortumré
+Total (2012),3.2.1.1. Soja (2022),2038.862766939198,20702,2012,Kanela Memortumré
+Total (2012),3.2.1.5. Outras Lavouras Temporárias (2022),17.863071368408225,20702,2012,Kanela Memortumré
+Total (2012),3.4. Mosaico de Usos (2022),2578.6571433403897,20702,2012,Kanela Memortumré
+Total (2012),4. Área não Vegetada (2022),11.724498623214425,20702,2012,Kanela Memortumré
+Total (2012),4.4. Outras Áreas não Vegetadas (2022),11.724498623214425,20702,2012,Kanela Memortumré
+Total (2012),Total (2022),204437.8153481259,20702,2012,Kanela Memortumré
+1. Floresta (1985),1. Floresta (2022),45012.538120427336,28801,1985,Menkü
+1. Floresta (1985),2. Formação Natural não Florestal (2022),7.257469635009768,28801,1985,Menkü
+1. Floresta (1985),3. Agropecuária (2022),126.62912195384284,28801,1985,Menkü
+1. Floresta (1985),4. Área não Vegetada (2022),5.333763537597658,28801,1985,Menkü
+1. Floresta (1985),Total (2022),45151.75847555379,28801,1985,Menkü
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),43689.03671035278,28801,1985,Menkü
+1.1. Formação Florestal (1985),1.2. Formação Savânica (2022),489.14853316040194,28801,1985,Menkü
+1.1. Formação Florestal (1985),2.1. Campo Alagado e Área Pantanosa (2022),2.9729386840820324,28801,1985,Menkü
+1.1. Formação Florestal (1985),2.2. Formação Campestre (2022),4.284530950927736,28801,1985,Menkü
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),123.95941533614791,28801,1985,Menkü
+1.1. Formação Florestal (1985),3.2. Agricultura (2022),2.6697066176949296,28801,1985,Menkü
+1.1. Formação Florestal (1985),3.2.1. Lavoura Temporária (2022),2.6697066176949296,28801,1985,Menkü
+1.1. Formação Florestal (1985),3.2.1.5. Outras Lavouras Temporárias (2022),2.6697066176949296,28801,1985,Menkü
+1.1. Formação Florestal (1985),4.4. Outras Áreas não Vegetadas (2022),5.333763537597658,28801,1985,Menkü
+1.1. Formação Florestal (1985),Total (2022),44322.74501187503,28801,1985,Menkü
+1.2. Formação Savânica (1985),1.1. Formação Florestal (2022),9.530413171386725,28801,1985,Menkü
+1.2. Formação Savânica (1985),1.2. Formação Savânica (2022),824.8224637427656,28801,1985,Menkü
+1.2. Formação Savânica (1985),Total (2022),834.3528769141524,28801,1985,Menkü
+2. Formação Natural não Florestal (1985),1. Floresta (2022),2.0984513305664065,28801,1985,Menkü
+2. Formação Natural não Florestal (1985),Total (2022),2.0984513305664065,28801,1985,Menkü
+2.1. Campo Alagado e Área Pantanosa (1985),1.1. Formação Florestal (2022),2.0984513305664065,28801,1985,Menkü
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),2.0984513305664065,28801,1985,Menkü
+3. Agropecuária (1985),1. Floresta (2022),19.236383544921875,28801,1985,Menkü
+3. Agropecuária (1985),3. Agropecuária (2022),16.68367673133999,28801,1985,Menkü
+3. Agropecuária (1985),4. Área não Vegetada (2022),3.14777470703125,28801,1985,Menkü
+3. Agropecuária (1985),Total (2022),39.06783498329312,28801,1985,Menkü
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),1.748770166015625,28801,1985,Menkü
+3.1. Pastagem (1985),1.2. Formação Savânica (2022),1.7487667114257814,28801,1985,Menkü
+3.1. Pastagem (1985),3.1. Pastagem (2022),4.29767627003389,28801,1985,Menkü
+3.1. Pastagem (1985),3.2. Agricultura (2022),0.2320876622338389,28801,1985,Menkü
+3.1. Pastagem (1985),3.2.1. Lavoura Temporária (2022),0.2320876622338389,28801,1985,Menkü
+3.1. Pastagem (1985),3.2.1.5. Outras Lavouras Temporárias (2022),0.2320876622338389,28801,1985,Menkü
+3.1. Pastagem (1985),Total (2022),8.491476134176814,28801,1985,Menkü
+3.4. Mosaico de Usos (1985),1.1. Formação Florestal (2022),12.765949407958985,28801,1985,Menkü
+3.4. Mosaico de Usos (1985),1.2. Formação Savânica (2022),2.9728972595214835,28801,1985,Menkü
+3.4. Mosaico de Usos (1985),3.1. Pastagem (2022),8.831266101074213,28801,1985,Menkü
+3.4. Mosaico de Usos (1985),3.4. Mosaico de Usos (2022),3.3226466979980467,28801,1985,Menkü
+3.4. Mosaico de Usos (1985),4.4. Outras Áreas não Vegetadas (2022),3.14777470703125,28801,1985,Menkü
+3.4. Mosaico de Usos (1985),Total (2022),31.040534173583975,28801,1985,Menkü
+5. Corpo D`água (1985),1. Floresta (2022),1.0491526611328126,28801,1985,Menkü
+5. Corpo D`água (1985),5. Corpo D`água (2022),5.449977539277919,28801,1985,Menkü
+5. Corpo D`água (1985),Total (2022),6.499130200410732,28801,1985,Menkü
+"5.1. Rio, Lago e Oceano (1985)",1.1. Formação Florestal (2022),1.0491526611328126,28801,1985,Menkü
+"5.1. Rio, Lago e Oceano (1985)","5.1. Rio, Lago e Oceano (2022)",5.449977539277919,28801,1985,Menkü
+"5.1. Rio, Lago e Oceano (1985)",Total (2022),6.499130200410732,28801,1985,Menkü
+Total (1985),1. Floresta (2022),45034.922107963954,28801,1985,Menkü
+Total (1985),1.1. Formação Florestal (2022),43716.229447089834,28801,1985,Menkü
+Total (1985),1.2. Formação Savânica (2022),1318.6926608741148,28801,1985,Menkü
+Total (1985),2. Formação Natural não Florestal (2022),7.257469635009768,28801,1985,Menkü
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),2.9729386840820324,28801,1985,Menkü
+Total (1985),2.2. Formação Campestre (2022),4.284530950927736,28801,1985,Menkü
+Total (1985),3. Agropecuária (2022),143.31279868518283,28801,1985,Menkü
+Total (1985),3.1. Pastagem (2022),137.08835770725602,28801,1985,Menkü
+Total (1985),3.2. Agricultura (2022),2.9017942799287684,28801,1985,Menkü
+Total (1985),3.2.1. Lavoura Temporária (2022),2.9017942799287684,28801,1985,Menkü
+Total (1985),3.2.1.5. Outras Lavouras Temporárias (2022),2.9017942799287684,28801,1985,Menkü
+Total (1985),3.4. Mosaico de Usos (2022),3.3226466979980467,28801,1985,Menkü
+Total (1985),4. Área não Vegetada (2022),8.481538244628908,28801,1985,Menkü
+Total (1985),4.4. Outras Áreas não Vegetadas (2022),8.481538244628908,28801,1985,Menkü
+Total (1985),5. Corpo D`água (2022),5.449977539277919,28801,1985,Menkü
+Total (1985),"5.1. Rio, Lago e Oceano (2022)",5.449977539277919,28801,1985,Menkü
+Total (1985),Total (2022),90404.65137269598,28801,1985,Menkü
+1. Floresta (2012),1. Floresta (2022),44841.32172850142,28801,2012,Menkü
+1. Floresta (2012),2. Formação Natural não Florestal (2022),2.360870721435547,28801,2012,Menkü
+1. Floresta (2012),3. Agropecuária (2022),37.39010506283031,28801,2012,Menkü
+1. Floresta (2012),4. Área não Vegetada (2022),0.6120813537597657,28801,2012,Menkü
+1. Floresta (2012),Total (2022),44881.684785639445,28801,2012,Menkü
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),43391.10252675171,28801,2012,Menkü
+1.1. Formação Florestal (2012),1.2. Formação Savânica (2022),234.91337771606365,28801,2012,Menkü
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),28.034141940271716,28801,2012,Menkü
+1.1. Formação Florestal (2012),Total (2022),43654.05004640804,28801,2012,Menkü
+1.2. Formação Savânica (2012),1.1. Formação Florestal (2022),111.55373627319372,28801,2012,Menkü
+1.2. Formação Savânica (2012),1.2. Formação Savânica (2022),1103.7520877604522,28801,2012,Menkü
+1.2. Formação Savânica (2012),2.1. Campo Alagado e Área Pantanosa (2022),1.7487874572753908,28801,2012,Menkü
+1.2. Formação Savânica (2012),2.2. Formação Campestre (2022),0.6120832641601562,28801,2012,Menkü
+1.2. Formação Savânica (2012),3.1. Pastagem (2022),9.35596312255859,28801,2012,Menkü
+1.2. Formação Savânica (2012),4.4. Outras Áreas não Vegetadas (2022),0.6120813537597657,28801,2012,Menkü
+1.2. Formação Savânica (2012),Total (2022),1227.6347392313996,28801,2012,Menkü
+3. Agropecuária (2012),1. Floresta (2022),201.38896810338576,28801,2012,Menkü
+3. Agropecuária (2012),2. Formação Natural não Florestal (2022),3.7598920227050785,28801,2012,Menkü
+3. Agropecuária (2012),3. Agropecuária (2022),103.01328766905534,28801,2012,Menkü
+3. Agropecuária (2012),4. Área não Vegetada (2022),4.37192063598633,28801,2012,Menkü
+3. Agropecuária (2012),Total (2022),312.53406843113254,28801,2012,Menkü
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),201.38896810338576,28801,2012,Menkü
+3.1. Pastagem (2012),2.1. Campo Alagado e Área Pantanosa (2022),0.8743939025878906,28801,2012,Menkü
+3.1. Pastagem (2012),2.2. Formação Campestre (2022),2.885498120117188,28801,2012,Menkü
+3.1. Pastagem (2012),3.1. Pastagem (2022),100.6487461008348,28801,2012,Menkü
+3.1. Pastagem (2012),3.2. Agricultura (2022),1.9273540071853936,28801,2012,Menkü
+3.1. Pastagem (2012),3.2.1. Lavoura Temporária (2022),1.9273540071853936,28801,2012,Menkü
+3.1. Pastagem (2012),3.2.1.5. Outras Lavouras Temporárias (2022),1.9273540071853936,28801,2012,Menkü
+3.1. Pastagem (2012),4.4. Outras Áreas não Vegetadas (2022),4.37192063598633,28801,2012,Menkü
+3.1. Pastagem (2012),Total (2022),315.9515888844681,28801,2012,Menkü
+3.4. Mosaico de Usos (2012),3.4. Mosaico de Usos (2022),0.4371875610351562,28801,2012,Menkü
+3.4. Mosaico de Usos (2012),Total (2022),0.4371875610351562,28801,2012,Menkü
+4. Área não Vegetada (2012),4. Área não Vegetada (2022),3.235211614990234,28801,2012,Menkü
+4. Área não Vegetada (2012),Total (2022),3.235211614990234,28801,2012,Menkü
+4.4. Outras Áreas não Vegetadas (2012),4.4. Outras Áreas não Vegetadas (2022),3.235211614990234,28801,2012,Menkü
+4.4. Outras Áreas não Vegetadas (2012),Total (2022),3.235211614990234,28801,2012,Menkü
+5. Corpo D`água (2012),5. Corpo D`água (2022),1.9698263828172868,28801,2012,Menkü
+5. Corpo D`água (2012),Total (2022),1.9698263828172868,28801,2012,Menkü
+"5.1. Rio, Lago e Oceano (2012)","5.1. Rio, Lago e Oceano (2022)",1.9698263828172868,28801,2012,Menkü
+"5.1. Rio, Lago e Oceano (2012)",Total (2022),1.9698263828172868,28801,2012,Menkü
+Total (2012),1. Floresta (2022),45042.7106966048,28801,2012,Menkü
+Total (2012),1.1. Formação Florestal (2022),43704.045231128286,28801,2012,Menkü
+Total (2012),1.2. Formação Savânica (2022),1338.665465476516,28801,2012,Menkü
+Total (2012),2. Formação Natural não Florestal (2022),6.120762744140626,28801,2012,Menkü
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),2.623181359863281,28801,2012,Menkü
+Total (2012),2.2. Formação Campestre (2022),3.497581384277344,28801,2012,Menkü
+Total (2012),3. Agropecuária (2022),140.40339273188565,28801,2012,Menkü
+Total (2012),3.1. Pastagem (2022),138.0388511636651,28801,2012,Menkü
+Total (2012),3.2. Agricultura (2022),1.9273540071853936,28801,2012,Menkü
+Total (2012),3.2.1. Lavoura Temporária (2022),1.9273540071853936,28801,2012,Menkü
+Total (2012),3.2.1.5. Outras Lavouras Temporárias (2022),1.9273540071853936,28801,2012,Menkü
+Total (2012),3.4. Mosaico de Usos (2022),0.4371875610351562,28801,2012,Menkü
+Total (2012),4. Área não Vegetada (2022),8.219213604736328,28801,2012,Menkü
+Total (2012),4.4. Outras Áreas não Vegetadas (2022),8.219213604736328,28801,2012,Menkü
+Total (2012),5. Corpo D`água (2022),1.9698263828172868,28801,2012,Menkü
+Total (2012),"5.1. Rio, Lago e Oceano (2022)",1.9698263828172868,28801,2012,Menkü
+Total (2012),Total (2022),90402.70249215116,28801,2012,Menkü
+1. Floresta (1985),1. Floresta (2022),1128.0194089052484,34101,1985,Paukalirajausu
+1. Floresta (1985),2. Formação Natural não Florestal (2022),0.5189394287109375,34101,1985,Paukalirajausu
+1. Floresta (1985),3. Agropecuária (2022),332.24539249066515,34101,1985,Paukalirajausu
+1. Floresta (1985),Total (2022),1460.7837408246244,34101,1985,Paukalirajausu
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),653.0887243715554,34101,1985,Paukalirajausu
+1.1. Formação Florestal (1985),2.2. Formação Campestre (2022),0.5189394287109375,34101,1985,Paukalirajausu
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),298.02982342857206,34101,1985,Paukalirajausu
+1.1. Formação Florestal (1985),Total (2022),951.6374872288384,34101,1985,Paukalirajausu
+1.2. Formação Savânica (1985),1.2. Formação Savânica (2022),474.4980505798356,34101,1985,Paukalirajausu
+1.2. Formação Savânica (1985),3.1. Pastagem (2022),34.215569062093124,34101,1985,Paukalirajausu
+1.2. Formação Savânica (1985),Total (2022),508.71361964192874,34101,1985,Paukalirajausu
+1.4. Floresta Alagável (1985),1.4. Floresta Alagável (2022),0.4326339538574218,34101,1985,Paukalirajausu
+1.4. Floresta Alagável (1985),Total (2022),0.4326339538574218,34101,1985,Paukalirajausu
+2. Formação Natural não Florestal (1985),1. Floresta (2022),22.400051820211953,34101,1985,Paukalirajausu
+2. Formação Natural não Florestal (1985),2. Formação Natural não Florestal (2022),6269.77979528263,34101,1985,Paukalirajausu
+2. Formação Natural não Florestal (1985),3. Agropecuária (2022),579.2586594321135,34101,1985,Paukalirajausu
+2. Formação Natural não Florestal (1985),Total (2022),6871.438506534956,34101,1985,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (1985),1.2. Formação Savânica (2022),18.861790979003885,34101,1985,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (1985),2.1. Campo Alagado e Área Pantanosa (2022),6.0563576171874995,34101,1985,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (1985),2.2. Formação Campestre (2022),2.422592156982422,34101,1985,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),27.340740753173808,34101,1985,Paukalirajausu
+2.2. Formação Campestre (1985),1.1. Formação Florestal (2022),2.6733809217744717,34101,1985,Paukalirajausu
+2.2. Formação Campestre (1985),1.2. Formação Savânica (2022),0.8648799194335937,34101,1985,Paukalirajausu
+2.2. Formação Campestre (1985),2.1. Campo Alagado e Área Pantanosa (2022),0.804233602031633,34101,1985,Paukalirajausu
+2.2. Formação Campestre (1985),2.2. Formação Campestre (2022),1846.624064349512,34101,1985,Paukalirajausu
+2.2. Formação Campestre (1985),2.4. Afloramento Rochoso (2022),1.644169610595703,34101,1985,Paukalirajausu
+2.2. Formação Campestre (1985),3.1. Pastagem (2022),579.2586594321135,34101,1985,Paukalirajausu
+2.2. Formação Campestre (1985),Total (2022),2431.8693878354607,34101,1985,Paukalirajausu
+2.4. Afloramento Rochoso (1985),2.4. Afloramento Rochoso (2022),4412.228377946321,34101,1985,Paukalirajausu
+2.4. Afloramento Rochoso (1985),Total (2022),4412.228377946321,34101,1985,Paukalirajausu
+3. Agropecuária (1985),1. Floresta (2022),10.55885833979588,34101,1985,Paukalirajausu
+3. Agropecuária (1985),3. Agropecuária (2022),35.812114401879406,34101,1985,Paukalirajausu
+3. Agropecuária (1985),Total (2022),46.37097274167529,34101,1985,Paukalirajausu
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),5.885783706006818,34101,1985,Paukalirajausu
+3.1. Pastagem (1985),1.2. Formação Savânica (2022),4.673074633789062,34101,1985,Paukalirajausu
+3.1. Pastagem (1985),3.1. Pastagem (2022),35.812114401879406,34101,1985,Paukalirajausu
+3.1. Pastagem (1985),Total (2022),46.37097274167529,34101,1985,Paukalirajausu
+Total (1985),1. Floresta (2022),1160.9783190652563,34101,1985,Paukalirajausu
+Total (1985),1.1. Formação Florestal (2022),661.6478889993366,34101,1985,Paukalirajausu
+Total (1985),1.2. Formação Savânica (2022),498.8977961120621,34101,1985,Paukalirajausu
+Total (1985),1.4. Floresta Alagável (2022),0.4326339538574218,34101,1985,Paukalirajausu
+Total (1985),2. Formação Natural não Florestal (2022),6270.298734711341,34101,1985,Paukalirajausu
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),6.860591219219133,34101,1985,Paukalirajausu
+Total (1985),2.2. Formação Campestre (2022),1849.5655959352052,34101,1985,Paukalirajausu
+Total (1985),2.4. Afloramento Rochoso (2022),4413.872547556917,34101,1985,Paukalirajausu
+Total (1985),3. Agropecuária (2022),947.316166324658,34101,1985,Paukalirajausu
+Total (1985),3.1. Pastagem (2022),947.316166324658,34101,1985,Paukalirajausu
+Total (1985),Total (2022),16757.186440202513,34101,1985,Paukalirajausu
+1. Floresta (2012),1. Floresta (2022),1125.6315695859464,34101,2012,Paukalirajausu
+1. Floresta (2012),2. Formação Natural não Florestal (2022),0.5189394287109375,34101,2012,Paukalirajausu
+1. Floresta (2012),3. Agropecuária (2022),42.789469776371945,34101,2012,Paukalirajausu
+1. Floresta (2012),Total (2022),1168.9399787910293,34101,2012,Paukalirajausu
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),641.2439425184801,34101,2012,Paukalirajausu
+1.1. Formação Florestal (2012),2.2. Formação Campestre (2022),0.5189394287109375,34101,2012,Paukalirajausu
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),34.742134855310745,34101,2012,Paukalirajausu
+1.1. Formação Florestal (2012),Total (2022),676.5050168025018,34101,2012,Paukalirajausu
+1.2. Formação Savânica (2012),1.2. Formação Savânica (2022),484.04152267293495,34101,2012,Paukalirajausu
+1.2. Formação Savânica (2012),3.1. Pastagem (2022),8.047334921061196,34101,2012,Paukalirajausu
+1.2. Formação Savânica (2012),Total (2022),492.0888575939961,34101,2012,Paukalirajausu
+1.4. Floresta Alagável (2012),1.4. Floresta Alagável (2022),0.34610439453125,34101,2012,Paukalirajausu
+1.4. Floresta Alagável (2012),Total (2022),0.34610439453125,34101,2012,Paukalirajausu
+2. Formação Natural não Florestal (2012),1. Floresta (2022),20.850135107421888,34101,2012,Paukalirajausu
+2. Formação Natural não Florestal (2012),2. Formação Natural não Florestal (2022),6267.282658061551,34101,2012,Paukalirajausu
+2. Formação Natural não Florestal (2012),3. Agropecuária (2022),585.079694517685,34101,2012,Paukalirajausu
+2. Formação Natural não Florestal (2012),Total (2022),6873.212487686658,34101,2012,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (2012),1.1. Formação Florestal (2022),0.8648733886718751,34101,2012,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (2012),1.2. Formação Savânica (2022),16.61186954956056,34101,2012,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (2012),2.1. Campo Alagado e Área Pantanosa (2022),2.681825677490235,34101,2012,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (2012),2.2. Formação Campestre (2022),1.6507539624262786,34101,2012,Paukalirajausu
+2.1. Campo Alagado e Área Pantanosa (2012),Total (2022),21.809322578148947,34101,2012,Paukalirajausu
+2.2. Formação Campestre (2012),1.1. Formação Florestal (2022),2.50851224975586,34101,2012,Paukalirajausu
+2.2. Formação Campestre (2012),1.2. Formação Savânica (2022),0.8648799194335937,34101,2012,Paukalirajausu
+2.2. Formação Campestre (2012),2.1. Campo Alagado e Área Pantanosa (2022),0.804233602031633,34101,2012,Paukalirajausu
+2.2. Formação Campestre (2012),2.2. Formação Campestre (2022),1848.273115005604,34101,2012,Paukalirajausu
+2.2. Formação Campestre (2012),2.4. Afloramento Rochoso (2022),1.644169610595703,34101,2012,Paukalirajausu
+2.2. Formação Campestre (2012),3.1. Pastagem (2022),585.079694517685,34101,2012,Paukalirajausu
+2.2. Formação Campestre (2012),Total (2022),2439.1746049051058,34101,2012,Paukalirajausu
+2.4. Afloramento Rochoso (2012),2.4. Afloramento Rochoso (2022),4412.228560203403,34101,2012,Paukalirajausu
+2.4. Afloramento Rochoso (2012),Total (2022),4412.228560203403,34101,2012,Paukalirajausu
+3. Agropecuária (2012),1. Floresta (2022),15.016010311949488,34101,2012,Paukalirajausu
+3. Agropecuária (2012),3. Agropecuária (2022),321.4247433116245,34101,2012,Paukalirajausu
+3. Agropecuária (2012),Total (2022),336.44075362357404,34101,2012,Paukalirajausu
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),13.545040182554956,34101,2012,Paukalirajausu
+3.1. Pastagem (2012),1.2. Formação Savânica (2022),1.4709701293945312,34101,2012,Paukalirajausu
+3.1. Pastagem (2012),3.1. Pastagem (2022),320.9055974070835,34101,2012,Paukalirajausu
+3.1. Pastagem (2012),Total (2022),335.92160771903303,34101,2012,Paukalirajausu
+3.2. Agricultura (2012),3.1. Pastagem (2022),0.5191459045410156,34101,2012,Paukalirajausu
+3.2. Agricultura (2012),Total (2022),0.5191459045410156,34101,2012,Paukalirajausu
+3.2.1. Lavoura Temporária (2012),3.1. Pastagem (2022),0.5191459045410156,34101,2012,Paukalirajausu
+3.2.1. Lavoura Temporária (2012),Total (2022),0.5191459045410156,34101,2012,Paukalirajausu
+3.2.1.5. Outras Lavouras Temporárias (2012),3.1. Pastagem (2022),0.5191459045410156,34101,2012,Paukalirajausu
+3.2.1.5. Outras Lavouras Temporárias (2012),Total (2022),0.5191459045410156,34101,2012,Paukalirajausu
+Total (2012),1. Floresta (2022),1161.4977150053178,34101,2012,Paukalirajausu
+Total (2012),1.1. Formação Florestal (2022),658.1623683394629,34101,2012,Paukalirajausu
+Total (2012),1.2. Formação Savânica (2022),502.9892422713236,34101,2012,Paukalirajausu
+Total (2012),1.4. Floresta Alagável (2022),0.34610439453125,34101,2012,Paukalirajausu
+Total (2012),2. Formação Natural não Florestal (2022),6267.801597490262,34101,2012,Paukalirajausu
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),3.486059279521868,34101,2012,Paukalirajausu
+Total (2012),2.2. Formação Campestre (2022),1850.4428083967412,34101,2012,Paukalirajausu
+Total (2012),2.4. Afloramento Rochoso (2022),4413.872729813998,34101,2012,Paukalirajausu
+Total (2012),3. Agropecuária (2022),949.2939076056814,34101,2012,Paukalirajausu
+Total (2012),3.1. Pastagem (2022),950.3321994147634,34101,2012,Paukalirajausu
+Total (2012),Total (2022),16758.224732011604,34101,2012,Paukalirajausu
+1. Floresta (1985),1. Floresta (2022),40900.42960101375,55101,1985,Maró
+1. Floresta (1985),2. Formação Natural não Florestal (2022),0.5358022033691406,55101,1985,Maró
+1. Floresta (1985),3. Agropecuária (2022),1084.311300613461,55101,1985,Maró
+1. Floresta (1985),5. Corpo D`água (2022),0.5802671832873774,55101,1985,Maró
+1. Floresta (1985),Total (2022),41985.85697101386,55101,1985,Maró
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),40608.31873994681,55101,1985,Maró
+1.1. Formação Florestal (1985),2.2. Formação Campestre (2022),0.5358022033691406,55101,1985,Maró
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),1072.9119659351522,55101,1985,Maró
+1.1. Formação Florestal (1985),Total (2022),41681.766508085326,55101,1985,Maró
+1.4. Floresta Alagável (1985),1.4. Floresta Alagável (2022),292.11086106694165,55101,1985,Maró
+1.4. Floresta Alagável (1985),3.1. Pastagem (2022),11.399334678308826,55101,1985,Maró
+1.4. Floresta Alagável (1985),"5.1. Rio, Lago e Oceano (2022)",0.5802671832873774,55101,1985,Maró
+1.4. Floresta Alagável (1985),Total (2022),304.0904629285379,55101,1985,Maró
+2. Formação Natural não Florestal (1985),1. Floresta (2022),39.58253555415129,55101,1985,Maró
+2. Formação Natural não Florestal (1985),2. Formação Natural não Florestal (2022),44.87624855997718,55101,1985,Maró
+2. Formação Natural não Florestal (1985),3. Agropecuária (2022),1.2656297420247395,55101,1985,Maró
+2. Formação Natural não Florestal (1985),Total (2022),85.7244138561532,55101,1985,Maró
+2.1. Campo Alagado e Área Pantanosa (1985),1.1. Formação Florestal (2022),32.02331450247964,55101,1985,Maró
+2.1. Campo Alagado e Área Pantanosa (1985),1.4. Floresta Alagável (2022),7.559221051671648,55101,1985,Maró
+2.1. Campo Alagado e Área Pantanosa (1985),2.1. Campo Alagado e Área Pantanosa (2022),36.867431176087585,55101,1985,Maró
+2.1. Campo Alagado e Área Pantanosa (1985),2.2. Formação Campestre (2022),4.258405720071231,55101,1985,Maró
+2.1. Campo Alagado e Área Pantanosa (1985),3.1. Pastagem (2022),0.6251013793945313,55101,1985,Maró
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),81.33347382970466,55101,1985,Maró
+2.2. Formação Campestre (1985),2.1. Campo Alagado e Área Pantanosa (2022),2.05377954711914,55101,1985,Maró
+2.2. Formação Campestre (1985),2.2. Formação Campestre (2022),1.6966321166992184,55101,1985,Maró
+2.2. Formação Campestre (1985),3.1. Pastagem (2022),0.6405283626302083,55101,1985,Maró
+2.2. Formação Campestre (1985),Total (2022),4.3909400264485665,55101,1985,Maró
+3. Agropecuária (1985),1. Floresta (2022),45.880764695733866,55101,1985,Maró
+3. Agropecuária (1985),3. Agropecuária (2022),58.829914120088695,55101,1985,Maró
+3. Agropecuária (1985),Total (2022),104.71067881582256,55101,1985,Maró
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),45.880764695733866,55101,1985,Maró
+3.1. Pastagem (1985),3.1. Pastagem (2022),58.11551346090901,55101,1985,Maró
+3.1. Pastagem (1985),3.2. Agricultura (2022),0.7144006591796875,55101,1985,Maró
+3.1. Pastagem (1985),3.2.1. Lavoura Temporária (2022),0.7144006591796875,55101,1985,Maró
+3.1. Pastagem (1985),3.2.1.5. Outras Lavouras Temporárias (2022),0.7144006591796875,55101,1985,Maró
+3.1. Pastagem (1985),Total (2022),106.13948013418194,55101,1985,Maró
+5. Corpo D`água (1985),1. Floresta (2022),36.5826008136824,55101,1985,Maró
+5. Corpo D`água (1985),2. Formação Natural não Florestal (2022),18.804612318498197,55101,1985,Maró
+5. Corpo D`água (1985),3. Agropecuária (2022),1.2449268450568702,55101,1985,Maró
+5. Corpo D`água (1985),5. Corpo D`água (2022),26.86876524823357,55101,1985,Maró
+5. Corpo D`água (1985),Total (2022),83.50090522547104,55101,1985,Maró
+"5.1. Rio, Lago e Oceano (1985)",1.1. Formação Florestal (2022),16.54154642882104,55101,1985,Maró
+"5.1. Rio, Lago e Oceano (1985)",1.4. Floresta Alagável (2022),20.04105438486137,55101,1985,Maró
+"5.1. Rio, Lago e Oceano (1985)",2.1. Campo Alagado e Área Pantanosa (2022),17.5544319290939,55101,1985,Maró
+"5.1. Rio, Lago e Oceano (1985)",2.2. Formação Campestre (2022),1.250180389404297,55101,1985,Maró
+"5.1. Rio, Lago e Oceano (1985)",3.1. Pastagem (2022),1.2449268450568702,55101,1985,Maró
+"5.1. Rio, Lago e Oceano (1985)","5.1. Rio, Lago e Oceano (2022)",26.86876524823357,55101,1985,Maró
+"5.1. Rio, Lago e Oceano (1985)",Total (2022),83.50090522547104,55101,1985,Maró
+Total (1985),1. Floresta (2022),41022.475502077315,55101,1985,Maró
+Total (1985),1.1. Formação Florestal (2022),40702.76436557385,55101,1985,Maró
+Total (1985),1.4. Floresta Alagável (2022),319.7111365034747,55101,1985,Maró
+Total (1985),2. Formação Natural não Florestal (2022),64.21666308184452,55101,1985,Maró
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),56.47564265230063,55101,1985,Maró
+Total (1985),2.2. Formação Campestre (2022),7.741020429543887,55101,1985,Maró
+Total (1985),3. Agropecuária (2022),1145.6517713206313,55101,1985,Maró
+Total (1985),3.1. Pastagem (2022),1144.9373706614515,55101,1985,Maró
+Total (1985),3.2. Agricultura (2022),0.7144006591796875,55101,1985,Maró
+Total (1985),3.2.1. Lavoura Temporária (2022),0.7144006591796875,55101,1985,Maró
+Total (1985),3.2.1.5. Outras Lavouras Temporárias (2022),0.7144006591796875,55101,1985,Maró
+Total (1985),5. Corpo D`água (2022),27.449032431520948,55101,1985,Maró
+Total (1985),"5.1. Rio, Lago e Oceano (2022)",27.449032431520948,55101,1985,Maró
+Total (1985),Total (2022),84521.014739141,55101,1985,Maró
+1. Floresta (2012),1. Floresta (2022),40946.776500115026,55101,2012,Maró
+1. Floresta (2012),3. Agropecuária (2022),961.3538792411272,55101,2012,Maró
+1. Floresta (2012),5. Corpo D`água (2022),0.2948717241354549,55101,2012,Maró
+1. Floresta (2012),Total (2022),41908.42525108029,55101,2012,Maró
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),40647.55667484788,55101,2012,Maró
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),956.8632311834094,55101,2012,Maró
+1.1. Formação Florestal (2012),Total (2022),41604.41990603129,55101,2012,Maró
+1.4. Floresta Alagável (2012),1.4. Floresta Alagável (2022),299.2198252671415,55101,2012,Maró
+1.4. Floresta Alagável (2012),3.1. Pastagem (2022),4.4906480577177135,55101,2012,Maró
+1.4. Floresta Alagável (2012),"5.1. Rio, Lago e Oceano (2022)",0.2948717241354549,55101,2012,Maró
+1.4. Floresta Alagável (2012),Total (2022),304.0053450489947,55101,2012,Maró
+2. Formação Natural não Florestal (2012),1. Floresta (2022),5.096235680290671,55101,2012,Maró
+2. Formação Natural não Florestal (2012),2. Formação Natural não Florestal (2022),49.01041213584749,55101,2012,Maró
+2. Formação Natural não Florestal (2012),3. Agropecuária (2022),0.3726200557454427,55101,2012,Maró
+2. Formação Natural não Florestal (2012),5. Corpo D`água (2022),1.2501800231933595,55101,2012,Maró
+2. Formação Natural não Florestal (2012),Total (2022),55.72944789507696,55101,2012,Maró
+2.1. Campo Alagado e Área Pantanosa (2012),1.1. Formação Florestal (2022),1.923929149840112,55101,2012,Maró
+2.1. Campo Alagado e Área Pantanosa (2012),1.4. Floresta Alagável (2022),3.172306530450559,55101,2012,Maró
+2.1. Campo Alagado e Área Pantanosa (2012),2.1. Campo Alagado e Área Pantanosa (2022),43.83109829917757,55101,2012,Maró
+2.1. Campo Alagado e Área Pantanosa (2012),2.2. Formação Campestre (2022),2.5896375366210935,55101,2012,Maró
+2.1. Campo Alagado e Área Pantanosa (2012),"5.1. Rio, Lago e Oceano (2022)",1.2501800231933595,55101,2012,Maró
+2.1. Campo Alagado e Área Pantanosa (2012),Total (2022),52.767151539282686,55101,2012,Maró
+2.2. Formação Campestre (2012),2.2. Formação Campestre (2022),2.5896763000488283,55101,2012,Maró
+2.2. Formação Campestre (2012),3.1. Pastagem (2022),0.3726200557454427,55101,2012,Maró
+2.2. Formação Campestre (2012),Total (2022),2.962296355794271,55101,2012,Maró
+3. Agropecuária (2012),1. Floresta (2022),44.28513173835307,55101,2012,Maró
+3. Agropecuária (2012),2. Formação Natural não Florestal (2022),5.084807421515968,55101,2012,Maró
+3. Agropecuária (2012),3. Agropecuária (2022),188.66382845152648,55101,2012,Maró
+3. Agropecuária (2012),Total (2022),238.03376761139552,55101,2012,Maró
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),43.74933084723979,55101,2012,Maró
+3.1. Pastagem (2012),1.4. Floresta Alagável (2022),0.5358008911132812,55101,2012,Maró
+3.1. Pastagem (2012),2.1. Campo Alagado e Área Pantanosa (2022),1.1608962585449216,55101,2012,Maró
+3.1. Pastagem (2012),2.2. Formação Campestre (2022),3.9239111629710464,55101,2012,Maró
+3.1. Pastagem (2012),3.1. Pastagem (2022),187.50292754820617,55101,2012,Maró
+3.1. Pastagem (2012),3.2. Agricultura (2022),1.160900903320312,55101,2012,Maró
+3.1. Pastagem (2012),3.2.1. Lavoura Temporária (2022),1.160900903320312,55101,2012,Maró
+3.1. Pastagem (2012),3.2.1.5. Outras Lavouras Temporárias (2022),1.160900903320312,55101,2012,Maró
+3.1. Pastagem (2012),Total (2022),240.35556941803617,55101,2012,Maró
+5. Corpo D`água (2012),1. Floresta (2022),19.52656329120711,55101,2012,Maró
+5. Corpo D`água (2012),2. Formação Natural não Florestal (2022),13.05117546958774,55101,2012,Maró
+5. Corpo D`água (2012),3. Agropecuária (2022),0.4465005859375,55101,2012,Maró
+5. Corpo D`água (2012),5. Corpo D`água (2022),24.580262977773625,55101,2012,Maró
+5. Corpo D`água (2012),Total (2022),57.60450232450597,55101,2012,Maró
+"5.1. Rio, Lago e Oceano (2012)",1.1. Formação Florestal (2022),9.31308357491288,55101,2012,Maró
+"5.1. Rio, Lago e Oceano (2012)",1.4. Floresta Alagável (2022),10.213479716294234,55101,2012,Maró
+"5.1. Rio, Lago e Oceano (2012)",2.1. Campo Alagado e Área Pantanosa (2022),13.05117546958774,55101,2012,Maró
+"5.1. Rio, Lago e Oceano (2012)",3.1. Pastagem (2022),0.4465005859375,55101,2012,Maró
+"5.1. Rio, Lago e Oceano (2012)","5.1. Rio, Lago e Oceano (2022)",24.580262977773625,55101,2012,Maró
+"5.1. Rio, Lago e Oceano (2012)",Total (2022),57.60450232450597,55101,2012,Maró
+Total (2012),1. Floresta (2022),41015.68443082488,55101,2012,Maró
+Total (2012),1.1. Formação Florestal (2022),40702.54301841987,55101,2012,Maró
+Total (2012),1.4. Floresta Alagável (2022),313.1414124049996,55101,2012,Maró
+Total (2012),2. Formação Natural não Florestal (2022),67.1463950269512,55101,2012,Maró
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),58.04317002731023,55101,2012,Maró
+Total (2012),2.2. Formação Campestre (2022),9.103224999640968,55101,2012,Maró
+Total (2012),3. Agropecuária (2022),1150.8368283343366,55101,2012,Maró
+Total (2012),3.1. Pastagem (2022),1149.675927431016,55101,2012,Maró
+Total (2012),3.2. Agricultura (2022),1.160900903320312,55101,2012,Maró
+Total (2012),3.2.1. Lavoura Temporária (2022),1.160900903320312,55101,2012,Maró
+Total (2012),3.2.1.5. Outras Lavouras Temporárias (2022),1.160900903320312,55101,2012,Maró
+Total (2012),5. Corpo D`água (2022),26.12531472510244,55101,2012,Maró
+Total (2012),"5.1. Rio, Lago e Oceano (2022)",26.12531472510244,55101,2012,Maró
+Total (2012),Total (2022),84521.90773962921,55101,2012,Maró
+1. Floresta (1985),1. Floresta (2022),176295.25502046672,56701,1985,Sawré Muybu (Pimental)
+1. Floresta (1985),2. Formação Natural não Florestal (2022),0.8731166929476869,56701,1985,Sawré Muybu (Pimental)
+1. Floresta (1985),3. Agropecuária (2022),710.3134035820262,56701,1985,Sawré Muybu (Pimental)
+1. Floresta (1985),4. Área não Vegetada (2022),128.82222256060467,56701,1985,Sawré Muybu (Pimental)
+1. Floresta (1985),5. Corpo D`água (2022),25.63871918899836,56701,1985,Sawré Muybu (Pimental)
+1. Floresta (1985),Total (2022),177160.9024824913,56701,1985,Sawré Muybu (Pimental)
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),175725.18722274472,56701,1985,Sawré Muybu (Pimental)
+1.1. Formação Florestal (1985),2.2. Formação Campestre (2022),0.8731166929476869,56701,1985,Sawré Muybu (Pimental)
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),705.7420800917248,56701,1985,Sawré Muybu (Pimental)
+1.1. Formação Florestal (1985),4.3. Mineração (2022),128.1116017238007,56701,1985,Sawré Muybu (Pimental)
+1.1. Formação Florestal (1985),"5.1. Rio, Lago e Oceano (2022)",25.01516339065852,56701,1985,Sawré Muybu (Pimental)
+1.1. Formação Florestal (1985),Total (2022),176584.92918464384,56701,1985,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (1985),1.4. Floresta Alagável (2022),570.067797721999,56701,1985,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (1985),3.1. Pastagem (2022),4.571323490301394,56701,1985,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (1985),4.3. Mineração (2022),0.7106208368039599,56701,1985,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (1985),"5.1. Rio, Lago e Oceano (2022)",0.6235557983398438,56701,1985,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (1985),Total (2022),575.9732978474442,56701,1985,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (1985),1. Floresta (2022),11.296525821126304,56701,1985,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (1985),2. Formação Natural não Florestal (2022),39.26138633556889,56701,1985,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (1985),5. Corpo D`água (2022),8.494496447299136,56701,1985,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (1985),Total (2022),59.05240860399433,56701,1985,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (1985),1.1. Formação Florestal (2022),8.104576828948378,56701,1985,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (1985),1.4. Floresta Alagável (2022),3.191948992177926,56701,1985,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (1985),2.1. Campo Alagado e Área Pantanosa (2022),32.77318030330882,56701,1985,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (1985),2.2. Formação Campestre (2022),3.473231774902345,56701,1985,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (1985),"5.1. Rio, Lago e Oceano (2022)",8.494496447299136,56701,1985,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),56.0374343466366,56701,1985,Sawré Muybu (Pimental)
+2.2. Formação Campestre (1985),2.2. Formação Campestre (2022),3.0149742573577285,56701,1985,Sawré Muybu (Pimental)
+2.2. Formação Campestre (1985),Total (2022),3.0149742573577285,56701,1985,Sawré Muybu (Pimental)
+3. Agropecuária (1985),1. Floresta (2022),49.518650190956286,56701,1985,Sawré Muybu (Pimental)
+3. Agropecuária (1985),3. Agropecuária (2022),16.65248372639974,56701,1985,Sawré Muybu (Pimental)
+3. Agropecuária (1985),Total (2022),66.17113391735603,56701,1985,Sawré Muybu (Pimental)
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),47.62644721098061,56701,1985,Sawré Muybu (Pimental)
+3.1. Pastagem (1985),1.4. Floresta Alagável (2022),1.8922029799756817,56701,1985,Sawré Muybu (Pimental)
+3.1. Pastagem (1985),3.1. Pastagem (2022),16.65248372639974,56701,1985,Sawré Muybu (Pimental)
+3.1. Pastagem (1985),Total (2022),66.17113391735603,56701,1985,Sawré Muybu (Pimental)
+4. Área não Vegetada (1985),1. Floresta (2022),1.912676759655522,56701,1985,Sawré Muybu (Pimental)
+4. Área não Vegetada (1985),3. Agropecuária (2022),0.48288551054113055,56701,1985,Sawré Muybu (Pimental)
+4. Área não Vegetada (1985),4. Área não Vegetada (2022),0.999638314065372,56701,1985,Sawré Muybu (Pimental)
+4. Área não Vegetada (1985),Total (2022),3.3952005842620245,56701,1985,Sawré Muybu (Pimental)
+4.3. Mineração (1985),1.1. Formação Florestal (2022),1.912676759655522,56701,1985,Sawré Muybu (Pimental)
+4.3. Mineração (1985),3.1. Pastagem (2022),0.48288551054113055,56701,1985,Sawré Muybu (Pimental)
+4.3. Mineração (1985),4.3. Mineração (2022),0.999638314065372,56701,1985,Sawré Muybu (Pimental)
+4.3. Mineração (1985),Total (2022),3.3952005842620245,56701,1985,Sawré Muybu (Pimental)
+5. Corpo D`água (1985),1. Floresta (2022),79.2823503607059,56701,1985,Sawré Muybu (Pimental)
+5. Corpo D`água (1985),2. Formação Natural não Florestal (2022),0.5345549560546875,56701,1985,Sawré Muybu (Pimental)
+5. Corpo D`água (1985),4. Área não Vegetada (2022),0.72980443254059435,56701,1985,Sawré Muybu (Pimental)
+5. Corpo D`água (1985),5. Corpo D`água (2022),2727.972870933717,56701,1985,Sawré Muybu (Pimental)
+5. Corpo D`água (1985),Total (2022),2808.519580683018,56701,1985,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (1985)",1.1. Formação Florestal (2022),78.6586909857059,56701,1985,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (1985)",1.4. Floresta Alagável (2022),0.6236593750000001,56701,1985,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (1985)",2.1. Campo Alagado e Área Pantanosa (2022),0.5345549560546875,56701,1985,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (1985)",4.3. Mineração (2022),0.72980443254059435,56701,1985,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (1985)","5.1. Rio, Lago e Oceano (2022)",2727.972870933717,56701,1985,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (1985)",Total (2022),2808.519580683018,56701,1985,Sawré Muybu (Pimental)
+Total (1985),1. Floresta (2022),176437.26522359916,56701,1985,Sawré Muybu (Pimental)
+Total (1985),1.1. Formação Florestal (2022),175861.48961453,56701,1985,Sawré Muybu (Pimental)
+Total (1985),1.4. Floresta Alagável (2022),575.7756090691526,56701,1985,Sawré Muybu (Pimental)
+Total (1985),2. Formação Natural não Florestal (2022),40.66905798457127,56701,1985,Sawré Muybu (Pimental)
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),33.307735259363504,56701,1985,Sawré Muybu (Pimental)
+Total (1985),2.2. Formação Campestre (2022),7.361322725207761,56701,1985,Sawré Muybu (Pimental)
+Total (1985),3. Agropecuária (2022),727.4487728189671,56701,1985,Sawré Muybu (Pimental)
+Total (1985),3.1. Pastagem (2022),727.4487728189671,56701,1985,Sawré Muybu (Pimental)
+Total (1985),4. Área não Vegetada (2022),130.55166530721064,56701,1985,Sawré Muybu (Pimental)
+Total (1985),4.3. Mineração (2022),130.55166530721064,56701,1985,Sawré Muybu (Pimental)
+Total (1985),5. Corpo D`água (2022),2762.106086570014,56701,1985,Sawré Muybu (Pimental)
+Total (1985),"5.1. Rio, Lago e Oceano (2022)",2762.106086570014,56701,1985,Sawré Muybu (Pimental)
+Total (1985),Total (2022),360196.08161256,56701,1985,Sawré Muybu (Pimental)
+1. Floresta (2012),1. Floresta (2022),176328.23611567557,56701,2012,Sawré Muybu (Pimental)
+1. Floresta (2012),3. Agropecuária (2022),572.572085253164,56701,2012,Sawré Muybu (Pimental)
+1. Floresta (2012),4. Área não Vegetada (2022),72.16456549273325,56701,2012,Sawré Muybu (Pimental)
+1. Floresta (2012),5. Corpo D`água (2022),68.88456161752734,56701,2012,Sawré Muybu (Pimental)
+1. Floresta (2012),Total (2022),177041.857328039,56701,2012,Sawré Muybu (Pimental)
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),175752.47185765917,56701,2012,Sawré Muybu (Pimental)
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),567.8226429029993,56701,2012,Sawré Muybu (Pimental)
+1.1. Formação Florestal (2012),4.3. Mineração (2022),71.45394465592929,56701,2012,Sawré Muybu (Pimental)
+1.1. Formação Florestal (2012),"5.1. Rio, Lago e Oceano (2022)",67.45914914804492,56701,2012,Sawré Muybu (Pimental)
+1.1. Formação Florestal (2012),Total (2022),176459.20759436613,56701,2012,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (2012),1.4. Floresta Alagável (2022),575.7642580164037,56701,2012,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (2012),3.1. Pastagem (2022),4.749442350164674,56701,2012,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (2012),4.3. Mineração (2022),0.7106208368039599,56701,2012,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (2012),"5.1. Rio, Lago e Oceano (2022)",1.425412469482422,56701,2012,Sawré Muybu (Pimental)
+1.4. Floresta Alagável (2012),Total (2022),582.6497336728548,56701,2012,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (2012),1. Floresta (2022),3.1114489234116505,56701,2012,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (2012),2. Formação Natural não Florestal (2022),32.94400565602022,56701,2012,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (2012),5. Corpo D`água (2022),15.17929907621495,56701,2012,Sawré Muybu (Pimental)
+2. Formação Natural não Florestal (2012),Total (2022),51.23475365564681,56701,2012,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (2012),1.1. Formação Florestal (2022),1.9536743872788376,56701,2012,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (2012),1.4. Floresta Alagável (2022),1.157774536132813,56701,2012,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (2012),2.1. Campo Alagado e Área Pantanosa (2022),25.99725832395067,56701,2012,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (2012),2.2. Formação Campestre (2022),2.493586798095703,56701,2012,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (2012),"5.1. Rio, Lago e Oceano (2022)",13.3786207773964,56701,2012,Sawré Muybu (Pimental)
+2.1. Campo Alagado e Área Pantanosa (2012),Total (2022),44.98091482285442,56701,2012,Sawré Muybu (Pimental)
+2.2. Formação Campestre (2012),2.2. Formação Campestre (2022),4.453160533973843,56701,2012,Sawré Muybu (Pimental)
+2.2. Formação Campestre (2012),"5.1. Rio, Lago e Oceano (2022)",1.8006782988185508,56701,2012,Sawré Muybu (Pimental)
+2.2. Formação Campestre (2012),Total (2022),6.253838832792394,56701,2012,Sawré Muybu (Pimental)
+3. Agropecuária (2012),1. Floresta (2022),52.17950121723241,56701,2012,Sawré Muybu (Pimental)
+3. Agropecuária (2012),2. Formação Natural não Florestal (2022),0.1431869629384957,56701,2012,Sawré Muybu (Pimental)
+3. Agropecuária (2012),3. Agropecuária (2022),156.1348037116074,56701,2012,Sawré Muybu (Pimental)
+3. Agropecuária (2012),5. Corpo D`água (2022),0.8908420532226562,56701,2012,Sawré Muybu (Pimental)
+3. Agropecuária (2012),Total (2022),209.34833394500097,56701,2012,Sawré Muybu (Pimental)
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),52.17950121723241,56701,2012,Sawré Muybu (Pimental)
+3.1. Pastagem (2012),2.2. Formação Campestre (2022),0.1431869629384957,56701,2012,Sawré Muybu (Pimental)
+3.1. Pastagem (2012),3.1. Pastagem (2022),154.97657888250583,56701,2012,Sawré Muybu (Pimental)
+3.1. Pastagem (2012),Total (2022),207.29926706267673,56701,2012,Sawré Muybu (Pimental)
+3.2. Agricultura (2012),3.2. Agricultura (2022),1.1582248291015629,56701,2012,Sawré Muybu (Pimental)
+3.2. Agricultura (2012),"5.1. Rio, Lago e Oceano (2022)",0.8908420532226562,56701,2012,Sawré Muybu (Pimental)
+3.2. Agricultura (2012),Total (2022),2.049066882324219,56701,2012,Sawré Muybu (Pimental)
+3.2.1. Lavoura Temporária (2012),3.2.1. Lavoura Temporária (2022),1.1582248291015629,56701,2012,Sawré Muybu (Pimental)
+3.2.1. Lavoura Temporária (2012),"5.1. Rio, Lago e Oceano (2022)",0.8908420532226562,56701,2012,Sawré Muybu (Pimental)
+3.2.1. Lavoura Temporária (2012),Total (2022),2.049066882324219,56701,2012,Sawré Muybu (Pimental)
+3.2.1.5. Outras Lavouras Temporárias (2012),3.2.1.5. Outras Lavouras Temporárias (2022),1.1582248291015629,56701,2012,Sawré Muybu (Pimental)
+3.2.1.5. Outras Lavouras Temporárias (2012),"5.1. Rio, Lago e Oceano (2022)",0.8908420532226562,56701,2012,Sawré Muybu (Pimental)
+3.2.1.5. Outras Lavouras Temporárias (2012),Total (2022),2.049066882324219,56701,2012,Sawré Muybu (Pimental)
+4. Área não Vegetada (2012),1. Floresta (2022),57.28126776123052,56701,2012,Sawré Muybu (Pimental)
+4. Área não Vegetada (2012),3. Agropecuária (2022),4.007366344831878,56701,2012,Sawré Muybu (Pimental)
+4. Área não Vegetada (2012),4. Área não Vegetada (2022),63.990624088063186,56701,2012,Sawré Muybu (Pimental)
+4. Área não Vegetada (2012),Total (2022),125.2792581941256,56701,2012,Sawré Muybu (Pimental)
+4.3. Mineração (2012),1.1. Formação Florestal (2022),56.21226709594731,56701,2012,Sawré Muybu (Pimental)
+4.3. Mineração (2012),1.4. Floresta Alagável (2022),1.0690006652832031,56701,2012,Sawré Muybu (Pimental)
+4.3. Mineração (2012),3.1. Pastagem (2022),4.007366344831878,56701,2012,Sawré Muybu (Pimental)
+4.3. Mineração (2012),4.3. Mineração (2022),63.990624088063186,56701,2012,Sawré Muybu (Pimental)
+4.3. Mineração (2012),Total (2022),125.2792581941256,56701,2012,Sawré Muybu (Pimental)
+5. Corpo D`água (2012),1. Floresta (2022),64.1425700954303,56701,2012,Sawré Muybu (Pimental)
+5. Corpo D`água (2012),5. Corpo D`água (2022),2606.1785623522396,56701,2012,Sawré Muybu (Pimental)
+5. Corpo D`água (2012),Total (2022),2670.3211324476697,56701,2012,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (2012)",1.1. Formação Florestal (2022),64.1425700954303,56701,2012,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (2012)","5.1. Rio, Lago e Oceano (2022)",2606.1785623522396,56701,2012,Sawré Muybu (Pimental)
+"5.1. Rio, Lago e Oceano (2012)",Total (2022),2670.3211324476697,56701,2012,Sawré Muybu (Pimental)
+Total (2012),1. Floresta (2022),176504.95090367287,56701,2012,Sawré Muybu (Pimental)
+Total (2012),1.1. Formação Florestal (2022),175926.95987045506,56701,2012,Sawré Muybu (Pimental)
+Total (2012),1.4. Floresta Alagável (2022),577.9910332178197,56701,2012,Sawré Muybu (Pimental)
+Total (2012),2. Formação Natural não Florestal (2022),33.08719261895871,56701,2012,Sawré Muybu (Pimental)
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),25.99725832395067,56701,2012,Sawré Muybu (Pimental)
+Total (2012),2.2. Formação Campestre (2022),7.089934295008042,56701,2012,Sawré Muybu (Pimental)
+Total (2012),3. Agropecuária (2022),732.7142553096033,56701,2012,Sawré Muybu (Pimental)
+Total (2012),3.1. Pastagem (2022),731.5560304805017,56701,2012,Sawré Muybu (Pimental)
+Total (2012),3.2. Agricultura (2022),1.1582248291015629,56701,2012,Sawré Muybu (Pimental)
+Total (2012),3.2.1. Lavoura Temporária (2022),1.1582248291015629,56701,2012,Sawré Muybu (Pimental)
+Total (2012),3.2.1.5. Outras Lavouras Temporárias (2022),1.1582248291015629,56701,2012,Sawré Muybu (Pimental)
+Total (2012),4. Área não Vegetada (2022),136.15518958079645,56701,2012,Sawré Muybu (Pimental)
+Total (2012),4.3. Mineração (2022),136.15518958079645,56701,2012,Sawré Muybu (Pimental)
+Total (2012),5. Corpo D`água (2022),2691.1332650992044,56701,2012,Sawré Muybu (Pimental)
+Total (2012),"5.1. Rio, Lago e Oceano (2022)",2692.91494920565,56701,2012,Sawré Muybu (Pimental)
+Total (2012),Total (2022),360200.1797463276,56701,2012,Sawré Muybu (Pimental)
+1. Floresta (1985),1. Floresta (2022),5484.3058977465525,59401,1985,Cobra Grande
+1. Floresta (1985),2. Formação Natural não Florestal (2022),2.679787841796875,59401,1985,Cobra Grande
+1. Floresta (1985),3. Agropecuária (2022),379.2076244044405,59401,1985,Cobra Grande
+1. Floresta (1985),5. Corpo D`água (2022),3.6623547485351575,59401,1985,Cobra Grande
+1. Floresta (1985),Total (2022),5869.855664741324,59401,1985,Cobra Grande
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),4794.366019252259,59401,1985,Cobra Grande
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),290.25856153940225,59401,1985,Cobra Grande
+1.1. Formação Florestal (1985),3.2. Agricultura (2022),4.3769456359863295,59401,1985,Cobra Grande
+1.1. Formação Florestal (1985),3.2.1. Lavoura Temporária (2022),4.3769456359863295,59401,1985,Cobra Grande
+1.1. Formação Florestal (1985),3.2.1.5. Outras Lavouras Temporárias (2022),4.3769456359863295,59401,1985,Cobra Grande
+1.1. Formação Florestal (1985),"5.1. Rio, Lago e Oceano (2022)",2.9477290344238294,59401,1985,Cobra Grande
+1.1. Formação Florestal (1985),Total (2022),5100.703146734043,59401,1985,Cobra Grande
+1.2. Formação Savânica (1985),1.2. Formação Savânica (2022),76.33887768861075,59401,1985,Cobra Grande
+1.2. Formação Savânica (1985),3.1. Pastagem (2022),68.49348705327067,59401,1985,Cobra Grande
+1.2. Formação Savânica (1985),3.2. Agricultura (2022),1.250538916015625,59401,1985,Cobra Grande
+1.2. Formação Savânica (1985),3.2.1. Lavoura Temporária (2022),1.250538916015625,59401,1985,Cobra Grande
+1.2. Formação Savânica (1985),3.2.1.5. Outras Lavouras Temporárias (2022),1.250538916015625,59401,1985,Cobra Grande
+1.2. Formação Savânica (1985),Total (2022),148.58398148992825,59401,1985,Cobra Grande
+1.4. Floresta Alagável (1985),1.4. Floresta Alagável (2022),613.6010008056825,59401,1985,Cobra Grande
+1.4. Floresta Alagável (1985),2.1. Campo Alagado e Área Pantanosa (2022),2.679787841796875,59401,1985,Cobra Grande
+1.4. Floresta Alagável (1985),3.1. Pastagem (2022),14.828091259765634,59401,1985,Cobra Grande
+1.4. Floresta Alagável (1985),"5.1. Rio, Lago e Oceano (2022)",0.7146257141113282,59401,1985,Cobra Grande
+1.4. Floresta Alagável (1985),Total (2022),631.8235056213563,59401,1985,Cobra Grande
+2. Formação Natural não Florestal (1985),1. Floresta (2022),9.825995434570302,59401,1985,Cobra Grande
+2. Formação Natural não Florestal (1985),2. Formação Natural não Florestal (2022),341.34827971466507,59401,1985,Cobra Grande
+2. Formação Natural não Florestal (1985),3. Agropecuária (2022),720.6011795539582,59401,1985,Cobra Grande
+2. Formação Natural não Florestal (1985),5. Corpo D`água (2022),9.289858807373047,59401,1985,Cobra Grande
+2. Formação Natural não Florestal (1985),Total (2022),1081.0653135105667,59401,1985,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (1985),1.1. Formação Florestal (2022),6.163595373535146,59401,1985,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (1985),1.4. Floresta Alagável (2022),2.3224898071289064,59401,1985,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (1985),2.1. Campo Alagado e Área Pantanosa (2022),120.02343009176808,59401,1985,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (1985),2.2. Formação Campestre (2022),3.7447042470894583,59401,1985,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (1985),3.1. Pastagem (2022),3.751704772949221,59401,1985,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (1985),"5.1. Rio, Lago e Oceano (2022)",3.394391967773438,59401,1985,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),139.40031626024424,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),1.1. Formação Florestal (2022),1.3399102539062495,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),2.1. Campo Alagado e Área Pantanosa (2022),7.503347027587888,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),2.2. Formação Campestre (2022),210.07679834821968,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),3.1. Pastagem (2022),694.5423707168575,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),3.2. Agricultura (2022),22.30710406415156,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),3.2.1. Lavoura Temporária (2022),22.30710406415156,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),3.2.1.5. Outras Lavouras Temporárias (2022),22.30710406415156,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),"5.1. Rio, Lago e Oceano (2022)",5.895466839599608,59401,1985,Cobra Grande
+2.2. Formação Campestre (1985),Total (2022),986.2792053786256,59401,1985,Cobra Grande
+3. Agropecuária (1985),1. Floresta (2022),365.4438056033116,59401,1985,Cobra Grande
+3. Agropecuária (1985),2. Formação Natural não Florestal (2022),14.024309350585936,59401,1985,Cobra Grande
+3. Agropecuária (1985),3. Agropecuária (2022),597.4674729258782,59401,1985,Cobra Grande
+3. Agropecuária (1985),Total (2022),976.9355878797758,59401,1985,Cobra Grande
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),338.6855562969343,59401,1985,Cobra Grande
+3.1. Pastagem (1985),1.2. Formação Savânica (2022),0.8932617065429688,59401,1985,Cobra Grande
+3.1. Pastagem (1985),1.4. Floresta Alagável (2022),25.86498759983435,59401,1985,Cobra Grande
+3.1. Pastagem (1985),2.2. Formação Campestre (2022),14.024309350585936,59401,1985,Cobra Grande
+3.1. Pastagem (1985),3.1. Pastagem (2022),580.1379939891106,59401,1985,Cobra Grande
+3.1. Pastagem (1985),3.2. Agricultura (2022),17.329478936767554,59401,1985,Cobra Grande
+3.1. Pastagem (1985),3.2.1. Lavoura Temporária (2022),17.329478936767554,59401,1985,Cobra Grande
+3.1. Pastagem (1985),3.2.1.5. Outras Lavouras Temporárias (2022),17.329478936767554,59401,1985,Cobra Grande
+3.1. Pastagem (1985),Total (2022),1011.594545753311,59401,1985,Cobra Grande
+5. Corpo D`água (1985),1. Floresta (2022),29.27295425209194,59401,1985,Cobra Grande
+5. Corpo D`água (1985),2. Formação Natural não Florestal (2022),55.17020235358749,59401,1985,Cobra Grande
+5. Corpo D`água (1985),3. Agropecuária (2022),0.5359552612304688,59401,1985,Cobra Grande
+5. Corpo D`água (1985),5. Corpo D`água (2022),871.6069152765984,59401,1985,Cobra Grande
+5. Corpo D`água (1985),Total (2022),956.5860271435084,59401,1985,Cobra Grande
+"5.1. Rio, Lago e Oceano (1985)",1.1. Formação Florestal (2022),24.624124315281275,59401,1985,Cobra Grande
+"5.1. Rio, Lago e Oceano (1985)",1.4. Floresta Alagável (2022),4.648829936810665,59401,1985,Cobra Grande
+"5.1. Rio, Lago e Oceano (1985)",2.1. Campo Alagado e Área Pantanosa (2022),31.23913254337093,59401,1985,Cobra Grande
+"5.1. Rio, Lago e Oceano (1985)",2.2. Formação Campestre (2022),23.931069810216556,59401,1985,Cobra Grande
+"5.1. Rio, Lago e Oceano (1985)",3.1. Pastagem (2022),0.5359552612304688,59401,1985,Cobra Grande
+"5.1. Rio, Lago e Oceano (1985)","5.1. Rio, Lago e Oceano (2022)",871.6069152765984,59401,1985,Cobra Grande
+"5.1. Rio, Lago e Oceano (1985)",Total (2022),956.5860271435084,59401,1985,Cobra Grande
+Total (1985),1. Floresta (2022),5888.848653036526,59401,1985,Cobra Grande
+Total (1985),1.1. Formação Florestal (2022),5165.179205491915,59401,1985,Cobra Grande
+Total (1985),1.2. Formação Savânica (2022),77.23213939515372,59401,1985,Cobra Grande
+Total (1985),1.4. Floresta Alagável (2022),646.4373081494564,59401,1985,Cobra Grande
+Total (1985),2. Formação Natural não Florestal (2022),413.22257926063537,59401,1985,Cobra Grande
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),161.44569750452376,59401,1985,Cobra Grande
+Total (1985),2.2. Formação Campestre (2022),251.7768817561116,59401,1985,Cobra Grande
+Total (1985),3. Agropecuária (2022),1697.812232145507,59401,1985,Cobra Grande
+Total (1985),3.1. Pastagem (2022),1652.548164592586,59401,1985,Cobra Grande
+Total (1985),3.2. Agricultura (2022),45.26406755292106,59401,1985,Cobra Grande
+Total (1985),3.2.1. Lavoura Temporária (2022),45.26406755292106,59401,1985,Cobra Grande
+Total (1985),3.2.1.5. Outras Lavouras Temporárias (2022),45.26406755292106,59401,1985,Cobra Grande
+Total (1985),5. Corpo D`água (2022),884.5591288325066,59401,1985,Cobra Grande
+Total (1985),"5.1. Rio, Lago e Oceano (2022)",884.5591288325066,59401,1985,Cobra Grande
+Total (1985),Total (2022),17859.413321656193,59401,1985,Cobra Grande
+1. Floresta (2012),1. Floresta (2022),5633.965862703694,59401,2012,Cobra Grande
+1. Floresta (2012),3. Agropecuária (2022),191.4383270862047,59401,2012,Cobra Grande
+1. Floresta (2012),5. Corpo D`água (2022),3.751669958496094,59401,2012,Cobra Grande
+1. Floresta (2012),Total (2022),5829.1558597483945,59401,2012,Cobra Grande
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),4929.7584013993655,59401,2012,Cobra Grande
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),139.02843857541433,59401,2012,Cobra Grande
+1.1. Formação Florestal (2012),3.2. Agricultura (2022),3.215707049560547,59401,2012,Cobra Grande
+1.1. Formação Florestal (2012),3.2.1. Lavoura Temporária (2022),3.215707049560547,59401,2012,Cobra Grande
+1.1. Formação Florestal (2012),3.2.1.5. Outras Lavouras Temporárias (2022),3.215707049560547,59401,2012,Cobra Grande
+1.1. Formação Florestal (2012),"5.1. Rio, Lago e Oceano (2022)",3.0370442443847665,59401,2012,Cobra Grande
+1.1. Formação Florestal (2012),Total (2022),5081.4710053678455,59401,2012,Cobra Grande
+1.2. Formação Savânica (2012),1.2. Formação Savânica (2022),80.24226424586884,59401,2012,Cobra Grande
+1.2. Formação Savânica (2012),3.1. Pastagem (2022),45.79979109257752,59401,2012,Cobra Grande
+1.2. Formação Savânica (2012),Total (2022),126.04205533844636,59401,2012,Cobra Grande
+1.4. Floresta Alagável (2012),1.4. Floresta Alagável (2022),623.9651970584598,59401,2012,Cobra Grande
+1.4. Floresta Alagável (2012),3.1. Pastagem (2022),3.3943903686523433,59401,2012,Cobra Grande
+1.4. Floresta Alagável (2012),"5.1. Rio, Lago e Oceano (2022)",0.7146257141113282,59401,2012,Cobra Grande
+1.4. Floresta Alagável (2012),Total (2022),628.0742131412235,59401,2012,Cobra Grande
+2. Formação Natural não Florestal (2012),1. Floresta (2022),9.390095844176043,59401,2012,Cobra Grande
+2. Formação Natural não Florestal (2012),2. Formação Natural não Florestal (2022),361.8728492354549,59401,2012,Cobra Grande
+2. Formação Natural não Florestal (2012),3. Agropecuária (2022),240.7997739251084,59401,2012,Cobra Grande
+2. Formação Natural não Florestal (2012),5. Corpo D`água (2022),25.90454168701171,59401,2012,Cobra Grande
+2. Formação Natural não Florestal (2012),Total (2022),637.967260691751,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),1.1. Formação Florestal (2022),3.3050303649902344,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),1.2. Formação Savânica (2022),0.5359509460449219,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),1.4. Floresta Alagável (2022),5.549114533140888,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),2.1. Campo Alagado e Área Pantanosa (2022),158.9702431930958,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),2.2. Formação Campestre (2022),9.44894688562731,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),3.1. Pastagem (2022),1.161231048583984,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),"5.1. Rio, Lago e Oceano (2022)",15.721323950195302,59401,2012,Cobra Grande
+2.1. Campo Alagado e Área Pantanosa (2012),Total (2022),194.69184092167845,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),2.1. Campo Alagado e Área Pantanosa (2022),2.411810668945312,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),2.2. Formação Campestre (2022),191.04184848778644,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),3.1. Pastagem (2022),234.749825567744,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),3.2. Agricultura (2022),4.888717308780444,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),3.2.1. Lavoura Temporária (2022),4.888717308780444,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),3.2.1.5. Outras Lavouras Temporárias (2022),4.888717308780444,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),"5.1. Rio, Lago e Oceano (2022)",10.18321773681641,59401,2012,Cobra Grande
+2.2. Formação Campestre (2012),Total (2022),453.05285438763343,59401,2012,Cobra Grande
+3. Agropecuária (2012),1. Floresta (2022),189.80094252245004,59401,2012,Cobra Grande
+3. Agropecuária (2012),2. Formação Natural não Florestal (2022),41.63625435132808,59401,2012,Cobra Grande
+3. Agropecuária (2012),3. Agropecuária (2022),1303.1177059340826,59401,2012,Cobra Grande
+3. Agropecuária (2012),Total (2022),1534.5549028078608,59401,2012,Cobra Grande
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),179.52839793626842,59401,2012,Cobra Grande
+3.1. Pastagem (2012),1.2. Formação Savânica (2022),0.6252830932617187,59401,2012,Cobra Grande
+3.1. Pastagem (2012),1.4. Floresta Alagável (2022),9.64726149291992,59401,2012,Cobra Grande
+3.1. Pastagem (2012),2.1. Campo Alagado e Área Pantanosa (2022),1.6971727233886722,59401,2012,Cobra Grande
+3.1. Pastagem (2012),2.2. Formação Campestre (2022),39.9390816279394,59401,2012,Cobra Grande
+3.1. Pastagem (2012),3.1. Pastagem (2022),1251.0843537046958,59401,2012,Cobra Grande
+3.1. Pastagem (2012),3.2. Agricultura (2022),15.45356463012694,59401,2012,Cobra Grande
+3.1. Pastagem (2012),3.2.1. Lavoura Temporária (2022),15.45356463012694,59401,2012,Cobra Grande
+3.1. Pastagem (2012),3.2.1.5. Outras Lavouras Temporárias (2022),15.45356463012694,59401,2012,Cobra Grande
+3.1. Pastagem (2012),Total (2022),1528.8822444688549,59401,2012,Cobra Grande
+3.2. Agricultura (2012),3.1. Pastagem (2022),15.14167430580287,59401,2012,Cobra Grande
+3.2. Agricultura (2012),3.2. Agricultura (2022),21.438113293457015,59401,2012,Cobra Grande
+3.2. Agricultura (2012),Total (2022),36.57978759925989,59401,2012,Cobra Grande
+3.2.1. Lavoura Temporária (2012),3.1. Pastagem (2022),15.14167430580287,59401,2012,Cobra Grande
+3.2.1. Lavoura Temporária (2012),3.2.1. Lavoura Temporária (2022),21.438113293457015,59401,2012,Cobra Grande
+3.2.1. Lavoura Temporária (2012),Total (2022),36.57978759925989,59401,2012,Cobra Grande
+3.2.1.5. Outras Lavouras Temporárias (2012),3.1. Pastagem (2022),15.14167430580287,59401,2012,Cobra Grande
+3.2.1.5. Outras Lavouras Temporárias (2012),3.2.1.5. Outras Lavouras Temporárias (2022),21.438113293457015,59401,2012,Cobra Grande
+3.2.1.5. Outras Lavouras Temporárias (2012),Total (2022),36.57978759925989,59401,2012,Cobra Grande
+5. Corpo D`água (2012),1. Floresta (2022),16.599226309000638,59401,2012,Cobra Grande
+5. Corpo D`água (2012),2. Formação Natural não Florestal (2022),21.072531590001716,59401,2012,Cobra Grande
+5. Corpo D`água (2012),3. Agropecuária (2022),0.5359552612304688,59401,2012,Cobra Grande
+5. Corpo D`água (2012),5. Corpo D`água (2022),844.5568568669535,59401,2012,Cobra Grande
+5. Corpo D`água (2012),Total (2022),882.7645700271863,59401,2012,Cobra Grande
+"5.1. Rio, Lago e Oceano (2012)",1.1. Formação Florestal (2022),15.005011884813484,59401,2012,Cobra Grande
+"5.1. Rio, Lago e Oceano (2012)",1.4. Floresta Alagável (2022),1.5942144241871552,59401,2012,Cobra Grande
+"5.1. Rio, Lago e Oceano (2012)",2.1. Campo Alagado e Área Pantanosa (2022),5.538170440673829,59401,2012,Cobra Grande
+"5.1. Rio, Lago e Oceano (2012)",2.2. Formação Campestre (2022),15.534361149327886,59401,2012,Cobra Grande
+"5.1. Rio, Lago e Oceano (2012)",3.1. Pastagem (2022),0.5359552612304688,59401,2012,Cobra Grande
+"5.1. Rio, Lago e Oceano (2012)","5.1. Rio, Lago e Oceano (2022)",844.5568568669535,59401,2012,Cobra Grande
+"5.1. Rio, Lago e Oceano (2012)",Total (2022),882.7645700271863,59401,2012,Cobra Grande
+Total (2012),1. Floresta (2022),5849.756127379321,59401,2012,Cobra Grande
+Total (2012),1.1. Formação Florestal (2022),5127.596841585439,59401,2012,Cobra Grande
+Total (2012),1.2. Formação Savânica (2022),81.40349828517547,59401,2012,Cobra Grande
+Total (2012),1.4. Floresta Alagável (2022),640.7557875087078,59401,2012,Cobra Grande
+Total (2012),2. Formação Natural não Florestal (2022),424.58163517678463,59401,2012,Cobra Grande
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),168.61739702610362,59401,2012,Cobra Grande
+Total (2012),2.2. Formação Campestre (2022),255.96423815068104,59401,2012,Cobra Grande
+Total (2012),3. Agropecuária (2022),1735.891762206626,59401,2012,Cobra Grande
+Total (2012),3.1. Pastagem (2022),1721.1790085363066,59401,2012,Cobra Grande
+Total (2012),3.2. Agricultura (2022),44.99610228192495,59401,2012,Cobra Grande
+Total (2012),3.2.1. Lavoura Temporária (2022),44.99610228192495,59401,2012,Cobra Grande
+Total (2012),3.2.1.5. Outras Lavouras Temporárias (2022),44.99610228192495,59401,2012,Cobra Grande
+Total (2012),5. Corpo D`água (2022),874.2130685124613,59401,2012,Cobra Grande
+Total (2012),"5.1. Rio, Lago e Oceano (2022)",874.2130685124613,59401,2012,Cobra Grande
+Total (2012),Total (2022),17889.160739725852,59401,2012,Cobra Grande
+1. Floresta (1985),1. Floresta (2022),959329.6859831988,68301,1985,Apiaká do Pontal e Isolados
+1. Floresta (1985),2. Formação Natural não Florestal (2022),17.292565114985454,68301,1985,Apiaká do Pontal e Isolados
+1. Floresta (1985),3. Agropecuária (2022),4602.879686803419,68301,1985,Apiaká do Pontal e Isolados
+1. Floresta (1985),5. Corpo D`água (2022),43.73448031922584,68301,1985,Apiaká do Pontal e Isolados
+1. Floresta (1985),Total (2022),963993.5927154366,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),1.1. Formação Florestal (2022),958555.14070352,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),1.2. Formação Savânica (2022),2.0345986999511716,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),2.2. Formação Campestre (2022),14.02089547387217,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),3.1. Pastagem (2022),4428.558042119581,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),3.2. Agricultura (2022),163.35595570068355,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),3.2.1. Lavoura Temporária (2022),163.35595570068355,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),3.2.1.5. Outras Lavouras Temporárias (2022),163.35595570068355,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),"5.1. Rio, Lago e Oceano (2022)",43.73448031922584,68301,1985,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (1985),Total (2022),963533.556587235,68301,1985,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (1985),1.2. Formação Savânica (2022),270.2200423123707,68301,1985,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (1985),2.2. Formação Campestre (2022),1.5910182373046875,68301,1985,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (1985),3.1. Pastagem (2022),10.965688983154292,68301,1985,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (1985),Total (2022),282.7767495328297,68301,1985,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (1985),1.4. Floresta Alagável (2022),502.2906386665372,68301,1985,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (1985),2.1. Campo Alagado e Área Pantanosa (2022),1.1498155395507814,68301,1985,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (1985),2.2. Formação Campestre (2022),0.5308358642578125,68301,1985,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (1985),Total (2022),503.9712900703458,68301,1985,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (1985),1. Floresta (2022),21.509865293255977,68301,1985,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (1985),2. Formação Natural não Florestal (2022),6991.352399877235,68301,1985,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (1985),3. Agropecuária (2022),523.2071149514109,68301,1985,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (1985),5. Corpo D`água (2022),67.27799424438477,68301,1985,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (1985),Total (2022),7603.347374366287,68301,1985,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (1985),1.1. Formação Florestal (2022),13.376273917523552,68301,1985,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (1985),1.2. Formação Savânica (2022),1.415161920166016,68301,1985,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (1985),2.1. Campo Alagado e Área Pantanosa (2022),937.9552168553024,68301,1985,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (1985),2.2. Formação Campestre (2022),358.5832499882474,68301,1985,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (1985),3.1. Pastagem (2022),3.185157385253907,68301,1985,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (1985),"5.1. Rio, Lago e Oceano (2022)",66.74635722045899,68301,1985,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (1985),Total (2022),1381.261417286952,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),1.1. Formação Florestal (2022),5.48077401123047,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),1.2. Formação Savânica (2022),1.2376554443359375,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),2.1. Campo Alagado e Área Pantanosa (2022),44.38583418555166,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),2.2. Formação Campestre (2022),5223.67170425585,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),3.1. Pastagem (2022),497.4054008409683,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),3.2. Agricultura (2022),22.616556725188616,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),3.2.1. Lavoura Temporária (2022),22.616556725188616,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),3.2.1.5. Outras Lavouras Temporárias (2022),22.616556725188616,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),"5.1. Rio, Lago e Oceano (2022)",0.5316370239257813,68301,1985,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (1985),Total (2022),5840.562675937428,68301,1985,Apiaká do Pontal e Isolados
+2.4. Afloramento Rochoso (1985),2.4. Afloramento Rochoso (2022),426.75639459228375,68301,1985,Apiaká do Pontal e Isolados
+2.4. Afloramento Rochoso (1985),Total (2022),426.75639459228375,68301,1985,Apiaká do Pontal e Isolados
+3. Agropecuária (1985),1. Floresta (2022),2225.4031970829324,68301,1985,Apiaká do Pontal e Isolados
+3. Agropecuária (1985),2. Formação Natural não Florestal (2022),5.035597283935549,68301,1985,Apiaká do Pontal e Isolados
+3. Agropecuária (1985),3. Agropecuária (2022),381.3965960661772,68301,1985,Apiaká do Pontal e Isolados
+3. Agropecuária (1985),Total (2022),2611.835390433045,68301,1985,Apiaká do Pontal e Isolados
+3.1. Pastagem (1985),1.1. Formação Florestal (2022),2216.3875887150125,68301,1985,Apiaká do Pontal e Isolados
+3.1. Pastagem (1985),1.2. Formação Savânica (2022),9.015608367919924,68301,1985,Apiaká do Pontal e Isolados
+3.1. Pastagem (1985),2.2. Formação Campestre (2022),5.035597283935549,68301,1985,Apiaká do Pontal e Isolados
+3.1. Pastagem (1985),3.1. Pastagem (2022),381.3965960661772,68301,1985,Apiaká do Pontal e Isolados
+3.1. Pastagem (1985),Total (2022),2611.835390433045,68301,1985,Apiaká do Pontal e Isolados
+5. Corpo D`água (1985),1. Floresta (2022),195.71348771891292,68301,1985,Apiaká do Pontal e Isolados
+5. Corpo D`água (1985),2. Formação Natural não Florestal (2022),100.79952459396058,68301,1985,Apiaká do Pontal e Isolados
+5. Corpo D`água (1985),3. Agropecuária (2022),5.850115570068359,68301,1985,Apiaká do Pontal e Isolados
+5. Corpo D`água (1985),5. Corpo D`água (2022),7983.591072462916,68301,1985,Apiaká do Pontal e Isolados
+5. Corpo D`água (1985),Total (2022),8285.954200345857,68301,1985,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (1985)",1.1. Formação Florestal (2022),194.5613833732098,68301,1985,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (1985)",1.4. Floresta Alagável (2022),1.152104345703125,68301,1985,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (1985)",2.1. Campo Alagado e Área Pantanosa (2022),18.521897210693343,68301,1985,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (1985)",2.2. Formação Campestre (2022),82.27762738326724,68301,1985,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (1985)",3.1. Pastagem (2022),5.850115570068359,68301,1985,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (1985)","5.1. Rio, Lago e Oceano (2022)",7983.591072462916,68301,1985,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (1985)",Total (2022),8285.954200345857,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),1. Floresta (2022),961772.312533294,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),1.1. Formação Florestal (2022),960984.946723537,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),1.2. Formação Savânica (2022),283.9230667447438,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),1.4. Floresta Alagável (2022),503.4427430122403,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),2. Formação Natural não Florestal (2022),7114.480086870117,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),2.1. Campo Alagado e Área Pantanosa (2022),1002.012763791098,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),2.2. Formação Campestre (2022),5685.710928486735,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),2.4. Afloramento Rochoso (2022),426.75639459228375,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),3. Agropecuária (2022),5513.333513391075,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),3.1. Pastagem (2022),5327.361000965203,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),3.2. Agricultura (2022),185.97251242587217,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),3.2.1. Lavoura Temporária (2022),185.97251242587217,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),3.2.1.5. Outras Lavouras Temporárias (2022),185.97251242587217,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),5. Corpo D`água (2022),8094.603547026526,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),"5.1. Rio, Lago e Oceano (2022)",8094.603547026526,68301,1985,Apiaká do Pontal e Isolados
+Total (1985),Total (2022),1965361.4043860151,68301,1985,Apiaká do Pontal e Isolados
+1. Floresta (2012),1. Floresta (2022),960867.7393019476,68301,2012,Apiaká do Pontal e Isolados
+1. Floresta (2012),2. Formação Natural não Florestal (2022),17.247813732910156,68301,2012,Apiaká do Pontal e Isolados
+1. Floresta (2012),3. Agropecuária (2022),2669.103270380067,68301,2012,Apiaká do Pontal e Isolados
+1. Floresta (2012),5. Corpo D`água (2022),152.8190125893267,68301,2012,Apiaká do Pontal e Isolados
+1. Floresta (2012),Total (2022),963706.9093986498,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),1.1. Formação Florestal (2022),960058.4176353912,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),1.2. Formação Savânica (2022),1.0617672485351564,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),2.1. Campo Alagado e Área Pantanosa (2022),1.9494486938476565,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),2.2. Formação Campestre (2022),11.143298840332031,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),3.1. Pastagem (2022),2598.834050928163,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),3.2. Agricultura (2022),54.528815496826155,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),3.2.1. Lavoura Temporária (2022),54.528815496826155,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),3.2.1.5. Outras Lavouras Temporárias (2022),54.528815496826155,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),"5.1. Rio, Lago e Oceano (2022)",152.1986397011431,68301,2012,Apiaká do Pontal e Isolados
+1.1. Formação Florestal (2012),Total (2022),962987.1912872938,68301,2012,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (2012),1.2. Formação Savânica (2022),291.5275030789722,68301,2012,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (2012),2.1. Campo Alagado e Área Pantanosa (2022),1.4142324218749998,68301,2012,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (2012),2.2. Formação Campestre (2022),1.5910182373046875,68301,2012,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (2012),3.1. Pastagem (2022),15.740403955078126,68301,2012,Apiaká do Pontal e Isolados
+1.2. Formação Savânica (2012),Total (2022),310.27315769323,68301,2012,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (2012),1.4. Floresta Alagável (2022),516.732396228793,68301,2012,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (2012),2.1. Campo Alagado e Área Pantanosa (2022),1.1498155395507814,68301,2012,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (2012),"5.1. Rio, Lago e Oceano (2022)",0.6203728881835937,68301,2012,Apiaká do Pontal e Isolados
+1.4. Floresta Alagável (2012),Total (2022),518.5025846565275,68301,2012,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (2012),1. Floresta (2022),9.64395652250402,68301,2012,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (2012),2. Formação Natural não Florestal (2022),7072.685541932439,68301,2012,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (2012),3. Agropecuária (2022),527.9412862524894,68301,2012,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (2012),5. Corpo D`água (2022),19.131504418945315,68301,2012,Apiaká do Pontal e Isolados
+2. Formação Natural não Florestal (2012),Total (2022),7629.402289126378,68301,2012,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (2012),1.1. Formação Florestal (2022),5.490685886517692,68301,2012,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (2012),2.1. Campo Alagado e Área Pantanosa (2022),870.5831057837154,68301,2012,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (2012),2.2. Formação Campestre (2022),100.86793692035758,68301,2012,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (2012),3.1. Pastagem (2022),1.5044022888183597,68301,2012,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (2012),"5.1. Rio, Lago e Oceano (2022)",16.826656036376956,68301,2012,Apiaká do Pontal e Isolados
+2.1. Campo Alagado e Área Pantanosa (2012),Total (2022),995.272786915786,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),1.1. Formação Florestal (2022),3.268752935791016,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),1.2. Formação Savânica (2022),0.8845177001953126,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),2.1. Campo Alagado e Área Pantanosa (2022),79.06076298828123,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),2.2. Formação Campestre (2022),5594.887797903904,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),3.1. Pastagem (2022),512.9802391418458,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),3.2. Agricultura (2022),13.456644821825211,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),3.2.1. Lavoura Temporária (2022),13.456644821825211,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),3.2.1.5. Outras Lavouras Temporárias (2022),13.456644821825211,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),"5.1. Rio, Lago e Oceano (2022)",2.30484838256836,68301,2012,Apiaká do Pontal e Isolados
+2.2. Formação Campestre (2012),Total (2022),6233.7568535180635,68301,2012,Apiaká do Pontal e Isolados
+2.4. Afloramento Rochoso (2012),2.4. Afloramento Rochoso (2022),427.2859383361802,68301,2012,Apiaká do Pontal e Isolados
+2.4. Afloramento Rochoso (2012),Total (2022),427.2859383361802,68301,2012,Apiaká do Pontal e Isolados
+3. Agropecuária (2012),1. Floresta (2022),983.07574089116,68301,2012,Apiaká do Pontal e Isolados
+3. Agropecuária (2012),2. Formação Natural não Florestal (2022),5.532378473833871,68301,2012,Apiaká do Pontal e Isolados
+3. Agropecuária (2012),3. Agropecuária (2022),2362.785753838026,68301,2012,Apiaká do Pontal e Isolados
+3. Agropecuária (2012),Total (2022),3351.393873203019,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),1.1. Formação Florestal (2022),982.2800648901834,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),1.2. Formação Savânica (2022),0.7956760009765627,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),2.2. Formação Campestre (2022),5.532378473833871,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),3.1. Pastagem (2022),2249.3503849720582,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),3.2. Agricultura (2022),85.68371926269572,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),3.2.1. Lavoura Temporária (2022),85.68371926269572,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),3.2.1.5. Outras Lavouras Temporárias (2022),85.68371926269572,68301,2012,Apiaká do Pontal e Isolados
+3.1. Pastagem (2012),Total (2022),3495.0096621251396,68301,2012,Apiaká do Pontal e Isolados
+3.2. Agricultura (2012),3.2. Agricultura (2022),27.7516496032715,68301,2012,Apiaká do Pontal e Isolados
+3.2. Agricultura (2012),Total (2022),27.7516496032715,68301,2012,Apiaká do Pontal e Isolados
+3.2.1. Lavoura Temporária (2012),3.2.1. Lavoura Temporária (2022),27.7516496032715,68301,2012,Apiaká do Pontal e Isolados
+3.2.1. Lavoura Temporária (2012),Total (2022),27.7516496032715,68301,2012,Apiaká do Pontal e Isolados
+3.2.1.5. Outras Lavouras Temporárias (2012),3.2.1.5. Outras Lavouras Temporárias (2022),27.7516496032715,68301,2012,Apiaká do Pontal e Isolados
+3.2.1.5. Outras Lavouras Temporárias (2012),Total (2022),27.7516496032715,68301,2012,Apiaká do Pontal e Isolados
+5. Corpo D`água (2012),1. Floresta (2022),46.86385532937443,68301,2012,Apiaká do Pontal e Isolados
+5. Corpo D`água (2012),2. Formação Natural não Florestal (2022),24.374217944335943,68301,2012,Apiaká do Pontal e Isolados
+5. Corpo D`água (2012),5. Corpo D`água (2022),7735.786046329751,68301,2012,Apiaká do Pontal e Isolados
+5. Corpo D`água (2012),Total (2022),7807.024119603461,68301,2012,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (2012)",1.1. Formação Florestal (2022),46.332096814970136,68301,2012,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (2012)",1.4. Floresta Alagável (2022),0.5317585144042968,68301,2012,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (2012)",2.1. Campo Alagado e Área Pantanosa (2022),12.052473468017585,68301,2012,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (2012)",2.2. Formação Campestre (2022),12.321744476318358,68301,2012,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (2012)","5.1. Rio, Lago e Oceano (2022)",7735.786046329751,68301,2012,Apiaká do Pontal e Isolados
+"5.1. Rio, Lago e Oceano (2012)",Total (2022),7807.024119603461,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),1. Floresta (2022),961907.3228546904,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),1.1. Formação Florestal (2022),961095.7892359188,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),1.2. Formação Savânica (2022),294.26946402867924,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),1.4. Floresta Alagável (2022),517.2641547431973,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),2. Formação Natural não Florestal (2022),7119.839952083519,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),2.1. Campo Alagado e Área Pantanosa (2022),966.2098388952876,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),2.2. Formação Campestre (2022),5726.344174852051,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),2.4. Afloramento Rochoso (2022),427.2859383361802,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),3. Agropecuária (2022),5559.830310470581,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),3.1. Pastagem (2022),5378.409481285963,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),3.2. Agricultura (2022),181.42082918461855,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),3.2.1. Lavoura Temporária (2022),181.42082918461855,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),3.2.1.5. Outras Lavouras Temporárias (2022),181.42082918461855,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),5. Corpo D`água (2022),7907.736563338023,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),"5.1. Rio, Lago e Oceano (2022)",7907.736563338023,68301,2012,Apiaká do Pontal e Isolados
+Total (2012),Total (2022),1965352.301019534,68301,2012,Apiaká do Pontal e Isolados
