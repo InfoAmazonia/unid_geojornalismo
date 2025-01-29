@@ -1,0 +1,58 @@
+mes,classe,n
+1,Seca Extrema,2
+1,Seca Severa,36
+1,Seca Moderada,276
+1,Seca Fraca,309
+1,Normal,149
+2,Seca Severa,50
+2,Seca Moderada,261
+2,Seca Fraca,239
+2,Normal,222
+3,Seca Severa,62
+3,Seca Moderada,297
+3,Seca Fraca,203
+3,Normal,210
+4,Seca Severa,7
+4,Seca Moderada,215
+4,Seca Fraca,191
+4,Normal,359
+5,Seca Extrema,13
+5,Seca Severa,242
+5,Seca Moderada,204
+5,Seca Fraca,166
+5,Normal,147
+6,Seca Extrema,29
+6,Seca Severa,259
+6,Seca Moderada,261
+6,Seca Fraca,107
+6,Normal,116
+7,Seca Extrema,7
+7,Seca Severa,188
+7,Seca Moderada,387
+7,Seca Fraca,159
+7,Normal,31
+8,Seca Excepcional,1
+8,Seca Extrema,23
+8,Seca Severa,120
+8,Seca Moderada,342
+8,Seca Fraca,266
+8,Normal,20
+9,Seca Extrema,55
+9,Seca Severa,165
+9,Seca Moderada,373
+9,Seca Fraca,166
+9,Normal,13
+10,Seca Extrema,14
+10,Seca Severa,96
+10,Seca Moderada,352
+10,Seca Fraca,292
+10,Normal,18
+11,Seca Extrema,1
+11,Seca Severa,52
+11,Seca Moderada,298
+11,Seca Fraca,339
+11,Normal,82
+12,Seca Severa,42
+12,Seca Moderada,208
+12,Seca Fraca,320
+12,Normal,202
