@@ -1,0 +1,407 @@
+---
+title: "Relatório de análise de dados - Projetos de carbono e mineração"
+format:
+  html:
+    self-contained: true
+    embed-resources: true
+  docx: default
+  pdf: default
+  
+execute:
+  echo: false
+  warning: false
+df-print: paged
+lang: pt
+---
+
+```{r}
+#| label: dados
+
+library(sf)
+sf::sf_use_s2(FALSE)
+
+raw <- here::here("2025_06-carbono_sujo/data-raw")
+tidy <- here::here("2025_06-carbono_sujo/data-tidy")
+
+dados <- readr::read_rds(here::here(tidy, "dados.rds"))
+tbl <- tibble::as_tibble(dados)
+creditos_sem_anm <- readr::read_rds(here::here(tidy, "creditos_sem_anm.rds")) 
+
+```
+
+## Projetos de carbono em áreas de mineração
+
+```{r}
+#| label: big-num
+
+total_inter <- dados |>
+  tibble::as_tibble() |>
+  dplyr::distinct(id_projeto) |>
+  nrow()
+
+total_anm <- dados |>
+  tibble::as_tibble() |>
+  dplyr::distinct(PROCESSO) |>
+  nrow()
+
+total_area <- dados |>
+  sf::st_union() |>
+  sf::st_area() |>
+  units::set_units(ha) |>
+  as.numeric()
+
+# dados_sem_eco <- dados |>
+#   dplyr::filter(
+#     !is.na(vcu_serialNumbers), 
+#     empresa_certificadora != "Cercarbono"
+#   )
+
+creditos <- tbl |>
+  dplyr::filter(
+    !is.na(vcu_serialNumbers), 
+    empresa_certificadora != "Cercarbono"
+  ) |>
+  dplyr::distinct(vcu_serialNumbers, .keep_all = TRUE) |>
+  dplyr::summarise(
+    vcu_quantity = sum(vcu_quantity),
+    .by = c(id_projeto, nome_projeto)
+  ) |>
+  dplyr::arrange(dplyr::desc(vcu_quantity)) 
+
+
+
+total_creditos <- sum(creditos$vcu_quantity)
+
+creditos_sem_anm <- creditos_sem_anm |>
+  dplyr::filter(
+    !is.na(serialNumbers),
+    empresa_certificadora != "Cercarbono"
+  ) |>
+  dplyr::distinct(serialNumbers, .keep_all = TRUE) |>
+  dplyr::summarise(
+    quantity = sum(quantity),
+    .by = c(id_projeto, resourceName)
+  ) |>
+  dplyr::arrange(dplyr::desc(quantity))
+
+total_creditos_sem_anm <- sum(creditos_sem_anm$quantity)
+
+pct_carbono_mineracao <- total_creditos / (total_creditos + total_creditos_sem_anm)
+
+```
+
+- Total de `r total_inter` projetos de carbono têm alguma intersecção com áreas de mineração
+- São `r total_anm` áreas de mineração em algum estado de licenciamento com projetos de carbono
+- Desses projetos, 30 comercializaram créditos de carbono, totalizando `r scales::number(total_creditos)` toneladas de carbono supostamente compensado (@tbl-vcu).
+- Das entidades identificadas, o maior comprador de créditos em projetos de carbono em áreas de mineração é a Companhia de Navegação Norsul (@tbl-compra, tabela completa [aqui](https://docs.google.com/spreadsheets/d/1MClu8UinIoJNutZ0pt0YBkZ4W1Ni3h7hCsFjX_p99yg/edit?gid=1819096323#gid=1819096323))
+- Do total de créditos comercializados na Amazônia, `r scales::percent(pct_carbono_mineracao)` estão em projetos em áreas de mineração
+
+```{r}
+#| label: tbl-vcu
+#| tbl-cap: Total de créditos de carbono comercializados por projeto
+
+creditos |>
+  janitor::adorn_totals() |>
+  dplyr::mutate(vcu_quantity = scales::number(vcu_quantity)) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-cred-sem
+#| tbl-cap: Créditos comercializados (sem Eco) em projetos sem áreas de mineração
+
+creditos_sem_anm |>
+  janitor::adorn_totals() |>
+  dplyr::mutate(vcu_quantity = scales::number(quantity)) |>
+  knitr::kable()
+```
+```{r}
+#| label: tbl-cred
+#| tbl-cap: Comparação de créditos comercializados (sem Eco)
+
+tibble::tibble(
+  com_mineracao = sum(creditos$vcu_quantity),
+  sem_mineracao = sum(creditos_sem_anm$quantity)
+) |>
+  tidyr::pivot_longer(1:2) |>
+  dplyr::mutate(pct = value / sum(value)) |>
+  janitor::adorn_totals() |>
+  dplyr::mutate(value = scales::number(value), pct = scales::percent(pct)) |>
+  purrr::set_names("", "Créditos", "%") |>
+  knitr::kable()
+
+```
+
+
+
+
+```{r}
+#| label: tbl-compra
+#| tbl-cap: Quem comprou créditos de projetos em áreas de mineração
+
+tbl |>
+  dplyr::distinct(
+    vcu_serialNumbers, id_projeto, nome_projeto, vcu_retirementBeneficiary, 
+    vcu_quantity, empresa_certificadora
+  ) |>
+  dplyr::filter(
+    !is.na(vcu_serialNumbers),
+    empresa_certificadora != "Cercarbono"
+  ) |>
+  dplyr::summarise(
+    vcu_quantity = sum(vcu_quantity),
+    # .by = c(vcu_retirementBeneficiary, id_projeto, nome_projeto)
+    .by = c(vcu_retirementBeneficiary)
+  ) |>
+  # clipr::write_clip()
+  dplyr::slice_max(vcu_quantity, n = 10) |>
+  dplyr::mutate(vcu_quantity = scales::number(vcu_quantity)) |>
+  knitr::kable()
+
+```
+
+
+Alguns desses créditos constam como _cancelados_ (e não _retired_). Precisamos 
+entender melhor a diferença entre os dois. Considerando essas informações, o 
+panorama muda (@tbl-cancel):
+
+- No total, foram 2,2 bilhões de toneladas comercializados cancelados e 1,6 bilhão cancelados
+- O FLORESTAL SANTA MARIA é o projeto com a maior quantidade de créditos comercializados cancelados
+
+```{r}
+#| label: tbl-cancel
+#| tbl-cap: Créditos cancelados por projeto
+
+tbl |>
+  dplyr::filter(
+    !is.na(vcu_serialNumbers),
+    empresa_certificadora != "Cercarbono"
+  ) |>
+  dplyr::distinct(
+    vcu_serialNumbers, id_projeto, nome_projeto, vcu_retirementBeneficiary, 
+    vcu_quantity, vcu_retiredCancelled
+  ) |>
+  dplyr::summarise(
+    vcu_quantity = sum(vcu_quantity, na.rm = TRUE),
+    .by = c(id_projeto, nome_projeto, vcu_retiredCancelled)
+  ) |>
+  tidyr::pivot_wider(
+    names_from = vcu_retiredCancelled, values_from = vcu_quantity, 
+    names_prefix = "cancelado_"
+  ) |>
+  dplyr::arrange(dplyr::desc(cancelado_TRUE)) |>
+  janitor::adorn_totals() |>
+  dplyr::mutate(
+    cancelado_TRUE = scales::number(cancelado_TRUE), 
+    cancelado_FALSE = scales::number(cancelado_FALSE)
+  ) |>
+  knitr::kable()
+```
+
+
+### Área total
+
+- São mais de `r scales::number(total_area)` hectares em regiões pertencentes a ambos projetos e áreas de mineração
+- Os projetos de carbono que abrangem uma maior área de mineração são Jari/Pará REDD+ Project, Boa Fé REDD Project e Amazônidas REDD+ AUDD Grouped Project. A lista completa dos projetos de carbono, empresas responsáveis por processos minerários e suas respectivas áreas de intersecção podem ser encontradas [aqui](https://docs.google.com/spreadsheets/d/1MClu8UinIoJNutZ0pt0YBkZ4W1Ni3h7hCsFjX_p99yg/edit?usp=drive_link).
+
+```{r}
+#| label: tbl-projetos
+#| tbl-cap: 10 projetos com maior área de intersecção com áreas de mineração
+
+tbl_projetos <- readr::read_rds(here::here(tidy, "tbl_projetos.rds"))
+tbl_projetos |>
+  dplyr::arrange(dplyr::desc(area)) |>
+  # clipr::write_clip()
+  dplyr::slice_max(area, n = 10) |>
+  dplyr::mutate(
+    area = scales::number(as.numeric(area)), 
+    pct_area = scales::percent(pct_area)
+  ) |>
+  knitr::kable()
+
+```
+
+
+```{r}
+#| label: tbl-emp
+#| tbl-cap: 10 empresas responsáveis pelos processos minerários com maior área dentro de projetos de carbono
+
+dados |>
+  dplyr::group_by(PROCESSO, UF, anm_nome) |>
+  dplyr::summarise() |>
+  dplyr::ungroup() |>
+  dplyr::mutate(area = units::set_units(sf::st_area(geometry), ha)) |>
+  dplyr::arrange(dplyr::desc(area)) |>
+  dplyr::as_tibble() |>
+  dplyr::select(-geometry) |>
+  # clipr::write_clip()
+  dplyr::slice_max(area, n = 10) |>
+  dplyr::mutate(area = scales::number(as.numeric(area, 1))) |>
+  knitr::kable()
+
+```
+
+```{r}
+#| label: fig-maisa
+#| fig-cap: Projeto Maísa (amarelo) e áreas de mineração (vermelho)
+
+maisa <- here::here(raw, "projetos_shp") |>
+  fs::dir_ls(regexp = "1329\\.shp") |>
+  sf::read_sf()
+anm_maisa <- here::here(raw, "anm_ativos") |>
+  sf::read_sf() |>
+  sf::st_zm() |>
+  sf::st_make_valid() |>
+  sf::st_crop(xmin = -49.6, xmax = -49.2, ymin = -3.5, ymax = -3)
+  
+maisa |>
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(fill = "yellow", alpha =.8) +
+  ggplot2::geom_sf(data = anm_maisa, fill = "red", alpha = .2) +
+  ggplot2::coord_sf(xlim = c(-49.6, -49.2), ylim = c(-3.5, -3), expand = FALSE)
+
+```
+
+```{r}
+#| label: fig-jari
+#| fig-cap: Projeto Jari/Pará (amarelo) e áreas de mineração (vermelho)
+
+jari <- here::here(raw, "projetos_shp") |>
+  fs::dir_ls(regexp = "1811\\.shp") |>
+  sf::read_sf()
+anm_jari <- here::here(raw, "anm_ativos") |>
+  sf::read_sf() |>
+  sf::st_zm() |>
+  sf::st_make_valid() |>
+  sf::st_crop(xmin = -53.4, xmax = -51.8, ymin = -1.6, ymax = -0.4)
+
+jari |>
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(fill = "yellow", alpha =.8) +
+  ggplot2::geom_sf(data = anm_jari, fill = "red", alpha = .2) +
+  ggplot2::coord_sf(xlim = c(-53.4, -51.8), ylim = c(-1.6, -0.4), expand = FALSE)
+
+```
+
+## Fase de requerimento
+
+Por fase de requerimento, a maior parte se concentra nos processos com autorização de pesquisa (@tbl-fase).
+
+
+```{r}
+#| label: tbl-fase
+#| tbl-cap: Área de intersecção por fase de requerimento
+
+tbl_fase <- readr::read_rds(here::here(tidy, "tbl_fase.rds"))
+tbl_fase |>
+  dplyr::mutate(
+    pct = scales::percent(area / sum(area), .1),
+    area = scales::number(area)
+  ) |>
+  knitr::kable()
+```
+
+## Status do projeto de carbono
+
+```{r}
+#| label: tbl-status
+#| tbl-cap: Área de intersecção por status do projeto
+
+dados |>
+  dplyr::group_by(status) |>
+  dplyr::summarise(projetos = dplyr::n_distinct(id_projeto)) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(area = as.numeric(units::set_units(sf::st_area(geometry), ha))) |>
+  tibble::as_tibble() |>
+  dplyr::select(-geometry) |>
+  dplyr::arrange(dplyr::desc(area)) |>
+  dplyr::mutate(
+    pct_area = scales::percent(area / sum(area), .1),
+    area = scales::number(area)
+  ) |>
+  knitr::kable()
+```
+
+## Datas
+
+- [68 projetos de carbono](https://docs.google.com/spreadsheets/d/1MClu8UinIoJNutZ0pt0YBkZ4W1Ni3h7hCsFjX_p99yg/edit?gid=1997971944#gid=1997971944) (93%) têm data posterior à área de mineração
+- 208 (28%) [processos de mineração](https://docs.google.com/spreadsheets/d/1MClu8UinIoJNutZ0pt0YBkZ4W1Ni3h7hCsFjX_p99yg/edit?gid=986656238#gid=986656238) com intersecção de projetos de carbono foram instalados depois do início de projetos de carbono 
+
+
+```{r}
+# tbl |>
+#   dplyr::transmute(
+#     ano_anm = ANO, periodo_projeto, 
+#     inicio_projeto = as.integer(stringr::str_extract(periodo_projeto, "^[0-9]+")),
+#     id_projeto, nome_projeto, FASE, PROCESSO
+#   ) |>
+#   dplyr::filter(ano_anm < inicio_projeto) |>
+#   dplyr::mutate(dif = inicio_projeto - ano_anm) |>
+#   dplyr::group_by(id_projeto, nome_projeto) |> 
+#   dplyr::slice_max(dif, with_ties = FALSE) |>
+#   dplyr::ungroup() |>
+#   dplyr::select(id_projeto, nome_projeto, ano_anm, periodo_projeto) |>
+#   clipr::write_clip()
+
+```
+
+```{r}
+# tbl |>
+#   dplyr::transmute(
+#     ano_anm = ANO, periodo_projeto, 
+#     inicio_projeto = as.integer(stringr::str_extract(periodo_projeto, "^[0-9]+")),
+#     id_projeto, nome_projeto, FASE, PROCESSO
+#   ) |>
+#   dplyr::filter(ano_anm > inicio_projeto) |>
+#   dplyr::mutate(dif = ano_anm - inicio_projeto) |>
+#   dplyr::group_by(PROCESSO, FASE) |> 
+#   dplyr::slice_max(dif, with_ties = FALSE) |>
+#   dplyr::ungroup() |>
+#   dplyr::distinct(PROCESSO, FASE, ano_anm, periodo_projeto) |>
+#   clipr::write_clip()
+
+```
+
+## Áreas degradadas
+
+```{r}
+#| label: deg
+
+dados_deg <- readr::read_rds(here::here(tidy, "dados_degradacao.rds"))
+
+dados_deg <- dados_deg |>
+  dplyr::mutate(area = units::set_units(sf::st_area(geometry), ha))
+  
+area_deg <- dados_deg |>
+  tibble::as_tibble() |>
+  dplyr::summarise(area = sum(area), .by = c(id_projeto, nome_projeto)) |>
+  dplyr::arrange(dplyr::desc(area)) |>
+  dplyr::mutate(area = as.numeric(area)) |>
+  dplyr::filter(area > 0.1) |>
+  dplyr::arrange(dplyr::desc(area)) 
+```
+
+- Dentre os 73 projetos identificados com alguma sobreposição com áreas de mineração, 37 apresentaram áreas degradadas em 2024, segundo dados do Imazon, sendo que em 28 dos projetos a área degradada é superior a 100 hectares (@tbl-deg)
+- No total, são `r scales::number(sum(area_deg$area))` hectares degradados em áreas que em teoria deveriam ser preservadas, por estarem no período de vigência dos projetos
+
+```{r}
+#| label: tbl-deg
+#| tbl-cap: Área degradada (ha) em projetos de carbono
+
+area_projetos <- readr::read_rds(here::here(tidy, "area_projetos.rds"))
+
+area_deg |>
+  dplyr::left_join(area_projetos) |>
+  dplyr::mutate(
+    area_projeto_hectares = as.numeric(area_projeto_hectares),
+    pct = area / area_projeto_hectares,    
+    pct = scales::percent(pct, .1)
+  ) |>
+  dplyr::arrange(dplyr::desc(area)) |>
+  dplyr::mutate(
+    dplyr::across(dplyr::matches("area"), 
+    \(x) scales::number(x, 1))
+  ) |>
+  knitr::kable()
+```
+

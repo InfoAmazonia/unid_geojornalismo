@@ -1,0 +1,5 @@
+{
+"type": "FeatureCollection",
+"name": "dados",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4674" } },
+"features": [
