@@ -1,3 +1,3 @@
-issuanceDate,programObjectives,instrumentType,vintageStart,vintageEnd,reportingPeriodStart,reportingPeriodEnd,resourceIdentifier,resourceName,region,country,protocolCategory,protocol,totalVintageQuantity,quantity,serialNumbers,externalSerialNumber,additionalCertifications,retiredCancelled,retireOrCancelDate,retirementBeneficiary,retirementReason,retirementDetails,inputTypes,holdingIdentifier,id_projeto
-2009-09-16,NA,VCU,2007-12-08,2007-12-31,2007-12-08,2007-12-31,140,Xinjiang Xiaocaohu Wind Power Project,Asia,China,Energy industries (renewable/non-renewable sources),ACM0002,522,522,251-8129281-8129802-VCU-003-TZ1-CN-1-140-08122007-31122007-0,NA,NA,TRUE,2009-08-03,NA,Other,Retired on behalf of LivClean Corp.,NA,36733,140
-2009-09-16,NA,VCU,2008-01-01,2008-04-13,2008-01-01,2008-04-13,140,Xinjiang Xiaocaohu Wind Power Project,Asia,China,Energy industries (renewable/non-renewable sources),ACM0002,12469,12469,252-8129803-8142271-VCU-003-TZ1-CN-1-140-01012008-13042008-0,NA,NA,TRUE,2009-08-03,NA,Other,Retired on behalf of LivClean Corp.,NA,48310,140
+version https://git-lfs.github.com/spec/v1
+oid sha256:5d61c4d883d0b7c05a2ed6d6a9c5d62dd0dfae760281bbadf917a5218f633593
+size 1058

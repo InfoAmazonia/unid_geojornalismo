@@ -1,15 +1,3 @@
-descricao_tipologia,n
-Inundações,754
-Enxurradas,262
-Chuvas Intensas,218
-Estiagem e Seca,203
-Alagamentos,73
-Vendavais e Ciclones,55
-Erosão,33
-Outros,12
-Incêndio Florestal,10
-Movimento de Massa,7
-Doenças infecciosas,3
-Granizo,1
-Rompimento/Colapso de barragens,1
-Total,1632
+version https://git-lfs.github.com/spec/v1
+oid sha256:fdec734ea7d4a5af12b1ccb55da97f735ad2604073e17f64a4ee71425aefb74f
+size 276

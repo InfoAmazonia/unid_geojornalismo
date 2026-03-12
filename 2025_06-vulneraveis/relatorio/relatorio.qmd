@@ -1,0 +1,1267 @@
+---
+title: "Relatório de análise de dados - Áreas de risco"
+format:
+  html:
+    self-contained: true
+    embed-resources: true
+  docx: default
+  pdf: default
+  
+execute:
+  echo: false
+  warning: false
+df-print: paged
+lang: pt
+---
+
+```{r}
+#| label: dados
+
+library(sf)
+
+raw <- here::here("2025_06-vulneraveis/data-raw")
+tidy <- here::here("2025_06-vulneraveis/data-tidy")
+mun <- geobr::read_municipality(year = 2022)
+censo <- here::here(tidy, "censo2022.rds") |>
+  readr::read_rds() |>
+  dplyr::mutate(id_municipio = as.character(id_municipio))
+risco <- readr::read_rds(here::here(tidy, "risco.rds"))
+risco_censo <- readr::read_rds(here::here(tidy, "risco_censo.rds")) |>
+  dplyr::mutate(id_setor_censitario = as.numeric(CD_SETOR))
+dict <- raw |>
+  here::here("dicionario_de_dados_agregados_por_setores_censitarios.xlsx") |>
+  readxl::read_excel(sheet = 3) |>
+  janitor::clean_names()
+
+```
+
+As áreas de risco geológico foram mapeadas pelo SGB (Serviço Geológico do 
+Brasil) em todo o território nacional. No total, são 374 municípios mapeados na 
+região amazônica até o momento, dos quais 290 têm áreas de risco geológico.
+
+Os municípios a serem monitorados são determinados pelo governo federal, 
+conforme diretrizes estabelecidas pela Lei 12.608/2012, ou a pedido da
+Defesa Civil, e concentram a maioria dos desastres naturais, devido a riscos
+hidrogeológicos, envolvendo edificações.
+
+As áreas são identificadas a partir de mapas, imagens de satélite e trabalho em 
+campo, em parceria com a Defesa Civil, prefeitura ou outra entidade local. 
+Os polígonos são determinados pela equipe _in loco_, a partir de informações 
+como as características morfológicas do terreno, sinais de movimentação e 
+instabilidade nas encostas e taludes, análise de vulnerabilidade de construção 
+das moradias, presença de corpos d’água e recorrência dos eventos hidrológicos, 
+histórico da ocorrência de eventos geológicos no local, etc.
+
+Os tipos de risco identificado pela equipe do SGB e sua classificação no código
+brasileiro de desastre são:
+
+```{r}
+risco |>
+  dplyr::distinct(tipolo_g1, cobrade_01) |>
+  dplyr::arrange(cobrade_01) |>
+  knitr::kable()
+```
+
+- Alagamento (hidrológico)
+- Colapso (geológico)
+- Corrida de massa (geológico)
+- Deslizamento (geológico)
+- Enchente (hidrológico)
+- Enxurrada (hidrológico)
+- Erosão (geológico)
+- Inundação (hidrológico)
+- Queda (geológico)
+- Rastejo (geológico)
+- Subsidência (geológico)
+
+Referências: 
+
+- [Entenda a diferença entre os tipos de desastres naturais e tecnológicos registrados no Brasil](https://www.gov.br/mdr/pt-br/ultimas-noticias/entenda-a-diferenca-entre-os-tipos-de-desastres-naturais-e-tecnologicos-registrados-no-brasil)
+- [Classificação de desastres: brasileira (COBRADE) e internacional](https://escriba.ipt.br/pdf/175230.pdf)
+
+```{r}
+#| label: fig-risco
+#| fig-cap: Áreas de risco na Amazônia
+
+amazonia <- geobr::read_amazon()
+mun_amazonia <- sf::st_crop(mun, amazonia, mask = TRUE)
+
+mun_amazonia |>
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(fill = "green", alpha = .3, color = "gray90") +
+  ggplot2::geom_sf(data = risco, fill = "red", color = "red") +
+  ggplot2::theme_minimal()
+```
+
+## Áreas de risco têm maior prevalência em setores urbanos
+
+As regiões mapeadas, em sua maioria urbanas, são classificadas como risco 
+**alto** ou **muito alto**, a depender do nível de gravidade e urgência da 
+situação.
+
+Apesar de 64% dos setores censitários nos 290 municípios monitorados serem 
+considerados urbanos, o percentual de setores urbanos em áreas de risco é 
+significativamente maior: 89% (@tbl-rural).
+
+```{r}
+#| label: tbl-rural
+#| tbl-cap: Classificação do IBGE dos setores censitários impactados por áreas de risco e classificação geral dos setores de municípios monitorados, desconsiderando informação de risco
+
+rural_urbano <- censo |>
+  dplyr::distinct(id_setor_censitario, SITUACAO)
+sem_risco <- censo |>
+  dplyr::count(SITUACAO, name = "Sem risco")
+risco_censo |>
+  dplyr::distinct(id_setor_censitario, grau_risco) |>
+  dplyr::left_join(rural_urbano) |>
+  dplyr::summarise(
+    n = dplyr::n_distinct(id_setor_censitario), 
+    .by = c(SITUACAO, grau_risco)
+  ) |>
+  tidyr::pivot_wider(names_from = grau_risco, values_from = n) |>
+  janitor::adorn_totals("col") |>
+  dplyr::left_join(sem_risco) |>
+  dplyr::mutate(
+    Alto = stringr::str_glue("{Alto} ({scales::percent(Alto / sum(Alto))})"),
+    `Muito alto` = stringr::str_glue("{`Muito alto`} ({scales::percent(`Muito alto` / sum(`Muito alto`))})"),
+    Total = stringr::str_glue("{Total} ({scales::percent(Total / sum(Total))})"),
+    `Sem risco` = stringr::str_glue("{`Sem risco`} ({scales::percent(`Sem risco` / sum(`Sem risco`))})")
+  ) |>
+  purrr::set_names("Classificação", "Alto", "Muito alto", "Alto + Muito alto", "Classificação geral") |>
+  knitr::kable()
+```
+
+As áreas de risco foram analisadas a partir do cruzamento espacial dos dados com 
+os setores censitários do Censo 2022. As informações do censo que foram 
+analisadas são:
+
+- Tipo de domicílio
+- Tipo de setor censitário
+- Acesso a rede de esgoto
+- Coleta de lixo
+- Pessoas alfabetizadas
+- Faixa etária
+- Cor ou raça
+- Gênero da pessoa responsável pelo domicílio
+
+O total de pessoas afetadas em áreas de risco é uma **estimativa** a partir da
+proporção equivalente que a área de risco ocupa dos setores censitários. Por
+exemplo, se uma área de risco ocupa 10% da área de um setor censitário com 20 
+pessoas, é considerado neste caso que 2 pessoas estão nessa área de risco.
+
+## Perfil das áreas de risco
+
+```{r}
+#| label: perfil
+
+total <- risco_censo |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::pull(pessoas) |>
+  sum()
+alto <- risco_censo |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::filter(grau_risco == "Alto") |>
+  dplyr::pull(pessoas) |>
+  sum()
+muito <- risco_censo |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::filter(grau_risco == "Muito alto") |>
+  dplyr::pull(pessoas) |>
+  sum()
+n_munis <- length(unique(risco$cd_geocmu))
+
+munis_uf <- geobr::read_municipality(year = 2022) |>
+  dplyr::as_tibble() |>
+  dplyr::summarise(.by = abbrev_state, total = dplyr::n_distinct(code_muni)) 
+
+uf <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::summarise(.by = uf, pessoas = sum(pessoas)) |>
+  dplyr::arrange(pessoas) |>
+  dplyr::mutate(
+    uf = forcats::fct_reorder(uf, pessoas),
+    pessoas = scales::number(pessoas)
+  )
+
+# muni_uf <- risco_censo |>
+#   tibble::as_tibble() |>
+#   dplyr::summarise(.by = uf, n = dplyr::n_distinct(cd_geocmu)) |>
+#   dplyr::left_join(munis_uf, dplyr::join_by(uf == abbrev_state)) |>
+#   dplyr::mutate(pct = n / total) |>
+#   dplyr::arrange(pct) |>
+#   dplyr::mutate(
+#     n = scales::number(n),
+#     uf = forcats::fct_reorder(uf, pct),
+#     pct = scales::percent(pct, 1)
+#   )
+
+muni_uf <- tibble::tribble(
+  ~uf, ~n, ~total, ~pct,
+  "TO", 15, 139, "11%",
+  "MT", 22, 141, "15%",
+  "RR", 5, 15, "33%",
+  "MA", 92, 217, "42%",
+  "AP", 8, 16, "50%",
+  "PA", 96, 144, "67%",
+  "AC", 22, 22, "100%",
+  "RO", 52, 52, "100%",
+  "AM", 62, 62, "100%"
+)
+```
+
+
+Na Amazônia Legal, cerca de `r scales::number(total)` pessoas vivem em áreas 
+consideradas de risco. Dessas, `r scales::percent(alto/total)` estão em áreas de
+risco **alto** e `r scales::percent(muito/total)` estão em áreas de risco 
+**muito alto**.
+
+<!-- Do total de `r n_munis` **municípios mapeados**, a maioria está no 
+`r muni_uf$uf[nrow(muni_uf)]`, com `r muni_uf$n[nrow(muni_uf)]` municípios 
+analisados (@tbl-mun-map). -->
+
+Dos 374 municípios mapeados na região amazônica, a maioria está no Pará (PA),
+com 96 municípios setorizados. No entanto, os estados do Acre (AC), Amazonas
+(AM) e Rondônia (RO) tiveram 100% de seus municípios analisados (@tbl-mun-map).
+Apesar disso, apenas 290 municípios apresentaram setores de risco; nos 84
+municípios restantes, não foram identificadas áreas de risco pelo SGB.
+
+```{r}
+#| label: tbl-mun-map
+#| tbl-cap: Quantidade de municípios mapeados por UF
+
+knitr::kable(muni_uf)
+```
+
+## População em risco nos 290 municípios monitorados
+
+- 3,3 % da população em municípios monitorados da Amazônia Legal estão em áreas de risco
+- A proporção é maior no Acre (6%) e Amapá (5,7%)
+
+```{r}
+#| label: tbl-pct
+#| tbl-cap: População em risco por UF
+
+total_pessoas <- censo |>
+  dplyr::summarise(total = sum(v0001, na.rm = TRUE), .by = id_uf_sigla) |>
+  dplyr::filter(total > 0)
+
+total_pessoas |>
+  dplyr::left_join(uf, dplyr::join_by(id_uf_sigla == uf)) |>
+  dplyr::mutate(
+    risco = as.numeric(stringr::str_remove(pessoas, " "))
+  ) |>
+  dplyr::arrange(risco) |>
+  janitor::adorn_totals() |>
+  dplyr::mutate(
+    pct = risco / total,
+    pct = scales::percent(pct, .1),
+    total = scales::number(total),
+    risco = scales::number(risco)
+  ) |>
+  dplyr::select(-pessoas) |>
+  purrr::set_names(
+    "UF", "População total nos locais mapeados", "População em risco",
+    "% da população emr isco"
+  ) |>
+  knitr::kable()
+```
+
+## Perfil demográfico
+
+```{r}
+#| label: perfil-demo
+
+alf <- readr::read_csv(here::here(raw, "censo2022/censo_alfab.csv")) |>
+  tidyr::pivot_longer(V00748:V00760) |>
+  dplyr::left_join(dict, dplyr::join_by(name == variavel)) |>
+  dplyr::filter(!is.na(value))
+
+alf_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(alf) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n)) |>
+  dplyr::pull(n)
+
+sexo <- readr::read_csv(here::here(raw, "censo2022/censo_sexo_cor.csv")) |>
+  tidyr::pivot_longer(V01337:V01346) |>
+  dplyr::left_join(dict, dplyr::join_by(name == variavel)) |>
+  dplyr::filter(!is.na(value)) |>
+  dplyr::mutate(
+    genero = ifelse(stringr::str_detect(descricao, "feminino"), "F", "M")
+  )
+sexo_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(sexo) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(
+    n = value * pct_area_risco, 
+    genero = ifelse(stringr::str_detect(descricao, "feminino"), "F", "M")
+  ) |>
+  dplyr::summarise(n = sum(n), .by = genero) |>
+  dplyr::mutate(pct = n / sum(n))
+
+idade <- readr::read_csv(here::here(raw, "censo2022/censo_idade.csv")) |>
+  tidyr::pivot_longer(V01031:V01041) |>
+  dplyr::left_join(dict, dplyr::join_by(name == variavel)) |>
+  dplyr::filter(!is.na(value))
+idade_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(idade) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = descricao) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    pct_acum = cumsum(pct)
+  )
+
+cor <- readr::read_csv(here::here(raw, "censo2022/censo_sexo_cor.csv")) |>
+  tidyr::pivot_longer(V01337:V01346) |>
+  dplyr::left_join(dict, dplyr::join_by(name == variavel)) |>
+  dplyr::filter(!is.na(value)) |>
+  dplyr::mutate(cor = stringr::str_extract(descricao, "(?<=é )\\w+"))
+cor_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(cor) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(
+    n = value * pct_area_risco, 
+    cor = stringr::str_extract(descricao, "(?<=é )\\w+")
+  ) |>
+  dplyr::summarise(n = sum(n), .by = cor) |>
+  dplyr::mutate(pct = n / sum(n))
+
+```
+
+- `r scales::percent(alf_risco/total)` das pessoas em áreas de risco são alfabetizadas
+- A maioria das pessoas responsáveis por domicílios em áreas de risco são mulheres (55%) (@tbl-sexo)
+- 69% da população em risco é parda (@tbl-cor)
+
+```{r}
+#| label: tbl-cor
+#| tbl-cap: População em risco por cor ou raça
+
+cor_risco |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(n = scales::number(n), pct = scales::percent(pct, .1)) |>
+  purrr::set_names("Cor", "Estimativa população em risco", "%") |>
+  knitr::kable()
+```
+
+- Mais de um terço da população tem até 19 anos (34%), e 51% de quem vive nessas áreas tem menos de 30 anos (@tbl-idade)
+- Em Roraima, a população é ainda mais jovem: 32% das pessoas em áreas de risco têm até 14 anos
+
+```{r}
+#| label: tbl-idade
+#| tbl-cap: População em risco por faixa etária
+
+idade_risco |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1), 
+    pct_acum = scales::percent(pct_acum, .1)
+  ) |>
+  purrr::set_names("Faixa etária", "Estimativa população em risco", "%", "% acumulado") |>
+  knitr::kable()
+```
+```{r}
+#| label: tbl-idade-uf
+#| tbl-cap: População em risco por faixa etária
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(idade) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = c(descricao, uf)) |>
+  dplyr::arrange(uf) |>
+  tidyr::pivot_wider(names_from = uf, values_from = n) |>
+  dplyr::mutate(dplyr::across(
+    AC:TO, 
+    \(x) paste0(round(x), " (", scales::percent(x/sum(x), 1), " - ac. ", scales::percent(cumsum(x/sum(x)), 1), ")")
+  )) |>
+  dplyr::rename("Faixa etária" = descricao) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-sexo
+#| tbl-cap: População em risco por gênero
+
+sexo_risco |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Gênero", "Estimativa população em risco", "%") |>
+  knitr::kable()
+```
+
+## Tipo de domicílio e classificação dos setores censitários
+
+- A grande maioria dos domicílios em áreas de risco (93%) são casas (@tbl-tipo)
+- Fora dos setores censitários considerados "Não especiais", a população em risco se concentra (45%) em favelas e comunidades urbanas (@tbl-tipo-setor)
+- Essa proporção aumenta para áreas de risco **muito alto**: 61% (147 mil pessoas) de quem está nessas áreas vive em favelas
+- 34% das pessoas residentes em áreas de risco **alto** moram em favelas e comunidades urbanas
+
+Segundo o IBGE, favelas e comunidades urbanas são áreas com predominância de 
+domicílios em ocupações informais (domicílios que não têm sua propriedade 
+formalizada através de escritura ou outro instrumento jurídico equivalente). 
+Além disso, incluem pelo menos um dos demais critérios: ausência ou oferta 
+incompleta de serviços públicos; predomínio de edificações, arruamento e 
+infraestrutura que usualmente são autoproduzidos ou se orientam por parâmetros 
+urbanísticos e construtivos distintos dos definidos pelos órgãos públicos; 
+localização em áreas com restrição à ocupação definidas pela legislação 
+ambiental ou urbanística (ocupações irregulares em reservas ambientais ou outras 
+áreas restritas, como encostas inseguras, vias públicas, margens de rios ou 
+outras áreas impróprias para residências).
+
+
+```{r}
+#| label: tipo
+
+tipo <- readr::read_csv(here::here(raw, "censo2022/censo_tipo.csv")) |>
+  tidyr::pivot_longer(cols = starts_with("V")) |>
+  dplyr::left_join(dict, dplyr::join_by(name == variavel)) |>
+  dplyr::filter(!is.na(value))
+
+tipo_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(tipo) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = descricao) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    descricao = stringr::str_remove(descricao, "^.+\\,? ")
+  )
+
+tipo_setor <- readr::read_csv(here::here(raw, "censo2022/tipo_setor.csv")) |>
+  dplyr::left_join(censo) |>
+  dplyr::transmute(id_setor_censitario, descricao = tipo_setor, value = v0001) |>
+  dplyr::filter(!is.na(value))
+tipo_setor_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(tipo_setor) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = descricao) |>
+  dplyr::mutate(pct = n / sum(n))
+```
+
+```{r}
+#| label: tbl-tipo
+#| tbl-cap: Áreas em risco por tipo de domicílio
+
+tipo_risco |>
+  dplyr::filter(pct > .0005) |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1), 
+  ) |>
+  purrr::set_names("Tipo de domicílio", "Estimativa domicílios em risco", "%") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-tipo-setor
+#| tbl-cap: População em risco por tipo de setor censitário
+
+tipo_setor_risco |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    n = scales::number(n, 1), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Tipo de setor", "Estimativa população em risco", "%") |>
+  knitr::kable()
+```
+
+### Outras regiões
+
+Em municípios monitorados pelo SGB fora da Amazônia Legal, a população em áreas 
+de risco estão concentradas também em favelas e comunidades urbanas, mas numa 
+proporção menor.
+
+- Na Amazônia, 45% da população em risco vive em favelas e comunidades urbanas
+- Fora da Amazônia, essa taxa é de 22% (@tbl-tipo-outros)
+- Mesmo em áreas de risco muito alto, a proporção em favelas é de 24% (@tbl-tipo-outros2)
+
+```{r}
+#| label: tbl-tipo-outros
+#| tbl-cap: População em risco por tipo de setor censitário fora da Amazônia
+
+tipo_setor_outros <- readr::read_csv(here::here(tidy, "fora_amazonia/tipo_setor_outros.csv"))
+
+tipo_setor_outros |>
+  dplyr::summarise(n = sum(n), .by = tipo_setor) |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    n = scales::number(n, 1), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Tipo de setor", "Estimativa população em risco", "%") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-tipo-outros2
+#| tbl-cap: População fora da Amazônia por grau de risco e tipo de setor censitário 
+
+tipo_setor_outros |>
+  dplyr::summarise(n = sum(n), .by = c(tipo_setor, grau_risco)) |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  tidyr::pivot_wider(names_from = grau_risco, values_from = n, values_fill = 0) |>
+  dplyr::mutate(
+    Alto = stringr::str_glue("{scales::number(Alto)} ({scales::percent(Alto/sum(Alto), .1)})"),
+    `Muito alto` = stringr::str_glue("{scales::number(`Muito alto`)} ({scales::percent(`Muito alto`/sum(`Muito alto`), .1)})")
+  ) |>
+  purrr::set_names("Tipo de setor", "Estimativa população em risco alto", "Estimativa população em risco muito alto") |>
+  knitr::kable()
+```
+
+## Acesso à rede de esgoto
+
+- Mais de um terço (35%) dos domicílios em área de risco destina o esgoto em fossa rudimentar ou buraco
+- Apenas 17,8% dos domicílios nessas áreas têm acesso à rede geral ou pluvial. Outros 7% têm acesso à rede via fossa séptica ou fossa filtro
+
+```{r}
+#| label: esgoto
+
+esgoto <- here::here(raw, "censo2022/censo_esgoto.csv") |>
+  readr::read_csv(col_types = paste(rep("c", 23), collapse = "")) |>
+  tidyr::pivot_longer(cols = starts_with("V")) |>
+  dplyr::left_join(dict, dplyr::join_by(name == variavel)) |>
+  dplyr::filter(!is.na(value))
+
+esgoto_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(esgoto) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = descricao) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    descricao = stringr::str_remove(descricao, "^.+Destinação do esgoto( .+é)? ")
+  )
+```
+
+```{r}
+#| label: tbl-esgoto
+#| tbl-cap: Domicílios em risco por tipo de esgoto
+
+esgoto_risco |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Condição de acesso à rede de esgoto", "Estimativa domicílios em risco", "%") |>
+  knitr::kable()
+```
+
+### Outras regiões
+
+Em municípios localizados em regiões fora da Amazônia Legal, o acesso à rede de
+esgoto em áreas de risco é bastante diferente: 63% dos domicílios em risco 
+possuem acesso a rede geral ou pluvial.
+
+```{r}
+#| label: tbl-esgoto-outros
+#| tbl-cap: Domicílios em risco por tipo de esgoto, em áreas fora da Amazônia Legal
+
+esgoto_risco_outros <- readr::read_csv(here::here(tidy, "fora_amazonia/esgoto_outros.csv"))
+esgoto_risco_outros |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(n = scales::number(n), pct = scales::percent(pct, .1)) |>
+  purrr::set_names("Condição de acesso à rede de esgoto", "Estimativa domicílios em risco", "%") |>
+  knitr::kable()
+
+```
+
+
+## Coleta de lixo
+
+- A maior parte das moradias em áreas de risco tem acesso à coleta de lixo regular, mas uma parcela significativa ainda depende de métodos alternativos ou inadequados, como descarte em terrenos baldios ou queima (@tbl-lixo)
+- A proporção de pessoas em risco sem acesso à coleta adequada de lixo reflete desigualdades no fornecimento de serviços básicos em áreas vulneráveis.
+
+```{r}
+#| label: lixo
+
+lixo <- readr::read_csv(here::here(raw, "censo2022/censo_lixo.csv")) |>
+  tidyr::pivot_longer(cols = starts_with("V")) |>
+  dplyr::left_join(dict, dplyr::join_by(name == variavel)) |>
+  dplyr::filter(!is.na(value))
+lixo_risco <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(lixo) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = descricao) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    descricao = stringr::str_extract(descricao, "Lixo.+")
+  )
+```
+
+```{r}
+#| label: tbl-lixo
+#| tbl-cap: População em risco por tipo de coleta de lixo
+
+lixo_risco |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Condição de coleta de lixo", "Estimativa domicílios em risco", "%") |>
+  knitr::kable()
+```
+
+### Outras regiões
+
+Fora da Amazônia Legal, outras áreas mapeadas têm diferenças em relação à
+destinação do lixo, mas não tão constratante quanto o acesso à rede de esgoto.
+A proporção de domicílios que queimam o lixo na propriedade na Amazônia é 
+maior, mas ainda assim é pequena comparado com a quantidade de pessoas que 
+possuem coleta domiciliar.
+
+```{r}
+#| label: tbl-lixo-outros
+#| tbl-cap: Domicílios em risco por tipo de coleta de lixo, em áreas fora da Amazônia Legal
+
+lixo_risco_outros <- readr::read_csv(here::here(tidy, "fora_amazonia/lixo_outros.csv"))
+lixo_risco_outros |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(n = scales::number(n), pct = scales::percent(pct, .1)) |>
+  purrr::set_names("Condição de coleta de lixo", "Estimativa domicílios em risco", "%") |>
+  knitr::kable()
+
+```
+
+## Locais destacados
+
+No Pará, estado com o maior número de municípios mapeados pelo SGB, cerca de 
+257 mil pessoas vivem em áreas consideradas de risco. No entanto, 
+percentualmente a situação é mais grave no Acre e Amapá, onde cerca de 6% da 
+população vive em locais de risco alto ou muito alto.
+
+```{r}
+#| label: tbl-uf
+#| tbl-cap: Pessoas em áreas de risco por UF
+
+pessoas_uf <- censo |>
+  dplyr::summarise(
+    .by = id_uf_sigla, total_pessoas = sum(v0001)
+  ) |>
+  dplyr::filter(!is.na(total_pessoas)) |>
+  dplyr::rename(uf = id_uf_sigla)
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::summarise(
+    .by = c(grau_risco, uf), total_pessoas = sum(pessoas)
+  ) |>
+  tidyr::pivot_wider(names_from = grau_risco, values_from = total_pessoas) |>
+  dplyr::mutate(total = Alto + `Muito alto`) |>
+  dplyr::arrange(dplyr::desc(total)) |>
+  dplyr::left_join(pessoas_uf) |>
+  dplyr::arrange(dplyr::desc(total)) |>
+  dplyr::mutate(
+    pct = scales::percent(total / total_pessoas, .1),
+    dplyr::across(-c(uf, pct), scales::number)
+  ) |>
+  knitr::kable()
+```
+
+### Municípios com mais pessoas em risco
+
+- Proporcionalmente, Vitória do Jari (AP) é o município com mais pessoas em risco: são mais de 6 mil pessoas em situação de risco alto, representando 53% da população
+- Em número absoluto de pessoas, moradores de Belém (PA) são os mais afetados, com mais de 129 mil pessoas (10% da população) vivendo em áreas de risco alto ou muito alto
+
+```{r}
+#| label: tbl-mun-ppl-pct
+#| tbl-cap: 10 municípios com maior % de moradores em risco
+
+pessoas_mun <- censo |>
+  dplyr::summarise(
+    .by = c(id_municipio, id_municipio_nome, id_uf_sigla), 
+    total_pessoas = sum(v0001)
+  ) |>
+  dplyr::transmute(
+    CD_MUN = id_municipio, municipio = id_municipio_nome,
+    uf = id_uf_sigla, total_pessoas
+  )
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::summarise(
+    .by = c(cd_geocmu, grau_risco, uf), total_pessoas = sum(pessoas)
+  ) |>
+  tidyr::pivot_wider(
+    names_from = grau_risco, values_from = total_pessoas, values_fill = 0
+  ) |>
+  dplyr::mutate(total = Alto + `Muito alto`) |>
+  dplyr::arrange(dplyr::desc(total)) |>
+  dplyr::left_join(pessoas_mun, dplyr::join_by(cd_geocmu == CD_MUN, uf)) |>
+  dplyr::mutate(
+    total_risco = scales::number(total, 1),
+    pct = total / total_pessoas,
+    pct_risco = scales::percent(total / total_pessoas, 1),
+    dplyr::across(
+      c(Alto, `Muito alto`, total_pessoas), 
+      \(x) scales::number(x, 1)
+    )
+  ) |>
+  # clipr::write_clip()
+  dplyr::slice_max(pct, n = 10) |>
+  dplyr::select(-cd_geocmu, -pct, -total) |>
+  dplyr::relocate(total_risco, .before = total_pessoas) |>
+  dplyr::relocate(municipio, uf, .before = Alto) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-mun-ppl-n
+#| tbl-cap: 10 municípios com maior número de moradores em risco
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::summarise(
+    .by = c(cd_geocmu, grau_risco, uf), total_pessoas = sum(pessoas)
+  ) |>
+  tidyr::pivot_wider(
+    names_from = grau_risco, values_from = total_pessoas, values_fill = 0
+  ) |>
+  dplyr::mutate(total = Alto + `Muito alto`) |>
+  dplyr::arrange(dplyr::desc(total)) |>
+  dplyr::left_join(pessoas_mun, dplyr::join_by(cd_geocmu == CD_MUN, uf)) |>
+  dplyr::mutate(
+    total_risco = scales::number(total, 1),
+    pct = total / total_pessoas,
+    pct_risco = scales::percent(total / total_pessoas, 1),
+    dplyr::across(
+      c(Alto, `Muito alto`, total_pessoas), 
+      \(x) scales::number(x, 1)
+    )
+  ) |>
+  dplyr::slice_max(total, n = 10) |>
+  dplyr::select(-cd_geocmu, -pct, -total) |>
+  dplyr::relocate(total_risco, .before = total_pessoas) |>
+  dplyr::relocate(municipio, uf, .before = Alto) |>
+  knitr::kable()
+```
+
+### Municípios com mais de 90% das pessoas em risco em favelas
+
+- Lábrea (AM), Vitória do Jari (AP), Ananindeua (PA) e Manaus (MA): mais de 90% das pessoas em áreas de risco vivem em favelas e comunidades urbanas
+
+```{r}
+
+tipo_setor <- readr::read_csv(here::here(raw, "censo2022/tipo_setor.csv"))
+muns <- censo |>
+  dplyr::filter(id_municipio %in% c("1302405", "1600808", "1500800", "1302603")) |>
+  dplyr::distinct(id_municipio, id_municipio_nome, id_uf_sigla)
+risco_censo |>
+  dplyr::filter(cd_geocmu %in% c("1302405", "1600808", "1500800", "1302603")) |>
+  dplyr::left_join(tipo_setor) |> 
+  dplyr::mutate(pessoas = pct_area_risco * v0001) |>
+  dplyr::as_tibble() |>
+  dplyr::summarise(pessoas = sum(pessoas), .by = c(tipo_setor, cd_geocmu)) |>
+  dplyr::group_by(cd_geocmu) |>
+  dplyr::mutate(pct = pessoas / sum(pessoas)) |>
+  dplyr::slice_max(pct) |>
+  dplyr::ungroup() |>
+  dplyr::left_join(muns, dplyr::join_by(cd_geocmu == id_municipio)) |>
+  dplyr::transmute(
+    id_municipio_nome, id_uf_sigla, tipo_setor, 
+    pessoas = scales::number(pessoas), pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Município", "UF", "Tipo setor", "Pessoas afetadas", "%") |>
+  knitr::kable()
+
+```
+
+#### Lábrea (AM): risco de erosão e inundação
+
+**Lábrea (AM)** tem uma diferença muito grande em relação ao acesso à rede de 
+esgoto entre a população que mora dentro e fora de áreas de risco. Em áreas de 
+risco, o destino do esgoto de cerca de 60% da população é em rio, lago ou 
+córrego. Em outras regiões sem risco, essa proporção é de 12%.
+
+O acesso à rede de esgoto é possível para 28% da população de Lábrea que não está 
+nas áreas de risco alto ou muito alto. Dentro dessas áreas, são menos de 9%.
+
+```{r}
+#| label: tbl-labrea
+#| tbl-cap: Tipos de risco em Lábrea
+
+risco |>
+  tibble::as_tibble() |>
+  dplyr::select(-geometry) |>
+  dplyr::filter(munic == "LÁBREA") |>
+  dplyr::left_join(risco_censo) |>
+  dplyr::select(dplyr::matches("tipolo|grau_risco|cobrade|pct_|v0001")) |>
+  dplyr::select(dplyr::where(\(x) !all(is.na(x)))) |>
+  dplyr::mutate(pessoas = pct_area_risco * v0001) |>
+  dplyr::summarise(
+    .by = c(tipolo_g1, tipolo_e1, cobrade_01, tipolo_g2, cobrade_02, grau_risco), 
+    pessoas = sum(pessoas)
+  ) |>
+  dplyr::mutate(pessoas = scales::number(pessoas)) |>
+  knitr::kable()
+```
+
+
+#### Vitória do Jari (AP): risco de inundação em domicílios chefiados por mulheres
+
+- Mulheres chefiam 56% dos lares em áreas de risco na cidade de Vitória do Jari
+- Em setores da cidade sem áreas de risco, essa taxa é de 24%
+- As áreas mapeadas no município têm risco de inundação
+
+```{r}
+#| label: tbl-vitoria
+#| tbl-cap: Tipos de risco em Vitória do Jari
+
+risco |>
+  tibble::as_tibble() |>
+  dplyr::filter(munic == "VITÓRIA DO JARI") |>
+  dplyr::select(-geometry) |>
+  dplyr::left_join(risco_censo) |>
+  dplyr::select(dplyr::matches("tipolo|grau_risco|cobrade|pct_|v0001")) |>
+  dplyr::select(dplyr::where(\(x) !all(is.na(x)))) |>
+  dplyr::mutate(pessoas = pct_area_risco * v0001) |>
+  dplyr::summarise(
+    .by = c(tipolo_g1, cobrade_01, grau_risco), 
+    pessoas = sum(pessoas)
+  ) |>
+  dplyr::mutate(pessoas = scales::number(pessoas)) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-gen-vit
+#| tbl-cap: 56% dos domicílios em áreas de risco são comandado por mulheres
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::filter(cd_geocmu == 1600808) |>
+  dplyr::inner_join(sexo) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(
+    n = value * pct_area_risco, 
+    genero = ifelse(stringr::str_detect(descricao, "feminino"), "F", "M")
+  ) |>
+  dplyr::summarise(n = sum(n), .by = genero) |>
+  dplyr::mutate(
+    pct = scales::percent(n / sum(n)), 
+    n = scales::number(n)
+  ) |>
+  knitr::kable()
+
+```
+
+#### Ananindeua (PA): inundação, erosão, deslizamento
+
+```{r}
+#| label: tbl-anani
+#| tbl-cap: Tipos de risco em Ananindeua
+
+risco |>
+  tibble::as_tibble() |>
+  dplyr::filter(munic == "ANANINDEUA") |>
+  dplyr::select(-geometry) |>
+  dplyr::left_join(risco_censo) |>
+  dplyr::select(dplyr::matches("tipolo|grau_risco|cobrade|pct_|v0001")) |>
+  dplyr::select(dplyr::where(\(x) !all(is.na(x)))) |>
+  dplyr::mutate(pessoas = pct_area_risco * v0001) |>
+  dplyr::summarise(
+    .by = c(tipolo_g1, tipolo_e1, cobrade_01, tipolo_g2, cobrade_02, grau_risco), 
+    pessoas = sum(pessoas)
+  ) |>
+  dplyr::mutate(pessoas = scales::number(pessoas)) |>
+  knitr::kable()
+```
+
+
+### Tabatinga (AM): 65% da população am áreas de risco vive em agrupamentos indígenas
+
+- 10 setores censitários afetados, dos quais 6 são agrupamentos indígenas
+- Os cerca de 215 indígenas em áreas de risco estão divididos em área rural (13%) e urbana (87%)
+- Todas as áreas de risco mapeadas em Tabatinga estão sob risco de erosão e deslizamento devido a terras caídas
+
+```{r}
+#| label: tbl-tabatinga-risco
+#| tbl-cap: Tipos de risco em Tabatinga
+
+risco |>
+  tibble::as_tibble() |>
+  dplyr::filter(munic == "TABATINGA") |>
+  dplyr::select(-geometry) |>
+  dplyr::left_join(risco_censo) |>
+  dplyr::select(dplyr::matches("tipolo|grau_risco|cobrade|pct_|v0001")) |>
+  dplyr::select(dplyr::where(\(x) !all(is.na(x)))) |>
+  dplyr::mutate(pessoas = pct_area_risco * v0001) |>
+  dplyr::summarise(
+    .by = c(tipolo_g1, tipolo_e1, cobrade_01, tipolo_g2, cobrade_02, grau_risco), 
+    pessoas = sum(pessoas)
+  ) |>
+  dplyr::mutate(pessoas = scales::number(pessoas)) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-tab
+#| fig-cap: TIs em Tabatinga (AM) em locais de risco - Évare I e Tukuna Umariaçu
+
+ind_tab <- risco_censo |>
+  dplyr::filter(cd_geocmu == "1304062") |>
+  dplyr::mutate(id_setor_censitario = as.numeric(CD_SETOR)) |>
+  dplyr::left_join(tipo_setor, dplyr::join_by(id_setor_censitario)) |>
+  dplyr::filter(tipo_setor == "Agrupamento indígena")
+# sf::sf_use_s2(TRUE)
+tis <- geobr::read_indigenous_land() |>
+  dplyr::filter(abbrev_state == "AM") |>
+  sf::st_crop(ind_tab)
+
+tis |>
+  ggplot2::ggplot() + 
+  ggplot2::geom_sf() +
+  ggplot2::geom_sf_label(ggplot2::aes(label = terrai_nom)) +
+  ggplot2::geom_sf(data = ind_tab, fill = "red", color = "red")
+
+```
+
+```{r}
+#| label: tbl-taba
+#| tbl-cap: Indígenas em áreas de risco em Tabatinga (AM)
+
+risco_censo |>
+  dplyr::filter(cd_geocmu == "1304062") |>
+  dplyr::distinct(id_setor_censitario, grau_risco, tipolo_g1, pct_area_risco) |>
+  dplyr::left_join(censo, dplyr::join_by(id_setor_censitario)) |>
+  dplyr::left_join(tipo_setor, dplyr::join_by(id_setor_censitario)) |>
+  dplyr::mutate(pessoas = pessoas * pct_area_risco) |>
+  dplyr::filter(tipo_setor == "Agrupamento indígena") |>
+  dplyr::summarise(pessoas = sum(pessoas), .by = SITUACAO) |>
+  dplyr::mutate(pct = pessoas / sum(pessoas)) |>
+  janitor::adorn_totals() |>
+  dplyr::mutate(pessoas = scales::number(pessoas), pct = scales::percent(pct, .1)) |>
+  knitr::kable()
+  
+```
+
+### Principais capitais: Belém e Manaus
+
+#### Belém
+
+- O maior risco em Belém é de inundação: 89% das pessoas em áreas de risco estão sujeitas a inundação
+- No total, são cerca de 129 mil pessoas em áreas de risco alto ou muito alto em Belém
+
+
+```{r}
+#| label: tbl-belem
+#| tbl-cap: Tipos de risco em Belém
+
+risco_censo |>
+  tibble::as_tibble() |>
+  # dplyr::select(dplyr::matches("tipolo|cobrade")) |>
+  # dplyr::select(dplyr::where(\(x) !all(is.na(x)))) |>
+  dplyr::filter(cd_geocmu == "1501402") |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::summarise(pessoas = sum(pessoas), .by = tipolo_g1) |>
+  dplyr::mutate(pct = pessoas / sum(pessoas)) |>
+  janitor::adorn_totals() |>
+  dplyr::mutate(
+    pct = scales::percent(pct),
+    pessoas = scales::number(pessoas)
+  ) |>
+  knitr::kable()
+```
+
+#### Manaus (AM)
+
+- Em Manaus, 91% das pessoas em áreas de risco (cerca de 44 mil) estão sujeitas a deslizamentos
+- As outras pessoas em áreas de risco estão sujeitas a inundações
+
+
+```{r}
+#| label: tbl-manaus
+#| tbl-cap: Tipos de risco em Manaus
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::filter(cd_geocmu == "1302603") |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::select(dplyr::matches("tipolo|cobrade"), pessoas) |>
+  dplyr::select(dplyr::where(\(x) !all(is.na(x)))) |>
+  dplyr::summarise(pessoas = sum(pessoas), .by = tipolo_g1) |>
+  dplyr::mutate(
+    pct = scales::percent(pessoas / sum(pessoas)),
+    pessoas = scales::number(pessoas)
+  ) |>
+  knitr::kable()
+```
+
+##### Esgoto e Lixo
+
+- Cerca de um 29% dos moradores de áreas consideradas com risco geológico alto e muito alto têm acesso à rede geral de esgoto. Em setores que não possuem áreas de risco, essa proporção é de mais de 53% 
+- Mais de 13 mil pessoas (28%) em área de risco utilizam fossa rudimentar ou buraco. Nos setores sem áreas de risco, apenas 16%
+- No geral, pessoas em áreas de risco têm coleta de lixo no domicílio (87%), apesar de ser uma taxa inferior aos setores sem áreas de risco (92%)
+
+##### Alfabetização
+
+- Em áreas de risco alto e muito alto, a taxa de alfabetização gira em torno de 68%.
+- Fora dessas regiões, a taxa é de 74%
+
+##### Cor
+
+- Em locais com risco alto ou muito alto, a prevalência de pessoas brancas é relativamente menor: 16% contra 24% em setores sem risco
+- A proporção de pessoas pardas e pretas é maior em áreas de risco
+
+##### Idade
+
+- As pessoas que moram em áreas de risco tendem a ser mais jovens: 29% são [crianças de até 14 anos]((https://docs.google.com/spreadsheets/d/13bLUr-C-Nh7GqZ7pXsC7cf26Ab1ReqAJRs-psaJ-oTk/edit?gid=2088708287#gid=2088708287))
+- Esse é o maior percentual entre as capitais
+
+
+##### Gênero
+
+- Mais de metade (56%) dos domicílios em áreas de risco alto e muito alto são comandados por mulheres
+- Essa taxa é um pouco menor em setores sem áreas de risco: 53%
+
+##### Pior setor
+
+- O setor censitário com piores índices fica no Loteamento João Paulo, no bairro Jorge Teixeira
+- Praticamente metade do setor (48%) é classificado como área de risco alto ou muito alto, com risco de deslizamento
+- Segundo o Censo 2022, 255 pessoas moram na região, em casas
+- Destinação do esgoto do banheiro ou sanitário ou buraco para dejeções é fossa rudimentar ou buraco
+- Na maior parte dos casos, o lixo é depositado em caçamba ou jogado em terreno baldio, encosta ou área pública
+- Mais de um terço das pessoas não são alfabetizadas (36%)
+
+##### Observações
+
+- Em áreas de risco, a população é estimada de forma proporcional à porcentagem que a área de risco ocupa sobre os setores censitários
+- Fora das áreas de risco, foram usados os dados dos setores inteiros, considerando somente os setores sem nenhuma sobreposição com áreas de risco
+- Para encontrar o pior setor, todos os setores com alguma área de risco muito alto foram agrupados por proximidade dos valores de todas as variáveis envolvidas (k-médias). O pior setor foi escolhido como aquele que se encontrava entre os cinco primeiros para os seguintes recortes:
+  - menor taxa de coleta de lixo em domicílio
+  - menor taxa de acesso à rede de esgoto
+  - menor taxa de alfabetização entre jovens
+
+
+## Rondônia (100% mapeado)
+
+Em Rondônia, a principal ameaça são as inundações, que afetam cerca de 31 mil 
+pessoas em áreas de risco (@tbl-risco-ro). A maior parte dos domicílios é
+chefiada por homens, o que reflete a proporção de domicílios liderados por 
+gênero no estado como um todo (@tbl-sexo-ro).
+
+```{r}
+#| label: tbl-risco-ro
+#| tbl-cap: Tipologia dos principais riscos em municípios rondonenses
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::select(-geometry) |>
+  dplyr::filter(uf == "RO") |>
+  dplyr::mutate(n = v0001 * pct_area_risco) |>
+  dplyr::left_join(risco) |>
+  dplyr::summarise(n = sum(n), .by = c(tipolo_g1, tipolo_e1, cobrade_01)) |>
+  dplyr::arrange(n) |>
+  dplyr::mutate(
+    pct = scales::percent(n/sum(n), .1),
+    n = scales::number(n)
+  ) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-sexo-ro
+#| tbl-cap: Domicílios em áreas de risco por gênero em RO
+
+geral_ro <- censo |>
+  dplyr::filter(id_uf_sigla == "RO") |>
+  dplyr::select(-id_municipio) |>
+  dplyr::inner_join(sexo) |>
+  dplyr::summarise(n = sum(value), .by = genero) |>
+  dplyr::mutate(pct = scales::percent(n / sum(n)))
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::filter(uf == "RO") |>
+  dplyr::inner_join(sexo) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = genero) |>
+  dplyr::mutate(pct = scales::percent(n / sum(n))) |>
+  dplyr::rename(n_risco = n, pct_risco = pct) |>
+  dplyr::left_join(geral_ro) |>
+  dplyr::rename(n_geral = n, pct_geral = pct) |>
+  dplyr::mutate(
+    n_risco = scales::number(n_risco), n_geral = scales::number(n_geral)
+  ) |>
+  knitr::kable()
+
+```
+
+Praticamente metade (47%) dos domicílios em regiões consideradas de risco em 
+Rodônia destinam o esgoto em fossa rudimentar ou buraco (@tbl-ro-esgoto), 
+similar à situação geral do estado: mesmo em setores sem áreas de risco, a 
+principal destinação do esgoto é essa (@tbl-esgoto-ro-fora).
+
+```{r}
+#| label: tbl-ro-esgoto
+#| tbl-cap: Esgoto em áreas de risco em Rondônia
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::filter(uf == "RO") |>
+  dplyr::inner_join(esgoto) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = descricao) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    descricao = stringr::str_remove(descricao, "^.+Destinação do esgoto( .+é)? ")
+  ) |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Condição de acesso à rede de esgoto", "Estimativa domicílios em risco", "%") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-esgoto-ro-fora
+#| tbl-cap: Esgoto em setores censitários sem áreas de risco em Rondônia
+
+esgoto |>
+  dplyr::filter(
+    id_uf_sigla == "RO", 
+    !id_setor_censitario %in% risco_censo$id_setor_censitario
+  ) |>
+  dplyr::summarise(n = sum(value), .by = descricao) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    descricao = stringr::str_remove(descricao, "^.+Destinação do esgoto( .+é)? ")
+  ) |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Condição de acesso à rede de esgoto", "Estimativa domicílios em risco", "%") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-ro-lixo
+#| tbl-cap: Lixo em áreas de risco em Rondônia
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::filter(uf == "RO") |>
+  dplyr::inner_join(lixo) |>
+  dplyr::summarise(n = sum(value), .by = descricao) |>
+  dplyr::mutate(
+    descricao = stringr::str_extract(descricao, "Lixo.+"),
+    pct = n / sum(n)
+  ) |>
+  dplyr::arrange(dplyr::desc(n)) |>
+  dplyr::mutate(
+    n = scales::number(n), 
+    pct = scales::percent(pct, .1)
+  ) |>
+  purrr::set_names("Condição de coleta de lixo", "Estimativa domicílios em risco", "%") |>
+  knitr::kable() 
+```
+
+- 72% das pessoas em áreas de risco em Rondônia são alfabetizadas
+- 30% das pessoas em áreas de risco têm até 19 anos
+
+```{r}
+#| label: tbl-ro-alfab
+#| tbl-cap: Alfabetização em áreas de risco em Rondônia
+
+total <- risco_censo |>
+  dplyr::filter(uf == "RO") |>
+  dplyr::mutate(pessoas = v0001 * pct_area_risco) |>
+  dplyr::pull(pessoas) |>
+  sum()
+alf_risco_ro <- risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::inner_join(alf) |>
+  dplyr::filter(!is.na(descricao), uf == "RO") |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n)) |>
+  dplyr::pull(n)
+
+tibble::tibble(
+  total_risco = total,
+  alfab = alf_risco_ro,
+  tx = scales::percent(alfab / total)
+) |>
+  dplyr::mutate(
+    total_risco = scales::number(total_risco),
+    alfab = scales::number(alfab)
+  ) |>
+  purrr::set_names("Estimativa de pesoas em risco", "Pessoas alfabetizadas", "%") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-ro-idade
+#| tbl-cap: População em áreas de risco em Rondônia por faixa etária
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::filter(uf == "RO") |>
+  dplyr::inner_join(idade) |>
+  dplyr::filter(!is.na(descricao)) |>
+  dplyr::mutate(n = value * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = descricao) |>
+  dplyr::mutate(
+    pct = n / sum(n),
+    pct_acum = cumsum(pct)
+  ) |>
+  dplyr::mutate(
+    n = scales::number(n),
+    pct = scales::percent(pct),
+    pct_acum = scales::percent(pct_acum)
+  ) |>
+  purrr::set_names("Faixa etária", "Estimativa população em risco", "%", "% acumulado") |>
+  knitr::kable()
+
+```
+
+## Roraima (33% mapeado)
+
+```{r}
+#| label: tbl-risco-rr
+#| tbl-cap: Tipologia dos principais riscos em Roraima
+
+risco_censo |>
+  tibble::as_tibble() |>
+  dplyr::filter(uf == "RR") |>
+  dplyr::mutate(n = v0001 * pct_area_risco) |>
+  dplyr::summarise(n = sum(n), .by = tipolo_g1) |>
+  dplyr::arrange(n) |>
+  dplyr::mutate(
+    pct = scales::percent(n/sum(n), .1),
+    n = scales::number(n)
+  ) |>
+  knitr::kable()
+```
+
+Em Caracaraí (RR), onde mais de 1500 pessoas vivem em áreas consideradas de 
+risco, 59% dos domicílioa nessas regiões são comandados por mulheres. Em setores
+da cidade em que não há risco, essa taxa é de 37%, ou seja, a predominância é de 
+homens responsáveis pelos domicílios.
