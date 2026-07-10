@@ -1,0 +1,292 @@
+---
+title: "Relatório de análise de dados - Corpos d'água no Alto Juruena"
+format: 
+  html: 
+    self-contained: true
+    embed-resources: true
+  docx: default
+execute:
+  echo: false
+  warning: false
+df-print: paged
+lang: pt
+---
+
+
+## Perguntas
+
+_1. Qual é a porcentagem média de redução da área de corpos d’água na Bacia do Alto Juruena?_
+_1. Qual é a porcentagem média de redução da área de corpos d’água na Amazônia Legal – apenas para parâmetro comparativo_
+_1. Qual é a redução total em área dos corpos d’água da Bacia do Alto Juruena?_
+_1. Qual é a redução total em área dos corpos d’água dentro das Terras Indígenas da Bacia do Alto Juruena?_
+_1. Qual é a redução total em área e em porcentagem das áreas de corpos d’água dentro da TI Tirecatinga?_
+_1. Quais são as 10 Terras Indígenas com maior redução de área e de % corpos d’água da Amazônia Legal e na Bacia do Alto Juruena?_
+_1. Qual é a posição do Território Tirecatinga entre as terras indígenas do Alto Juruena em relação à perda de área proporcional e também absoluta?_
+_1. Qual é a perda de áreas de corpos d’água em áreas valor absoluto e proporção de agropecuária - se possível e se valer a pena para soja, algodão e milho_
+
+Obs: os dados de transição do MapBiomas não separam categorias aleém do nível 1 (agropecuária), como nos dados de cobertura, portanto, a comparação direta não foi feita, mas foram avaliadas as séries temporais de cada categoria segundo os dados de cobertura do MapBiomas (@fig-cobertura-classe) e a transição para a categoria mais ampla de agropecuária (@tbl-cobertura-juruena, @fig-cobertura-juruena).
+
+_1. Qual é a área de vegetação convertida em agropecuária de 1985 a 2025 na Bacia do Alto Juruena?_
+_1.  Qual é a área de corpos d´água convertida em agropecuária de 1985 a 2025 na Bacia do Alto Juruena?_
+_1. Qual é a área de vegetação perdida ao redor dos Rios Buriti, Papagaio, Sacre e Juruena num buffer de 1km, 5 km, 10km?_
+
+
+```{r}
+#| label: dados
+
+library(sf)
+dir <- here::here("202606_agua_tis/dados")
+
+agua_juruena <- fs::dir_ls(here::here(dir, "alto_juruena"), regexp = "Water") |>
+  readr::read_csv()
+cobertura_juruena <- here::here(dir, "alto_juruena") |>
+  fs::dir_ls(regexp = "Cobertura") |>
+  readr::read_csv()
+transicao_juruena <- here::here(dir, "alto_juruena") |>
+  fs::dir_ls(regexp = "transicao") |>
+  readr::read_csv()
+
+agua_amazonia <- here::here(dir, "amazonia") |>
+  fs::dir_ls(regexp = "agua") |>
+  readr::read_csv() |>
+  tidyr::pivot_longer(
+    cols = -1, names_to = "ano", values_to = "areaHa"
+  )
+agua_tirecatinga <- here::here(dir, "ti_tirecatinga") |>
+  fs::dir_ls(regexp = "agua_tirecatinga") |>
+  readr::read_csv() |>
+  tidyr::pivot_longer(
+    cols = -1, names_to = "ano", values_to = "areaHa"
+  )
+area_agua_tis <- readr::read_csv(here::here(dir, "agua_tis_alto_juruena.csv"))
+agua_por_tis_1985_2025 <- readr::read_csv(here::here(dir, "agua_por_tis_1985_2025.csv"))
+
+```
+
+## Análise
+
+### Redução de superfícia de água
+
+```{r}
+#| label: n-superficie-juruena
+
+reducao_85_25 <- agua_juruena |>
+  dplyr::summarise(
+    media = mean(areaHa),
+    var = var(areaHa),
+    min = min(areaHa),
+    max = max(areaHa),
+    .by = year
+  ) |>
+  dplyr::filter(year %in% c(1985, 2025)) |>
+  dplyr::mutate(
+    reducao_media = abs(media - dplyr::lag(media)),
+    reducao_media_perc = scales::percent(reducao_media / dplyr::lag(media))
+  )
+
+reducao_amazonia <- agua_amazonia |>
+  dplyr::filter(ano %in% c("1985", "2025")) |>
+  dplyr::mutate(
+    dif = areaHa - dplyr::lag(areaHa),
+    dif_perc = scales::percent(dif / dplyr::lag(areaHa))
+  )
+
+reducao_tirecatinga <- agua_tirecatinga |>
+  dplyr::filter(ano %in% c("1985", "2025")) |>
+  dplyr::mutate(
+    dif = abs(areaHa - dplyr::lag(areaHa)),
+    dif_perc = scales::percent(dif / dplyr::lag(areaHa))
+  )
+
+```
+
+- Entre 1985 e 2025, a área média de corpos d'água na Bacia do Alto Juruena reduziu-se em `r round(abs(reducao_85_25$reducao_media[2]))` hectares, o que representa uma redução de `r reducao_85_25$reducao_media_perc[2]` da área média de corpos d'água.
+- Comparativamente, na Amazônia Legal como um todo, o volume aumentou em `r scales::number(round(reducao_amazonia$dif[2]))` hectares, o que representa um aumento de `r reducao_amazonia$dif_perc[2]` (@tbl-amazonia)
+- Há uma clara distinção entre os períodos de 1985-1999 e 2000-2025, com uma redução mais acentuada no volume e na variabilidade anual de corpos d'água a partir de 2000 (@fig-superficie-juruena)
+
+```{r}
+#| label: fig-superficie-juruena
+#| fig-cap: "Volume de água superficial na Bacia do Alto Juruena"
+
+agua_juruena |>
+  ggplot2::ggplot(ggplot2::aes(
+    x = year, y = areaHa, group = year, color = month
+  )) +
+  ggplot2::geom_point() +
+  ggplot2::geom_line() +
+  ggplot2::labs(
+    x = "Ano", y = "Área (ha)", color = "Mês"
+  ) +
+  ggplot2::theme_minimal()
+
+```
+
+```{r}
+#| label: tbl-juruena-comparativo
+#| tbl-cap: "Comparativo do volume de água superficial na Bacia do Alto Juruena entre 1985 e 2025"
+
+reducao_85_25 |>
+  dplyr::transmute(
+    ano = year, media = scales::number(media), variancia = scales::number(var), 
+    minimo = scales::number(min), maximo = scales::number(max),
+    reducao_media = scales::number(reducao_media), reducao_media_perc
+  ) |>
+  tidyr::replace_na(list(reducao_media = "-", reducao_media_perc = "-")) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-amazonia
+#| tbl-cap: "Comparativo do volume de água superficial na Amazônia Legal entre 1985 e 2025"
+
+reducao_amazonia |>
+  dplyr::mutate(
+    areaHa = scales::number(areaHa), 
+    dif = scales::number(dif)
+  ) |>
+  tidyr::replace_na(list(dif = "-", dif_perc = "-")) |>
+  knitr::kable()
+
+reducao_tis <- area_agua_tis |>
+  dplyr::filter(ano %in% c(1985, 2025)) |>
+  dplyr::transmute(
+    ano, area, dif = abs(area - dplyr::lag(area)),
+    dif_perc = scales::percent(dif / dplyr::lag(area)),
+    dif = scales::number(dif)
+  )
+```
+
+#### Terras indígenas
+
+- O mesmo padrão de redução de corpos d'água observado na Bacia do Alto Juruena também é observado nas Terras Indígenas da região, com uma redução de `r reducao_tis$dif[2]` hectares entre 1985 e 2025, o que representa uma redução de `r reducao_tis$dif_perc[2]` (@fig-superficie-tis)
+- Na **TI Tirecatinga**, a redução de corpos d'água entre 1985 e 2025 foi de `r round(reducao_tirecatinga$dif[2])` hectares, o que representa uma redução de `r reducao_tirecatinga$dif_perc[2]` (@tbl-tirecatinga)
+
+
+```{r}
+#| label: fig-superficie-tis
+#| fig-cap: "Volume de água superficial nas Terras Indígenas da Bacia do Alto Juruena"
+
+area_agua_tis |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = area)) +
+  ggplot2::geom_col(fill = "steelblue") +
+  ggplot2::labs(
+    x = "Ano", y = "Área (ha)"
+  ) +
+  ggplot2::theme_minimal()
+
+```
+
+```{r}
+#| label: tbl-tirecatinga
+#| tbl-cap: "Comparativo do volume de água superficial na TI Tirecatinga entre 1985 e 2025"
+
+reducao_tirecatinga |>
+  dplyr::mutate(
+    areaHa = scales::number(areaHa), 
+    dif = scales::number(dif)
+  ) |>
+  tidyr::replace_na(list(dif = "-", dif_perc = "-")) |>
+  knitr::kable()
+```
+
+
+**Observação:**
+
+O método de cálculo da área para o total das TIs na Bacia do Alto Juruena e para a TI Tirecatinga é diferente e não são necessariamente comparáveis. Para o cálculo da TI Tirecatinga, o filtro foi feito diretamente do MapBiomas (que permite a seleção de um território por vez), enquanto para o total das TIs na Bacia do Alto Juruena, o filtro foi feito a partir da intersecção espacial entre o raster de corpos d'água e o mapa das TIs da Amazônia Legal. Portanto, os valores diferem: olhando a TI Tirecatinga isoladamente, a redução entre 1985 e 2025 foi de 138 hectares; mas segundo o cálculo feito a partir da intersecção espacial, a redução foi de 283 hectares.
+
+A comparação _entre_ TIs levou em conta o segundo cálculo, que é o mesmo para todas as TIs da Bacia do Alto Juruena. A TI Tirecatinga ocupa a 4ª posição entre as TIs da Bacia do Alto Juruena em termos de perda absoluta de corpos d'água, e a 6ª posição em termos de perda proporcional (@tbl-tis-comparativo).
+
+```{r}
+#| label: tbl-tis-comparativo
+#| tbl-cap: "Comparativo do volume de água superficial nas Terras Indígenas da Bacia do Alto Juruena entre 1985 e 2025"
+
+agua_por_tis_1985_2025 |>
+  dplyr::transmute(
+    nome = name_indigenous_land, fase = fase_ti, 
+    area_ti = scales::number(round(area_ha)), 
+    area_1985 = scales::number(round(area_1985, 1)), 
+    area_2025 = scales::number(round(area_2025, 1)), 
+    dif = scales::number(dif), dif_pct = scales::percent(dif_pct, 1)
+  ) |>
+  tidyr::replace_na(list(area_1985 = "-", area_2025 = "-", dif = "-", dif_pct = "-"))  |>
+  knitr::kable()
+```
+
+
+### Mudança na cobertura e uso de terra
+
+```{r}
+#| label: transicoes_juruena
+
+totais <- transicao_juruena |> 
+  dplyr::summarise(total = sum(`Área (ha)`), .by = `1985`) 
+
+tbl_agro <- transicao_juruena |>
+  dplyr::filter(
+    `1985` != "Agropecuária", `2024` == "Agropecuária"
+  ) |>
+  dplyr::left_join(totais, by = c("1985")) |>
+  dplyr::mutate(
+    pct = scales::percent(`Área (ha)` / total)
+  ) |>
+  dplyr::select(-`2024`) |>
+  purrr::set_names("Categoria em 1985", "Agropecuária em 2024", "Área total original", "%")
+  
+pct_agua_agro <- tbl_agro |>
+  dplyr::filter(`Categoria em 1985` == "Água e Ambiente Marinho") |>
+  dplyr::pull(`%`)
+pct_vegetacao_agro <- tbl_agro |>
+  dplyr::filter(`Categoria em 1985` == "Vegetação Herbácea e Arbustiva") |>
+  dplyr::pull(`%`)
+pct_floresta_agro <- tbl_agro |>
+  dplyr::filter(`Categoria em 1985` == "Floresta") |>
+  dplyr::pull(`%`)
+```
+
+- Entre 1985 e 2024, `r pct_agua_agro` da área de corpos d'água na Bacia do Alto Juruena foi convertida em áreas de agropecuária
+- Outros `r pct_vegetacao_agro` da área de vegetação e `r pct_floresta_agro` da área de floresta foram convertidas em áreas de agropecuária (@tbl-cobertura-juruena)
+
+```{r}
+#| label: tbl-cobertura-juruena
+#| tbl-cap: "Mudança na cobertura e uso de terra na Bacia do Alto Juruena entre 1985 e 2024"
+
+knitr::kable(tbl_agro)
+```
+
+
+```{r}
+#| label: fig-cobertura-juruena
+#| fig-cap: "Cobertura por agropecuária e água na Bacia do Alto Juruena entre 1985 e 2024"
+
+cobertura_juruena |>
+  dplyr::filter(
+    `Nível 1` %in% c("Agropecuária", "Água e Ambiente Marinho"),
+    is.na(`Nível 2`)
+  ) |>
+  dplyr::select(-c(`Nível 2`:`Nível 4`)) |>
+  tidyr::pivot_longer(`1985`:`2024`, names_to = "ano", values_to = "area") |>
+  dplyr::mutate(ano = as.integer(ano)) |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = area)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::facet_wrap(~`Nível 1`, scales = "free_y", nrow = 2) +
+  ggplot2::theme_minimal()
+```
+
+```{r}
+#| label: fig-cobertura-classe
+#| fig-cap: "Cobertura por tipo de lavoura na Bacia do Alto Juruena entre 1985 e 2024"
+
+cobertura_juruena |>
+  dplyr::filter(
+    `Nível 1` == "Agropecuária", !is.na(`Nível 4`)
+  ) |>
+  dplyr::select(-c(`Nível 1`:`Nível 3`)) |>
+  dplyr::filter(`Nível 4` %in% c("Algodão", "Cana", "Soja", "Outras Lavouras Temporárias")) |>
+  tidyr::pivot_longer(`1985`:`2024`, names_to = "ano", values_to = "area") |>
+  dplyr::mutate(ano = as.integer(ano)) |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = area, color = `Nível 4`)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() + 
+  ggplot2::theme_minimal()
+```
