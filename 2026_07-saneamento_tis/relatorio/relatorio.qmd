@@ -1,0 +1,561 @@
+---
+title: "Relatório de análise de dados - Saneamento em TIs"
+format: 
+  html: 
+    self-contained: true
+    embed-resources: true
+  docx: default
+execute:
+  echo: false
+  warning: false
+df-print: paged
+lang: pt
+---
+
+
+```{r}
+#| label: dados
+
+dd <- here::here("202607_saneamento_tis/dados")
+
+abastecimento <- dd |>
+  here::here("tidy/abastecimento.csv") |>
+  readr::read_csv()
+esgoto <- dd |>
+  here::here("tidy/esgoto.csv") |>
+  readr::read_csv()
+lixo <- dd |>
+  here::here("tidy/lixo.csv") |>
+  readr::read_csv()
+
+depara <- dd |>
+  here::here("raw") |>
+  fs::dir_ls(regexp = "Tabela") |>
+  readxl::read_excel(skip = 3) |>
+  janitor::clean_names() |>
+  dplyr::filter(!is.na(codigo_da_terra_indigena)) |>
+  dplyr::select(3, 4, 8) |>
+  purrr::set_names("cod", "code_indigenous_land", "total_pessoas") |>
+  dplyr::mutate(total_pessoas = as.numeric(ifelse(total_pessoas == "-", "0", total_pessoas)))
+
+amazonia <- geobr::read_amazon(2024)
+tis_geral <- geobr::read_indigenous_land(2025)
+tis <- tis_geral |>
+  sf::st_intersection(amazonia) |>
+  dplyr::filter_out(abbrev_state == "MS") |>
+  dplyr::left_join(depara, dplyr::join_by(code_indigenous_land))
+```
+
+## Abastecimento de água
+
+[_Planilha completa_](http://docs.google.com/spreadsheets/d/1IWTFfDYVRuY-Gnm1Lwn3S4ZzpphTJhTBv53h9UFaOMU/edit?gid=1409439538#gid=1409439538)
+
+- Apenas 1/5 da população em TIs na Amazônia Legal tem acesso a abastecimento de água por rede geral de distribuição (@tbl-abastecimento)
+- Ao menos 178 TIs não têm acesso à rede geral de distribuição, afetando cerca de 116 mil moradores em 23 mil domicílios, a maioria no Amazonas (@fig-abastecimento, @tbl-sem-rede)
+- Dentre essas 178, 51 também não possuem acesso a poços, fontes, nascentes ou minas
+- A maioria dos domicílios depende de poços, fontes, nascentes ou minas (26%), rios, açudes, córregos, lagos e igarapés (19%)
+- A Coordenação Regional do Xingu é a que apresenta maior proporção de domicílios com acesso a rede geral de distribuição de água, seguida da Coordenação Regional do Norte do Mato Grosso (@tbl-coord)
+
+```{r}
+#| label: tbl-abastecimento
+#| tbl-cap: "Abastecimento de água em TIs na Amazônia Legal, por domicílios e moradores"
+
+abastecimento |>
+  dplyr::summarise(n = sum(n), .by = c(agua, variavel)) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::arrange(dplyr::desc(moradores)) |>
+  dplyr::mutate(
+    pct_dom = scales::percent(domicilios / sum(domicilios), accuracy = 0.1),
+    pct_mor = scales::percent(moradores / sum(moradores), accuracy = 0.1)
+  ) |>
+  purrr::set_names("Abastecimento de água", "Domicílios", "Moradores", "% Domicílios", "% Moradores") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-abastecimento-tipo
+#| fig-cap: "Abastecimento de água em TIs na Amazônia Legal, por tipo de fonte"
+
+abastecimento |>
+  dplyr::summarise(n = sum(n), .by = c(agua, variavel)) |>
+  dplyr::mutate(agua = stringr::str_wrap(agua, 20)) |>
+  ggplot2::ggplot(ggplot2::aes(y = agua, x = n, fill = variavel)) +
+  ggplot2::geom_col(position = "dodge") +
+  ggplot2::theme(legend.position = "bottom")
+```
+
+```{r}
+#| label: fig-abastecimento
+#| fig-cap: "TIs sem acesso a rede geral de distribuição de água na Amazônia Legal"
+
+sem_rede <- abastecimento |>
+  dplyr::mutate(uf = dplyr::coalesce(abbrev_state, stringr::str_extract(
+    terra_indigena_por_unidade_da_federacao, "[A-Z]{2}"
+  ))) |>
+  dplyr::summarise(
+    n = sum(n),
+    .by = c(
+      code_indigenous_land, name_indigenous_land, uf, fase_ti, agua, variavel
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::group_by(code_indigenous_land, name_indigenous_land, uf, fase_ti) |>
+  dplyr::mutate(
+    total_domicilios = sum(domicilios, na.rm = TRUE),
+    total_moradores = sum(moradores, na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(
+    agua == "Rede geral de distribuição", total_domicilios > 0,
+    total_moradores > 0, domicilios == 0, moradores == 0
+  )
+
+tis |>
+  dplyr::mutate(sem_rede = dplyr::case_when(
+    code_indigenous_land %in% sem_rede$code_indigenous_land ~ "Sem acesso a rede geral"
+  )) |>
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(data = geobr::read_state(2025)) +
+  ggplot2::geom_sf(data = geobr::read_amazon(2024), fill = "lightgreen", alpha = .1) +
+  ggplot2::geom_sf(ggplot2::aes(fill = sem_rede))
+```
+
+```{r}
+#| label: tbl-sem-rede
+#| tbl-cap: "TIs sem acesso a rede geral de distribuição de água por UF"
+
+sem_rede |>
+  dplyr::count(uf, sort = TRUE) |>
+  purrr::set_names("UF", "TIs sem acesso a rede geral") |>
+  knitr::kable()
+
+```
+
+```{r}
+#| label: tbl-sem-poco
+#| tbl-cap: "TIs sem acesso a poço, fonte, nascente ou mina, além da rede geral"
+
+sem_poco <- abastecimento |>
+  dplyr::mutate(uf = dplyr::coalesce(abbrev_state, stringr::str_extract(
+    terra_indigena_por_unidade_da_federacao, "[A-Z]{2}"
+  ))) |>
+  dplyr::summarise(
+    n = sum(n),
+    .by = c(
+      code_indigenous_land, name_indigenous_land, uf, fase_ti, agua, variavel
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::group_by(code_indigenous_land, name_indigenous_land, uf, fase_ti) |>
+  dplyr::mutate(
+    total_domicilios = sum(domicilios, na.rm = TRUE),
+    total_moradores = sum(moradores, na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(
+    agua == "Poço, fonte, nascente ou mina", total_domicilios > 0,
+    total_moradores > 0, domicilios == 0, moradores == 0
+  ) |>
+  dplyr::distinct(code_indigenous_land, name_indigenous_land, uf, fase_ti) |>
+  dplyr::mutate(sem_poco = "Não")
+
+sem_rede |>
+  dplyr::distinct(code_indigenous_land, name_indigenous_land, uf, fase_ti) |>
+  dplyr::mutate(sem_rede = "Não") |>
+  dplyr::left_join(sem_poco) |>
+  dplyr::mutate(sem_poco = dplyr::coalesce(sem_poco, "Sim")) |>
+  dplyr::count(sem_rede, sem_poco) |>
+  purrr::set_names("Acesso a rede geral", "Acesso a poço, fonte, nascente ou mina", "TIs") |>
+  knitr::kable()
+```
+
+
+```{r}
+#| label: tbl-top15-rede-ou-poco
+#| tbl-cap: "Top 15 TIs com maior proporção de domicílios com acesso a rede geral ou poço, fonte, nascente ou mina"
+
+abastecimento |>
+  dplyr::mutate(uf = dplyr::coalesce(abbrev_state, stringr::str_extract(
+    terra_indigena_por_unidade_da_federacao, "[A-Z]{2}"
+  ))) |>
+  dplyr::summarise(
+    n = sum(n),
+    .by = c(
+      code_indigenous_land, name_indigenous_land, uf, fase_ti, agua, variavel
+    )
+  ) |>
+  dplyr::group_by(code_indigenous_land, name_indigenous_land, uf, fase_ti, variavel) |>
+  dplyr::mutate(
+    total = sum(n, na.rm = TRUE),
+    pct = n / total
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(agua %in% c("Rede geral de distribuição", "Poço, fonte, nascente ou mina")) |>
+  dplyr::group_by(code_indigenous_land, name_indigenous_land, uf, fase_ti, variavel) |>
+  dplyr::mutate(rede_ou_poco = sum(n), pct_rede_ou_poco = rede_ou_poco / total) |>
+  dplyr::ungroup() |>
+  dplyr::filter(variavel == "domicilios") |>
+  dplyr::distinct(code_indigenous_land, name_indigenous_land, uf, fase_ti, total, rede_ou_poco, pct_rede_ou_poco) |>
+  dplyr::slice_max(pct_rede_ou_poco, n = 15) |>
+  dplyr::transmute(
+    name_indigenous_land, uf, total, rede_ou_poco, pct_rede_ou_poco = scales::percent(pct_rede_ou_poco, .1)
+  ) |>
+  purrr::set_names("TI", "UF", "Total de domicílios mapeados", "Domicílios com acesso a rede ou poço", "% Domicílios com acesso a rede ou poço") |>
+  knitr::kable()
+
+```
+
+```{r}
+#| label: tbl-coord
+#| tbl-cap: "Acesso de domicílios à rede geral de distribuição de água, por coordenação regional"
+
+abastecimento |>
+  dplyr::filter(variavel == "domicilios") |>
+  dplyr::summarise(
+    n = sum(n), .by = c(agua, name_adm_unit)
+  ) |>
+  dplyr::mutate(total = sum(n), .by = name_adm_unit) |>
+  dplyr::mutate(pct = n / total) |>
+  dplyr::filter(agua %in% c(
+    "Rede geral de distribuição", "Poço, fonte, nascente ou mina", 
+    "Rios, açudes, córregos, lagos e igarapés"
+  )) |>
+  dplyr::select(-n) |>
+  tidyr::pivot_wider(names_from = agua, values_from = c(pct)) |>
+  dplyr::arrange(dplyr::desc(`Rede geral de distribuição`)) |>
+  dplyr::select(1:3) |>
+  dplyr::mutate(
+    `Rede geral de distribuição` = scales::percent(`Rede geral de distribuição`, accuracy = 0.1)
+  ) |>
+  dplyr::slice(1:5) |>
+  purrr::set_names("Coordenação", "total de domicílios", "% com acesso a rede geral") |>
+  knitr::kable()
+```
+
+[_Planilha completa_](https://docs.google.com/spreadsheets/d/1IWTFfDYVRuY-Gnm1Lwn3S4ZzpphTJhTBv53h9UFaOMU/edit?gid=402135043#gid=402135043)
+
+## Esgoto
+
+[_Planilha completa_](https://docs.google.com/spreadsheets/d/1IWTFfDYVRuY-Gnm1Lwn3S4ZzpphTJhTBv53h9UFaOMU/edit?gid=238295319#gid=238295319)
+
+- Menos de 1% da população em TIs na Amazônia Legal tem acesso a rede geral de esgoto (@tbl-esgoto)
+- 187 mil moradores em 36 mil domicílios dependem de fossa rudimentar ou buraco
+- Apenas 71 TIs têm acesso à rede geral, rede pluvial ou fossa ligada à rede de esgoto. Considerando também as fossas sépticas ou fossas filtro não ligadas à rede, o número sobe para 142 TIs
+- Manoki (MT) e Rio Mequens(RO) são as TIs com maior proporção de domicílios e moradores com acesso adequado a esgotamento sanitário (rede geral, rede pluvial ou fossa ligada à rede; fossa séptica ou fossa filtro não ligada à rede)
+- A Coordenação Regional Roraima é a que apresenta maior proporção de domicílios com acesso a esgotamento sanitário adequado, seguida da Coordenação Regional Cuiabá (@tbl-coord-esgoto)
+
+
+```{r}
+#| label: tbl-esgoto
+#| tbl-cap: "Esgotamento sanitário em TIs na Amazônia Legal, por domicílios e moradores"
+
+esgoto |>
+  dplyr::summarise(n = sum(n), .by = c(esgoto, variavel)) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::arrange(dplyr::desc(moradores)) |>
+  dplyr::mutate(
+    pct_dom = scales::percent(domicilios / sum(domicilios), accuracy = 0.1),
+    pct_mor = scales::percent(moradores / sum(moradores), accuracy = 0.1)
+  ) |>
+  purrr::set_names("Esgotamento sanitário", "Domicílios", "Moradores", "% Domicílios", "% Moradores") |>
+  knitr::kable()
+```
+
+
+```{r}
+#| label: tbl-esgoto-uf
+#| tbl-cap: "TIs com acesso a rede geral de esgoto, rede pluvial ou fossa ligada à rede, por UF"
+
+esgoto |>
+  dplyr::mutate(uf = dplyr::coalesce(abbrev_state, stringr::str_extract(
+    terra_indigena_por_unidade_da_federacao, "[A-Z]{2}"
+  ))) |>
+  dplyr::summarise(
+    n = sum(n),
+    .by = c(
+      code_indigenous_land, name_indigenous_land, uf, fase_ti, esgoto, variavel
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::group_by(code_indigenous_land, name_indigenous_land, uf, fase_ti) |>
+  dplyr::mutate(
+    total_domicilios = sum(domicilios, na.rm = TRUE),
+    total_moradores = sum(moradores, na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(
+    esgoto == "Rede geral, rede pluvial ou fossa ligada à rede",
+    # total_domicilios > 0, total_moradores > 0,
+    (domicilios > 0 | moradores > 0)
+  ) |>
+  dplyr::distinct(code_indigenous_land, name_indigenous_land, fase_ti, uf) |>
+  dplyr::count(uf, sort = TRUE) |>
+  purrr::set_names("UF", "TIs") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-top10-esgoto
+#| tbl-cap: "Top 10 TIs com maior proporção de moradores com acesso a rede geral de esgoto, rede pluvial, fossa ligada à rede ou fossa séptica/fossa filtro não ligada à rede"
+
+esgoto |>
+  dplyr::mutate(uf = dplyr::coalesce(abbrev_state, stringr::str_extract(
+    terra_indigena_por_unidade_da_federacao, "[A-Z]{2}"
+  ))) |>
+  dplyr::summarise(
+    n = sum(n),
+    .by = c(
+      code_indigenous_land, name_indigenous_land, uf, fase_ti, esgoto, variavel
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::group_by(code_indigenous_land, name_indigenous_land, uf, fase_ti) |>
+  dplyr::mutate(
+    total_domicilios = sum(domicilios, na.rm = TRUE),
+    total_moradores = sum(moradores, na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(
+    esgoto %in% c(
+      "Rede geral, rede pluvial ou fossa ligada à rede",
+      "Fossa séptica ou fossa filtro não ligada à rede"
+    ),
+    (domicilios > 0 | moradores > 0)
+  ) |>
+  dplyr::group_by(code_indigenous_land, name_indigenous_land, uf, fase_ti) |>
+  dplyr::mutate(
+    domicilios = sum(domicilios, na.rm = TRUE), 
+    moradores = sum(moradores, na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::select(-esgoto) |>
+  dplyr::distinct() |>
+  dplyr::mutate(pct_dom = domicilios / total_domicilios, pct_mor = moradores / total_moradores) |>
+  dplyr::slice_max(pct_mor, n = 10) |>
+  dplyr::transmute(name_indigenous_land, uf, total_moradores, pct_mor = scales::percent(pct_mor, .1)) |>
+  purrr::set_names("TI", "UF", "Total de moradores mapeados", "% com acesso a esgotamento adequado") |>
+  knitr::kable()
+ 
+```
+
+
+```{r}
+#| label: tbl-coord-esgoto
+#| tbl-cap: "Acesso de domicílios à rede geral de esgoto, rede pluvial, fossa ligada à rede ou fossa séptica/fossa filtro não ligada à rede, por coordenação regional"
+
+esgoto |>
+  dplyr::filter(variavel == "domicilios") |>
+  dplyr::summarise(
+    n = sum(n), .by = c(esgoto, name_adm_unit)
+  ) |>
+  dplyr::mutate(total = sum(n), .by = name_adm_unit) |>
+  dplyr::filter(esgoto %in% c(
+    "Rede geral, rede pluvial ou fossa ligada à rede",
+    "Fossa séptica ou fossa filtro não ligada à rede"
+  )) |>
+  dplyr::group_by(name_adm_unit, total) |>
+  dplyr::summarise(esgoto = sum(n), .groups = "drop") |>
+  dplyr::mutate(pct = esgoto / total) |>
+  # clipr::write_clip()
+  dplyr::select(-esgoto) |>
+  dplyr::slice_max(pct, n = 5) |>
+  dplyr::mutate(pct = scales::percent(pct, .1)) |>
+  purrr::set_names("Coordenação", "total de domicílios", "% esgotamento adequado") |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-esgoto
+#| fig-cap: "% de moradores com acesso a rede geral de esgoto, rede pluvial ou fossa ligada à rede, por TI"
+
+pct_rede_esgoto <- esgoto |>
+  dplyr::mutate(uf = dplyr::coalesce(abbrev_state, stringr::str_extract(
+    terra_indigena_por_unidade_da_federacao, "[A-Z]{2}"
+  ))) |>
+  dplyr::summarise(
+    n = sum(n),
+    .by = c(
+      code_indigenous_land,esgoto, variavel
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::group_by(code_indigenous_land) |>
+  dplyr::mutate(
+    total_domicilios = sum(domicilios, na.rm = TRUE),
+    total_moradores = sum(moradores, na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(
+    esgoto == "Rede geral, rede pluvial ou fossa ligada à rede"
+  ) |>
+  dplyr::mutate(pct_dom = domicilios / total_domicilios, pct_mor = moradores / total_moradores) |>
+  dplyr::distinct(code_indigenous_land, pct_mor, pct_dom)
+
+tis |>
+  dplyr::left_join(pct_rede_esgoto) |>
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(data = geobr::read_state(2025)) +
+  ggplot2::geom_sf(data = geobr::read_amazon(2024), fill = "lightgreen", alpha = .1) +
+  ggplot2::geom_sf(ggplot2::aes(fill = pct_mor)) +
+  ggplot2::scale_fill_viridis_c(trans = "sqrt", option = "plasma", labels = scales::percent)
+
+```
+
+## Lixo
+
+- A maioria dos domicílios e moradores em TIs na Amazônia Legal não têm acesso a coleta de lixo (@tbl-lixo)
+- Mais de 78% dos domicílios queimam seus lixos na propriedade, com coleta de lixo em apenas 7,9% dos domicílios
+- 251 (71%) TIs na Amazônia Legal não têm acesso a coleta de lixo, afetando cerca de 184 mil moradores em 34 mil domicílios (@fig-lixo)
+- 102 TIs contam com caçamba ou coleta por serviço de limpeza (46 mil domicílios, 241 mil moradores)
+- Coordenacao Regional Araguaia Tocantins tem a maior taxa de domicílios com coleta de lixo (@tbl-coord-lixo)
+
+[Planilha completa](https://docs.google.com/spreadsheets/d/1IWTFfDYVRuY-Gnm1Lwn3S4ZzpphTJhTBv53h9UFaOMU/edit?gid=132532012#gid=132532012)
+
+```{r}
+#| label: tbl-lixo
+#| tbl-cap: "Acesso a coleta de lixo, por moradores e domicílios em TIs na Amazônia Legal"
+
+lixo |>
+  dplyr::summarise(n = sum(n), .by = c(lixo, variavel)) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::arrange(dplyr::desc(moradores)) |>
+  dplyr::filter(lixo != "Coletado") |>
+  dplyr::mutate(
+    pct_dom = scales::percent(domicilios / sum(domicilios), accuracy = 0.1),
+    pct_mor = scales::percent(moradores / sum(moradores), accuracy = 0.1)
+  ) |>
+  purrr::set_names("Lixo", "Domicílios", "Moradores", "% Domicílios", "% Moradores") |>
+  knitr::kable()
+```
+
+
+```{r}
+#| label: fig-lixo
+#| fig-cap: "Domicílios sem acesso a coleta de lixo, por TI"
+
+sem_coleta <- lixo |>
+  dplyr::summarise(
+    n = sum(n), .by = c(code_indigenous_land, terra_indigena_por_unidade_da_federacao, lixo)
+  ) |>
+  tidyr::pivot_wider(names_from = lixo, values_from = n) |>
+  dplyr::filter(`Coletado` == 0)
+
+tis |>
+  dplyr::mutate(sem_coleta = dplyr::case_when(
+    code_indigenous_land %in% sem_coleta$code_indigenous_land ~ "Sem acesso a coleta de lixo"
+  )) |>
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(data = geobr::read_state(2025)) +
+  ggplot2::geom_sf(data = geobr::read_amazon(2024), fill = "lightgreen", alpha = .1) +
+  ggplot2::geom_sf(ggplot2::aes(fill = sem_coleta))
+```
+
+
+```{r}
+#| label: tbl-top15-lixo
+#| tbl-cap: "Top 15 TIs com maior proporção de moradores com acesso a coleta de lixo"
+
+pct_coleta_lixo <- lixo |>
+  dplyr::filter(!lixo %in% c(
+    "Coletado no domicílio por serviço de limpeza",
+    "Depositado em caçamba de serviço de limpeza"
+  )) |>
+  dplyr::summarise(
+    n = sum(n),
+    .by = c(
+      code_indigenous_land, terra_indigena_por_unidade_da_federacao, lixo, variavel
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+  dplyr::group_by(code_indigenous_land, terra_indigena_por_unidade_da_federacao) |>
+  dplyr::mutate(
+    total_domicilios = sum(domicilios, na.rm = TRUE),
+    total_moradores = sum(moradores, na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(
+    lixo == "Coletado"
+  ) |>
+  dplyr::mutate(pct_dom = domicilios / total_domicilios, pct_mor = moradores / total_moradores) |>
+  dplyr::distinct(code_indigenous_land, terra_indigena_por_unidade_da_federacao, pct_mor, pct_dom)
+
+
+# lixo |>
+#   dplyr::filter(!lixo %in% c(
+#     "Coletado no domicílio por serviço de limpeza",
+#     "Depositado em caçamba de serviço de limpeza"
+#   )) |>
+#   dplyr::summarise(
+#     n = sum(n),
+#     .by = c(
+#       code_indigenous_land, terra_indigena_por_unidade_da_federacao, lixo, variavel
+#     )
+#   ) |>
+#   tidyr::pivot_wider(names_from = variavel, values_from = n) |>
+#   dplyr::group_by(code_indigenous_land, terra_indigena_por_unidade_da_federacao) |>
+#   dplyr::mutate(
+#     total_domicilios = sum(domicilios, na.rm = TRUE),
+#     total_moradores = sum(moradores, na.rm = TRUE)
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::filter(
+#     lixo == "Coletado"
+#   ) |>
+#   dplyr::mutate(pct_dom = domicilios / total_domicilios, pct_mor = moradores / total_moradores) |>
+#   clipr::write_clip()
+
+pct_coleta_lixo |>
+  dplyr::slice_max(pct_mor, n = 15) |>
+  dplyr::mutate(
+    pct_mor = scales::percent(pct_mor, .1),
+    pct_dom = scales::percent(pct_dom, .1)
+  ) |>
+  dplyr::select(-code_indigenous_land) |>
+  purrr::set_names("TI", "Moradores com coleta", "Domicílios com coleta") |>
+  knitr::kable()
+
+```
+
+```{r}
+#| label: fig-lixo-pct
+#| fig-cap: "% de moradores com acesso a coleta de lixo, por TI"
+
+tis |>
+  dplyr::left_join(pct_coleta_lixo) |>
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(data = geobr::read_state(2025)) +
+  ggplot2::geom_sf(data = geobr::read_amazon(2024), fill = "lightgreen", alpha = .1) +
+  ggplot2::geom_sf(ggplot2::aes(fill = pct_mor)) +
+  ggplot2::scale_fill_viridis_c(trans = "sqrt", option = "plasma", labels = scales::percent)
+```
+
+```{r}
+#| label: tbl-coord-lixo
+#| tbl-cap: "Coordenações com maior taxa de acesso de domicílios a coleta de lixo"
+
+lixo |>
+  dplyr::filter(lixo != "Coletado") |>
+  dplyr::summarise(
+    n = sum(n), .by = c(lixo, variavel, name_adm_unit)
+  ) |>
+  dplyr::mutate(total = sum(n), .by = c(name_adm_unit, variavel)) |>
+  dplyr::filter(lixo %in% c(
+    "Coletado no domicílio por serviço de limpeza",
+    "Depositado em caçamba de serviço de limpeza"
+  )) |>
+  dplyr::group_by(name_adm_unit, variavel, total) |>
+  dplyr::summarise(lixo = sum(n), .groups = "drop") |>
+  tidyr::pivot_wider(names_from = variavel, values_from = c(total, lixo)) |>
+  dplyr::mutate(
+    pct_dom = lixo_domicilios / total_domicilios,
+    pct_mor = lixo_moradores / total_moradores
+  ) |>
+  # clipr::write_clip()
+  dplyr::select(-total_domicilios, -total_moradores) |>
+  dplyr::slice_max(pct_dom, n = 5) |>
+  dplyr::mutate(dplyr::across(dplyr::starts_with("pct"), \(x) scales::percent(x, .1))) |>
+  purrr::set_names("Coordenação", "Domicílios com coleta", "Moradores com coleta", "% domicílios", "% moradores") |>
+  knitr::kable()
+```
+
+[Planilha completa](https://docs.google.com/spreadsheets/d/1IWTFfDYVRuY-Gnm1Lwn3S4ZzpphTJhTBv53h9UFaOMU/edit?gid=1069572450#gid=1069572450)
