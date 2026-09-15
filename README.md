@@ -7,6 +7,7 @@ InfoAmazonia.
 
 | data | título | dados |
 |:---|:---|:---|
+| 2026-07-09 |[Dinheiro do agronegócio cresce, e voto em partidos pró-clima encolhe na Amazônia](https://infoamazonia.org/2026/09/09/dinheiro-do-agronegocio-cresce-e-voto-em-partidos-pro-clima-encolhe-na-amazonia/) | [link](https://github.com/InfoAmazonia/unid_geojornalismo/tree/main/2026_09-eleicoes_em_mapas/ep_01) |
 | 2026-07-09 |[Quase 40% dos indígenas em territórios da Amazônia vivem sem acesso adequado à água](https://infoamazonia.org/2026/08/13/quase-40-dos-indigenas-em-territorios-da-amazonia-vivem-sem-acesso-adequado-a-agua/) | [link](https://github.com/InfoAmazonia/unid_geojornalismo/tree/main/2026_07-saneamento_tis) |
 | 2026-07-09 |[Na bacia do Alto Juruena, indígenas se adaptam à redução de mais da metade da superfície de água em seus territórios](https://infoamazonia.org/2026/07/09/na-bacia-do-alto-juruena-indigenas-se-adaptam-a-reducao-de-mais-da-metade-da-superficie-de-agua-em-seus-territorios/) | [link](https://github.com/InfoAmazonia/unid_geojornalismo/tree/main/2026_07-alto_juruena) |
 
