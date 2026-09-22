@@ -2,7 +2,7 @@
 // Because this file is public, restrict the token in Mapbox to the production
 // origin (https://infoamazonia.github.io) and any explicitly needed dev origins.
 window.MAP_CONFIG = {
-  accessToken: "pk.eyJ1IjoiaW5mb2FtYXpvbmlhIiwiYSI6ImNtcXBjMzAzMTA2bXoycG40Nmpjc29raHgifQ.nc4_MfOWZPLoeBdSveu36w",
+  accessToken: "pk.eyJ1IjoiaW5mb2FtYXpvbmlhIiwiYSI6ImNtdWNya3ZwcDAwbGwyd3B5NTlmNzc2a3IifQ.7uVIVuwaekke3v9TbwOCiA",
   style: "mapbox://styles/infoamazonia/cmu32vp7h001m01qzc7qp6gdn",
   // Legal Amazon extent from the style's infoamazonia.86ir08a9 tileset.
   // Fit this region rather than the global basemap or the surrounding mask.
