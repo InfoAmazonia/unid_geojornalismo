@@ -2,15 +2,30 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
+    <meta
+	  http-equiv="Content-Security-Policy"
+	  content="
+		default-src 'self';
+		script-src 'self' https://api.mapbox.com;
+		style-src 'self' https://api.mapbox.com 'unsafe-inline';
+		worker-src blob:;
+		connect-src https://api.mapbox.com https://events.mapbox.com;
+		img-src 'self' data: blob:;
+		font-src 'self' data:;
+		object-src 'none';
+		base-uri 'none';
+		form-action 'none';
+	  "
+	/>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Desmatamento na Amazônia Legal | InfoAmazonia</title>
     <meta name="description" content="Visualização interativa do desmatamento na Amazônia Legal entre 2003 e 2026." />
     <link rel="preconnect" href="https://api.mapbox.com" crossorigin />
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css" />
-    <link rel="stylesheet" href="./styles.css?v=38" />
+    <link rel="stylesheet" href="./styles.css" />
     <script defer src="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.js"></script>
-    <script defer src="./config.js?v=42"></script>
-    <script defer src="./app.js?v=42"></script>
+    <script defer src="./config.js"></script>
+    <script defer src="./app.js"></script>
   </head>
   <body>
     <main id="map" aria-label="Taxa de desmatamento"></main>
