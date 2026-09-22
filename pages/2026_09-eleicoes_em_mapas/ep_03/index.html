@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Desmatamento na Amazônia Legal | InfoAmazonia</title>
+    <meta name="description" content="Visualização interativa do desmatamento na Amazônia Legal entre 2003 e 2026." />
+    <link rel="preconnect" href="https://api.mapbox.com" crossorigin />
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css" />
+    <link rel="stylesheet" href="./styles.css?v=38" />
+    <script defer src="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.js"></script>
+    <script defer src="./config.js?v=42"></script>
+    <script defer src="./app.js?v=42"></script>
+  </head>
+  <body>
+    <main id="map" aria-label="Taxa de desmatamento"></main>
+    <aside class="map-panel" aria-labelledby="panel-title">
+      <h1 id="panel-title">Desmatamento na Amazônia Legal</h1>
+      <p class="panel-description">Selecione o período no gráfico para ver as áreas desmatadas (km²) entre 2003 e 2026.</p>
+      <fieldset id="period-controls" class="period-controls" aria-label="Filtro por período" disabled>
+        <p class="period-total"><span id="period-total-label">Total entre 2003 e 2026</span><output id="period-total" for="year-start year-end">—</output></p>
+        <p id="histogram-caption" class="histogram-caption">Área por ano (km²)</p>
+        <div id="period-slider" class="period-slider">
+          <div class="period-track">
+            <div id="period-histogram" class="period-histogram" role="img" aria-label="Área anual em quilômetros quadrados"></div>
+          </div>
+          <div class="period-selection"></div>
+          <div id="period-ticks" class="period-ticks" aria-hidden="true"></div>
+          <button id="year-start" class="period-handle start-handle" type="button" role="slider" aria-label="Ano inicial" aria-valuemin="2003" aria-valuemax="2026" aria-valuenow="2003" aria-describedby="period-help" aria-orientation="horizontal" value="2003"></button>
+          <button id="year-end" class="period-handle end-handle" type="button" role="slider" aria-label="Ano final" aria-valuemin="2003" aria-valuemax="2026" aria-valuenow="2026" aria-describedby="period-help" aria-orientation="horizontal" value="2026"></button>
+        </div>
+        <ul id="histogram-legend" class="histogram-legend" aria-label="Grupos de cores do mapa"></ul>
+        <p class="histogram-caption">Fonte: Prodes (2002 a 2025) e Deter (Agosto de 2025 a Agosto de 2026)/Inpe. <br>Análise e visualização: InfoAmazonia.</p>
+      </fieldset>
+      <p id="status" class="status" role="status">Carregando mapa…</p>
+      <noscript><p>Ative o JavaScript para visualizar este mapa.</p></noscript>
+    </aside>
+    <aside id="period-help" class="period-tooltip" role="tooltip" hidden>
+      <strong>Escolha um período</strong>
+      <p>Arraste as barras para selecionar os anos ou a área entre elas para mover todo o período. Os anos inicial e final estão incluídos.</p>
+      <p class="keyboard-hint">Use as setas do teclado para ajustar uma barra. Shift + setas move as duas.</p>
+    </aside>
+  </body>
+</html>
