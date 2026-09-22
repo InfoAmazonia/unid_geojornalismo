@@ -1,4 +1,5 @@
 .DS_Store
+_site/
 2024_09-queimadas/Dados/*.csv
 2024_10-infratores_doadores/data-raw/receita.csv
 2024_10-infratores_doadores/data-tidy/infracoes_total.rds
