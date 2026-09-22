@@ -159,6 +159,17 @@
       style = await response.json();
     }
 
+    // The published style sorts polygons by area, which some features lack.
+    // Supply a numeric fallback before Mapbox evaluates either layer's sort key.
+    for (const layer of style.layers || []) {
+      const property = `${layer.type}-sort-key`;
+      const sortKey = layer.layout?.[property];
+      if (Array.isArray(sortKey) && sortKey.length === 2 &&
+          sortKey[0] === "get" && sortKey[1] === "AREA_KM") {
+        layer.layout[property] = ["number", sortKey, 0];
+      }
+    }
+
     const map = new mapboxgl.Map({
       container: "map",
       accessToken: config.accessToken,
