@@ -1,0 +1,442 @@
+---
+title: "Relatório de análise de dados - Eleições 2026 - Ep 05"
+format: 
+  html: 
+    self-contained: true
+    embed-resources: true
+  docx: default
+execute:
+  echo: false
+  warning: false
+df-print: paged
+lang: pt
+---
+
+## Análises
+
+Observação: os dados de gastos empenhados em 2026 são parciais, referentes a valores empenhados até o 3o bimestre.
+
+### Gastos empenhados por candidatos à reeleição em estados da Amazônia Legal
+
+```{r}
+#| label: dados
+
+tidy <- here::here("2026_09-eleicoes_em_mapas/ep_05/dados-tidy")
+cand <- readr::read_csv(here::here(tidy, "candidatos.csv"))
+gastos <- readr::read_csv(here::here(tidy, "gastos.csv")) |>
+  dplyr::filter_out(subfuncao == "000")
+
+fmt_real <- function(x) {
+  scales::dollar(x, big.mark = ".", decimal.mark = ",", prefix = "R$")
+}
+
+gastos_clima <- cand |>
+  dplyr::filter(reeleicao) |>
+  dplyr::select(SG_UF) |>
+  dplyr::inner_join(gastos, by = c("SG_UF" = "uf")) |>
+  dplyr::summarise(
+    total_empenhado = sum(valor),
+    .by = c(SG_UF, clima)
+  ) |>
+  tidyr::pivot_wider(
+    names_from = clima,
+    values_from = total_empenhado,
+    names_prefix = "clima_"
+  )
+
+valor_pa <- gastos_clima |>
+  dplyr::filter(SG_UF == "PA") |>
+  dplyr::pull(clima_TRUE) |>
+  fmt_real()
+valor_am <- gastos_clima |>
+  dplyr::filter(SG_UF == "AM") |>
+  dplyr::pull(clima_TRUE) |>
+  fmt_real()
+valor_ac <- gastos_clima |>
+  dplyr::filter(SG_UF == "AC") |>
+  dplyr::pull(clima_TRUE) |>
+  fmt_real()
+valor_ap <- gastos_clima |>
+  dplyr::filter(SG_UF == "AP") |>
+  dplyr::pull(clima_TRUE) |>
+  fmt_real()
+
+total_clima <- gastos_clima$clima_TRUE |>
+  sum() |>
+  fmt_real()
+pct_clima <- sum(gastos_clima$clima_TRUE) / (sum(gastos_clima$clima_TRUE) + sum(gastos_clima$clima_FALSE))
+```
+
+
+- Candidatos à reeleição em estados da Amazônia Legal destinaram R$ `r total_clima` em emendas individuais para programas relacionados ao combate à crise climática entre 2023 e 2026, cerca de `r scales::percent(pct_clima, .1)` do valor total
+- Por estado, os maiores valores empenhados foram: Pará (R$ 2,4 bilhões) e Amazonas (R$ 1,4 bilhões). Em valores percentuais sobre o total, Acre (R$ 1,05 bilhões, o que equivale a 2,6%) teve a maior proporção de gastos relacionados ao clima (@tbl-valores)
+- O Amapá é o estado com menor valor empenhado em combate à crise climática, com R$ 206 milhões (0,6%)
+ 
+```{r}
+#| label: tbl-valores
+#| tbl-cap: "Despesas empenhadas por UF com reeleição (2023-2026)"
+
+gastos_clima |>
+  dplyr::mutate(
+    pct_clima = scales::percent(clima_TRUE / (clima_TRUE + clima_FALSE), .1),
+    clima_FALSE = scales::dollar(
+      clima_FALSE/1e9, big.mark = ".", decimal.mark = ",", suffix = " bi"
+    ),
+    clima_TRUE = scales::dollar(
+      clima_TRUE/1e9, big.mark = ".", decimal.mark = ",", suffix = " bi"
+    ),
+    clima_TRUE = paste(clima_TRUE, " (", pct_clima, ")", sep = "")
+  ) |>
+  dplyr::select(-pct_clima) |>
+  purrr::set_names(
+    "UF", "Gastos não relacionados ao clima", "Gastos relacionados ao clima"
+  ) |>
+  knitr::kable()
+```
+
+### Propostas de governo e gastos empenhados por candidatos à reeleição
+
+- Acre: houve um aumento com despesas com a Defesa Civil nos últimos anos
+- Amapá: Defesa Civil e Serviços Urbanos tiveram aumento expressivo nos últimos anos
+- Amazonas: os gastos com saneamento se destacam, com aumento em 2025 e 2026
+- Mato Grosso: Gestão Ambiental, de forma mais genérica, é a principal categoria
+- Pará: aumento expressivo nos últimos anos com saneamento
+
+#### Acre
+
+A proposta de **Mailza Assis Cameli (PP)** estrutura a pauta ambiental no **Eixo 9 (Meio Ambiente, Sustentabilidade e Resiliência Climática)**. Suas principais propostas incluem:
+
+* **Programa "Acre Mais Resiliente" e Defesa Civil:** Aplicação de recursos para ações de prevenção, monitoramento, preparação e resposta rápida a emergências climáticas (enchentes, secas e queimadas), fortalecendo a Defesa Civil e a cooperação com os municípios
+* **Plano de Prevenção e Resposta a Eventos Climáticos Extremos:** Elaboração de um plano estruturado e integrado aos órgãos de governança do Sistema Estadual de Incentivos a Serviços Ambientais (SISA Acre)
+* **Mercado de Carbono e Serviços Ambientais:** Regulamentação, certificação e comercialização de créditos de carbono para atração de investimentos internacionais e financiamento da conservação da floresta.
+* **Transição Energética:** Criação do Plano Estadual de Eficiência e Transição Energética para incentivar matrizes renováveis e reduzir a dependência de combustíveis fósseis.
+* **Proteção Territorial e Povos Indígenas:** Garantia da participação dos povos originários e comunidades tradicionais na agenda climática, valorização dos saberes locais e apoio a festivais culturais indígenas.
+* **Infraestrutura Urbana Resiliente:** Execução de obras de contenção e requalificação ambiental, como a urbanização da orla do Calçadão Raimundo Escócio, às margens do Rio Acre.
+
+```{r}
+#| label: tbl-gastos-ac
+#| tbl-cap: "Gastos empenhados relacionados à crise climática no Acre (2023-2026)"
+
+gastos |> 
+  dplyr::filter(uf == "AC", clima) |>
+  dplyr::select(ano, conta, valor) |>
+  # readr::write_csv(here::here(tidy, "gastos_ac.csv"))
+  tidyr::pivot_wider(names_from = ano, values_from = valor) |>
+  dplyr::mutate(conta = dplyr::case_when(
+    conta == "FU18 - Demais Subfunções" ~ "Demais funções em Gestão Ambiental",
+    conta == "Administração Geral" ~ "Administração Geral em Gestão Ambiental",
+    TRUE ~ conta
+  )) |>
+  dplyr::mutate(dplyr::across(
+    2:5, scales::dollar, big.mark = ".", decimal.mark = ",", prefix = "R$ "
+  )) |>
+  tidyr::replace_na(list(`2023` = "-", `2024` = "-", `2025` = "-", `2026` = "-")) |>
+  dplyr::arrange(conta) |>
+  dplyr::relocate(conta, `2023`, `2024`, `2025`, `2026`) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-gastos-ac
+#| fig-cap: "Gastos empenhados relacionados à crise climática no Acre (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "AC", clima) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+    conta == "Defesa Civil" ~ "Defesa Civil",
+    stringr::str_detect(conta, "Saneamento") ~ "Saneamento",
+    funcao == "18" ~ "Gestão Ambiental",
+    TRUE ~ "Outros"
+  )) |>
+  dplyr::select(ano, tipo, valor) |>
+  dplyr::mutate(ano = as.factor(ano)) |>
+  dplyr::summarise(valor = sum(valor), .by = c(ano, tipo)) |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = valor, color = tipo, group = tipo)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::scale_y_continuous(labels = scales::dollar_format(big.mark = ".", decimal.mark = ",", prefix = "R$ "))
+```
+
+Em comparação com a atual gestão, os demais candidatos apresentam visões bem distintas:
+
+* **Alan Rick** e **Thor Dantas** focam em **cidades resilientes**, Soluções Baseadas na Natureza (SbN), dragagem e recuperação de igarapés urbanos.
+* **Dr. Luisinho** aposta em grandes obras de engenharia hídrica e infraestrutura energética (como o Plano Antienhente do Rio Acre com eclusas e usinas solares flutuantes).
+* **Tião Bocalom** adota uma postura voltada ao agronegócio, defendendo a **flexibilização da legislação ambiental** para ampliar terras agricultáveis.
+* O plano da **Chapa Anticapitalista (** **2026AC10002549500\_01.pdf** **)** contesta frontalmente os créditos de carbono e a financeirização verde, focando no combate ao agronegócio e na proteção territorial popular.
+
+#### Amapá
+
+No estado do Amapá, as propostas para o enfrentamento da crise climática e a gestão ambiental variam entre o fortalecimento de instrumentos internacionais e transição solar (como na proposta do atual governador), a aceleração de licenças e desafetação de áreas florestais para expansão urbana, e o uso de recursos energéticos estratégicos.
+
+O candidato à reeleição **Clécio Luís (UNIÃO)** organiza suas ações ambientais articulando a preservação florestal com a atrações de investimentos e a transição energética:
+
+* **Plano de Sociobioeconomia e COP-30:** Consolidação do Plano Estadual de Sociobioeconomia (apresentado na COP-30), estimulando a industrialização da biodiversidade nos setores de alimentos, cosméticos e fármacos.
+* **Integração com o Selo Amapá e Parque Tecnológico:** Uso do Selo Amapá e do Parque Tecnológico para agregação de valor à produção sustentável e fortalecimento da economia do conhecimento.
+* **Mercado de Carbono e Serviços Ambientais:** Valoração dos ativos ecossistêmicos e mercado de carbono para transformar a conservação em oportunidade de renda e inclusão produtiva.
+* **Projetos do Fundo Amazônia:** Aplicação dos recursos do Fundo Amazônia na regularização fundiária, manejo florestal sustentável, Zoneamento Ecológico-Econômico e Costeiro (ZEEC), gestão de Unidades de Conservação e criação de viveiros florestais.
+* **Programa Amapá Solar:** Expansão da geração fotovoltaica em hospitais, escolas e prédios públicos, acompanhada de linhas de crédito para a instalação de energia solar.
+* **Resiliência Urbana e Adaptação Climática:** Obras urbanas com soluções de adaptação climática, focadas na prevenção de alagamentos, contenção de erosões e recuperação de áreas vulneráveis.
+
+```{r}
+#| label: tbl-gastos-ap
+#| tbl-cap: "Gastos empenhados relacionados à crise climática no Amapá (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "AP", clima) |>
+  dplyr::select(ano, conta, valor) |>
+  # readr::write_csv(here::here(tidy, "gastos_ap.csv"))
+  tidyr::pivot_wider(names_from = ano, values_from = valor) |>
+  dplyr::mutate(conta = dplyr::case_when(
+    conta == "FU18 - Demais Subfunções" ~ "Demais funções em Gestão Ambiental",
+    conta == "Administração Geral" ~ "Administração Geral em Gestão Ambiental",
+    TRUE ~ conta
+  )) |>
+  dplyr::mutate(dplyr::across(
+    2:5, scales::dollar, big.mark = ".", decimal.mark = ",", prefix = "R$ "
+  )) |>
+  tidyr::replace_na(list(`2023` = "-", `2024` = "-", `2025` = "-", `2026` = "-")) |>
+  dplyr::arrange(conta) |>
+  dplyr::relocate(conta, `2023`, `2024`, `2025`, `2026`) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-gastos-ap
+#| fig-cap: "Gastos empenhados relacionados à crise climática no Amapá (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "AP", clima) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+    conta == "Defesa Civil" ~ "Defesa Civil",
+    stringr::str_detect(conta, "Saneamento") ~ "Saneamento",
+    funcao == "18" ~ "Gestão Ambiental",
+    TRUE ~ "Outros"
+  )) |>
+  dplyr::select(ano, tipo, valor) |>
+  dplyr::mutate(ano = as.factor(ano)) |>
+  dplyr::summarise(valor = sum(valor), .by = c(ano, tipo)) |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = valor, color = tipo, group = tipo)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::scale_y_continuous(labels = scales::dollar_format(big.mark = ".", decimal.mark = ",", prefix = "R$ "))
+```
+
+Em comparação com a proposta de Clécio Luís:
+
+* **Dr. Furlan (Coligação PSD / PL / PODEMOS / NOVO)** foca em tornar a política ambiental uma **engrenagem de desenvolvimento econômico**, enfatizando a desburocratização do licenciamento, a celeridade no Cadastro Ambiental Rural (CAR) e o reordenamento da Floresta Estadual do Amapá (FLOTA/AP).
+* O plano **"Amapá, Um Novo Tempo"** foca na transição e diversificação energética (incluindo biogás e hidrogênio) e defende que eventuais receitas da exploração de petróleo na Margem Equatorial sejam revertidas para financiar a proteção da floresta e serviços públicos.
+
+
+#### Amazonas
+
+No plano de governo "Projeto Amazonas 2035", **Roberto Cidade (UNIÃO)** estrutura suas diretrizes ambientais no **Compromisso 42 (Meio Ambiente, Clima e Povos da Floresta)**. Suas principais propostas incluem:
+
+* **Plano Permanente de Enfrentamento às Cheias e Estiagens:** Criação de ações preventivas e estrutura de resposta rápida para socorrer e proteger as comunidades atingidas pelos ciclos climáticos extremos.
+* **Fortalecimento da Defesa Civil:** Ampliação do monitoramento climático, implantação de sistemas de alerta precoce e estrutura logística humanitária adaptada ao interior.
+* **Apoio à Produção Sustentável e Bioeconomia:** Incentivo direto ao manejo florestal sustentável, à pesca, ao extrativismo e aos produtos da biodiversidade, visando gerar emprego e renda sem desmatar a floresta.
+* **Infraestrutura Adaptada ao Clima:** Execução de obras e serviços públicos adaptados às mudanças climáticas para reduzir estragos recorrentes em estradas, pontes e comunidades rurais.
+* **Captação de Recursos e Serviços Ambientais:** Captação de recursos junto a fundos nacionais e internacionais (como Fundo Amazônia, Fundo Clima e mercados de carbono), fortalecimento do Fundo Estadual de Meio Ambiente e regulamentação dos Pagamentos por Serviços Ambientais (PSA).
+
+```{r}
+#| label: tbl-gastos-am
+#| tbl-cap: "Gastos empenhados relacionados à crise climática no Amazonas (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "AM", clima) |>
+  dplyr::select(ano, conta, valor) |>
+  # readr::write_csv(here::here(tidy, "gastos_am.csv"))
+  tidyr::pivot_wider(names_from = ano, values_from = valor) |>
+  dplyr::mutate(conta = dplyr::case_when(
+    conta == "FU18 - Demais Subfunções" ~ "Demais funções em Gestão Ambiental",
+    conta == "Administração Geral" ~ "Administração Geral em Gestão Ambiental",
+    TRUE ~ conta
+  )) |>
+  dplyr::mutate(dplyr::across(
+    2:5, scales::dollar, big.mark = ".", decimal.mark = ",", prefix = "R$ "
+  )) |>
+  tidyr::replace_na(list(`2023` = "-", `2024` = "-", `2025` = "-", `2026` = "-")) |>
+  dplyr::relocate(conta, `2023`, `2024`, `2025`, `2026`) |>
+  dplyr::arrange(conta) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-gastos-am
+#| fig-cap: "Gastos empenhados relacionados à crise climática no Amazonas (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "AM", clima) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+    conta == "Defesa Civil" ~ "Defesa Civil",
+    stringr::str_detect(conta, "Saneamento") ~ "Saneamento",
+    funcao == "18" ~ "Gestão Ambiental",
+    TRUE ~ "Outros"
+  )) |>
+  dplyr::select(ano, tipo, valor) |>
+  dplyr::mutate(ano = as.factor(ano)) |>
+  dplyr::summarise(valor = sum(valor), .by = c(ano, tipo)) |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = valor, color = tipo, group = tipo)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::scale_y_continuous(labels = scales::dollar_format(big.mark = ".", decimal.mark = ",", prefix = "R$ "))
+```
+
+
+Comparativo temático com outros candidatos:
+
+##### A. Enfrentamento a Eventos Climáticos Extremos e Infraestrutura
+
+* **Roberto Cidade:** Foca no fortalecimento da Defesa Civil e na adaptação de estradas, pontes e serviços públicos no interior para suportar os ciclos de secas e cheias.
+* **Cabo Daciolo:** Converge no foco em engenharia infraestrutural com o *Programa 33 (Amazonas Resiliente e Defesa Civil Presente)*, propondo a obrigatoriedade de padrões de resiliência em obras públicas para evitar a reconstrução contínua de estruturas vulneráveis.
+* **Isael Munduruku (PSOL/REDE):** Propõe um *Plano Estadual de Adaptação Climática com Justiça Territorial*, focando em mapeamento de riscos por comunidade/bairro e criação de um Fundo Estadual de Emergência e Adaptação.
+* **David Almeida (Avante):** Articula a resiliência no *Plano Clima Amazonas*, priorizando a gestão de dados e o controle social.
+
+##### B. Bioeconomia, Mercado de Carbono e Mecanismos Financeiros
+
+* **Roberto Cidade:** Defende a atração de investimentos privados, fundos internacionais e crédito verde, além de regulamentar o PSA e o mercado de carbono para financiar a preservação e gerar renda no interior.
+* **David Almeida:** Propõe acelerar projetos de créditos de carbono e REDD+ em Unidades de Conservação com transparência, além de incentivar tecnologias verdes (*green techs*) e a modernização industrial, sustentando que "não existe floresta em pé com o povo de joelhos".
+* **Isael Munduruku (PSOL/REDE):** Estabelece uma "linha vermelha" contra projetos ambientais que retirem a autonomia territorial de comunidades tradicionais, exigindo o cumprimento estrito da Convenção 169 da OIT (consulta prévia).
+* **PSTU:** Adota uma postura oposta às propostas de mercado, rejeitando os créditos de carbono e a mercantilização da floresta, defendendo o combate direto ao agronegócio e ao capital.
+
+##### C. Fiscalização e Tecnologias de Monitoramento
+
+* **Roberto Cidade:** Prioriza a captação de recursos e a articulação institucional de órgãos estaduais de fiscalização e meio ambiente.
+* **Professora Maria do Carmo:** Enfatiza o uso de tecnologias de ponta, como drones, satélites de alta resolução e análise de dados para combate ao desmatamento e queimadas, associado à revisão do zoneamento e das Unidades de Conservação.
+* **David Almeida:** Propõe a aplicação de inteligência artificial na estrutura de prevenção contra queimadas e desmatamento.
+* **Isael Munduruku (PSOL/REDE):** Foca na fiscalização descentralizada via criação de um programa permanente de *brigadas comunitárias* formadas e remuneradas por indígenas, ribeirinhos e extrativistas.
+
+##### D. Matrizes Energéticas e Transição
+
+* **Roberto Cidade:** Defende a expansão do uso do gás natural e a exploração mineral sustentável como novas matrizes de desenvolvimento para o estado.
+* **Isael Munduruku (PSOL/REDE):** Propõe a transição energética popular focada em energia solar comunitária e defende vetar novos incentivos estaduais à exploração de petróleo e gás sem avaliação climática rigorosa.
+
+
+#### Mato Grosso
+
+O candidato **Otaviano Pivetta (REPUBLICANOS)** alicerça sua pauta ambiental no conceito do "Fazimento" e do "Lucro Social", destacando os resultados obtidos pela gestão estadual, como a manutenção de 60% do território com cobertura vegetal preservada, o monitoramento por sensoriamento remoto em 100% do estado e a aplicação de mais de R$ 454 milhões no combate a ilícitos. Suas principais propostas para o próximo mandato incluem:
+
+* **Modernização e Automação Ambiental:** Implementação da análise automatizada do Cadastro Ambiental Rural (CAR Digital 2.0) nos municípios para acelerar a regularização e focar a análise técnica nos casos mais complexos.
+* **Transformação Digital e Licenciamento:** Expansão da Licença Ambiental Simplificada (LAC) e automação de fluxos geoespaciais para reduzir tempo e custos de resposta aos empreendedores.
+* **Bioeconomia e Tecnologias Verdes:** Articulação do Programa Estadual de Bioeconomia e Clima com iniciativas consolidadas, como o Programa REM MT, fomentando o uso de bioinsumos, energias renováveis e eficiência energética nos biomas Cerrado, Pantanal e Amazônia.
+* **Internacionalização da Produção Verde:** Promoção da rastreabilidade territorial, créditos de carbono e tecnologias sustentáveis sob a marca *Made in Mato Grosso*.
+* **Unidades de Conservação e Ecoturismo:** Fortalecimento da regularização ambiental e fundiária em Unidades de Conservação (UCs) e incentivo ao ecoturismo como vetor de conservação.
+* **Plano Pantanal Resiliente ao Fogo:** Fortalecimento do combate a incêndios com manejo integrado do fogo, manutenção permanente de aceiros e brigadas operacionais de pronta resposta.
+
+```{r}
+#| label: tbl-gastos-mt
+#| tbl-cap: "Gastos empenhados relacionados à crise climática no Mato Grosso (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "MT", clima) |>
+  dplyr::select(ano, conta, valor) |>
+  # readr::write_csv(here::here(tidy, "gastos_mt.csv"))
+  tidyr::pivot_wider(names_from = ano, values_from = valor) |>
+  dplyr::mutate(conta = dplyr::case_when(
+    conta == "FU18 - Demais Subfunções" ~ "Demais funções em Gestão Ambiental",
+    conta == "Administração Geral" ~ "Administração Geral em Gestão Ambiental",
+    TRUE ~ conta
+  )) |>
+  dplyr::mutate(dplyr::across(
+    2:5, scales::dollar, big.mark = ".", decimal.mark = ",", prefix = "R$ "
+  )) |>
+  tidyr::replace_na(list(`2023` = "-", `2024` = "-", `2025` = "-", `2026` = "-")) |>
+  dplyr::arrange(conta) |>
+  dplyr::relocate(conta, `2023`, `2024`, `2025`, `2026`) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-gastos-mt
+#| fig-cap: "Gastos empenhados relacionados à crise climática no Mato Grosso (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "MT", clima) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+    conta == "Defesa Civil" ~ "Defesa Civil",
+    stringr::str_detect(conta, "Saneamento") ~ "Saneamento",
+    funcao == "18" ~ "Gestão Ambiental",
+    TRUE ~ "Outros"
+  )) |>
+  dplyr::select(ano, tipo, valor) |>
+  dplyr::mutate(ano = as.factor(ano)) |>
+  dplyr::summarise(valor = sum(valor), .by = c(ano, tipo)) |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = valor, color = tipo, group = tipo)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::scale_y_continuous(labels = scales::dollar_format(big.mark = ".", decimal.mark = ",", prefix = "R$ "))
+```
+
+Comparação com outros candidatos:
+
+* **Foco em Tecnologia e Mercado vs. Recomposição Orçamentária:** Enquanto Pivetta e Wellington Fagundes enfatizam a celeridade digital (CAR autogerado por IA, licenças aceleradas) e a projeção internacional da produção sustentável, **Natasha Slhessarenko** faz uma crítica direta à gestão atual, apontando que o eixo ambiental recebe apenas 0,7% do orçamento executivo e defendendo a recomposição imediata das verbas de fiscalização e o apoio à agricultura familiar.
+* **Intensificação Produtiva vs. Abertura de Áreas:** **Maurício Coelho** defende expressamente elevar a produtividade por hectare em áreas já abertas via Plano ABC+ (ILPF e recuperação de pastagens) sem abrir novas áreas, posição similar à de **Sargento Laudicério**, que foca na integração do monitoramento com o PPA.
+* **Gestão Hídrica e Proteção à Fauna:** Wellington Fagundes introduz a **Política AMAR** (resgate de animais em desastres e incêndios), enquanto Maurício Coelho propõe o programa **Água e Território Vivos** focado na gestão por bacias hidrográficas.
+
+#### Pará
+
+A candidatura de **Hana Ghassan** (que representa a continuidade da atual gestão estadual) estrutura sua pauta ambiental no pilar **"Clima e Meio Ambiente"**. Suas principais propostas para o próximo mandato incluem:
+
+* **Plano Estadual de Adaptação Climática:** Proteção de ribeirinhos, agricultores familiares, povos indígenas e comunidades tradicionais contra os impactos de secas e cheias extremas.
+* **Mercado de Carbono Jurisdicional e REDD+:** Aplicação dos primeiros recursos arrecadados pelo programa estadual de REDD+ com destinação direta a quem conserva a floresta, respaldado por Consultas Livres, Prévias e Informadas (CLPI) com populações tradicionais.
+* **Pagamento por Serviços Ambientais (PSA):** Implementação do PSA para remunerar famílias que preservam matas nativas, nascentes e a biodiversidade.
+* **Consolidação do Hub de Bioeconomia:** Intensificação do Parque de Bioeconomia e Inovação da Amazônia, fortalecimento do Plano Estadual de Bioeconomia (PlanBio), expansão do programa Inova Sociobio e consolidação do Vale Bioamazônico.
+* **Combate ao Desmatamento e Incêndios Florestais:** Ampliação do monitoramento e fiscalização com novas bases fixas da Brigada de Combate a Incêndios.
+* **Cheque Pecuária e Uso do Solo:** Expansão do programa Cheque Pecuária para apoiar produtores na recuperação de pastagens degradadas e intensificar a produção em áreas já abertas.
+* **Regularização Ambiental e Fundiária:** Implementação do novo sistema estadual de CAR, revisão do Zoneamento Ecológico-Econômico (ZEE) e continuidade das ações do "Regulariza Pará".
+* **Polos Regionais de Aterros Sanitários:** Fomento a consórcios regionais com o setor privado para destinação adequada de cerca de 70% do lixo urbano do estado.
+
+```{r}
+#| label: tbl-gastos-pa
+#| tbl-cap: "Gastos empenhados relacionados à crise climática no Pará (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "PA", clima) |>
+  dplyr::select(ano, conta, valor) |>
+  # readr::write_csv(here::here(tidy, "gastos_pa.csv"))
+  tidyr::pivot_wider(names_from = ano, values_from = valor) |>
+  dplyr::mutate(conta = dplyr::case_when(
+    conta == "FU18 - Demais Subfunções" ~ "Demais funções em Gestão Ambiental",
+    conta == "Administração Geral" ~ "Administração Geral em Gestão Ambiental",
+    TRUE ~ conta
+  )) |>
+  dplyr::mutate(dplyr::across(
+    2:5, scales::dollar, big.mark = ".", decimal.mark = ",", prefix = "R$ "
+  )) |>
+  tidyr::replace_na(list(`2023` = "-", `2024` = "-", `2025` = "-", `2026` = "-")) |>
+  dplyr::arrange(conta) |>
+  dplyr::relocate(conta, `2023`, `2024`, `2025`, `2026`) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-gastos-pa
+#| fig-cap: "Gastos empenhados relacionados à crise climática no Pará (2023-2026)"
+
+gastos |>
+  dplyr::filter(uf == "PA", clima) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+    conta == "Defesa Civil" ~ "Defesa Civil",
+    stringr::str_detect(conta, "Saneamento") ~ "Saneamento",
+    funcao == "18" ~ "Gestão Ambiental",
+    TRUE ~ "Outros"
+  )) |>
+  dplyr::select(ano, tipo, valor) |>
+  dplyr::mutate(ano = as.factor(ano)) |>
+  dplyr::summarise(valor = sum(valor), .by = c(ano, tipo)) |>
+  ggplot2::ggplot(ggplot2::aes(x = ano, y = valor, color = tipo, group = tipo)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::scale_y_continuous(labels = scales::dollar_format(big.mark = ".", decimal.mark = ",", prefix = "R$ "))
+```
+
+Ao comparar o programa de Hana Ghassan com os das outras candidaturas no Pará:
+
+* **Doutor Daniel Santos** e a chapa do **Partido DEMOCRATA** compartilham a aposta na bioeconomia, no mercado de carbono e na recuperação de pastagens, mas enfatizam a **automação por inteligência artificial** na análise do CAR e maior flexibilização/celeridade nos licenciamentos ambientais.
+* **Araceli (PSOL-REDE)** foca na criação de uma estrutura institucional própria voltada à **Justiça Climática e adaptação urbana**, propondo a criação da Secretaria de Estado de Mudanças Climáticas (SECLIMA) e o programa de "Cidades Esponja".
+* A **Candidatura Socialista / PSTU** faz uma oposição direta às propostas de mercado verde, contestando a venda de créditos de carbono, a exploração mineral e os megaprojetos de infraestrutura, defendendo a estatização do saneamento e o apoio exclusivo à agricultura familiar e à agroecologia.
+
+
+## Dados
+
+- Candidatos [TSE](https://dadosabertos.tse.jus.br/dataset/candidatos-2026)
+- Gastos empenhados por função e subfunção do Siconfi (via [Base dos Dados](https://basedosdados.org/dataset/5a3dec52-8740-460e-b31d-0e0347979da0?table=0091d8c9-a2d0-4e6e-86f9-2b4c86aee683), para 2023-2025) e [Relatório Resumido da Execução Orçamentária](https://siconfi.tesouro.gov.br/siconfi/pages/public/consulta_finbra_rreo/finbra_rreo_list.jsf) para 2026 (3o bimestre)
