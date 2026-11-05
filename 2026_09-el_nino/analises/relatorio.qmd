@@ -1,7 +1,7 @@
 ---
 title: "Relatório de análise de dados - El Niño"
-format: 
-  html: 
+format:
+  html:
     self-contained: true
     embed-resources: true
   docx: default
@@ -12,472 +12,65 @@ df-print: paged
 lang: pt
 ---
 
-Prioridade 1: Anomalias de precipitação projetadas (outubro, novembro, dezembro)
-
-1. Qual é o percentual do território da Bacia Amazônica (Pan-Amazônia) com anomalia de precipitação mensal projetada para abaixo de -50mm, em outubro, novembro e dezembro?
-2. Entre as bacias hidrográficas da Pan-Amazônia, qual é o percentual do território que será afetado por anomalias de precipitação abaixo de -50mm para cada bacia em outubro, novembro e dezembro?
-3. Quais estados na Amazônia brasileira serão mais afetados, em proporção ao território, por anomalias de precipitação abaixo de -50 mm em outubro, novembro e dezembro?
-4. (apenas se for viável no tempo curto) Quantos municípios na Amazônia brasileira serão afetados, em proporção ao território, por anomalias de precipitação abaixo de -50 mm em outubro, novembro e dezembro?
-5. Quais são as anomalias de precipitação projetadas, em proporção ao território, nos municípios de Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus em outubro, novembro e dezembro?
-
-Prioridade 1: Anomalias de temperatura projetadas (outubro, novembro, dezembro)
-
-1. Qual será o percentual do território da Pan-Amazônia com anomalia de temperatura mensal observada acima de 1ºC em outubro, novembro e dezembro? E o percentual de anomalia de temperatura mensal observada acima de 2ºC?
-2. Entre as bacias hidrográficas da Pan-Amazônia, qual será o percentual do território afetado por anomalias de temperatura acima de 1ºC para cada bacia em outubro, novembro e dezembro? Quais serão mais afetadas, em percentual do território, por anomalias de temperatura acima de 2ºC?
-3. Quais estados da Amazônia brasileira serão mais afetados, em proporção ao território, por anomalias de temperatura acima de 1ºC em outubro, novembro e dezembro? Quais serão mais afetados por anomalias de temperatura acima de 2ºC?
-4. (apenas se for viável no tempo curto) Quantos municípios na Amazônia brasileira serão mais afetados, em proporção ao território, por anomalias de temperatura acima de 1ºC em outubro, novembro e dezembro? Dentre esses municípios, quantos serão mais afetados, em proporção ao território, por anomalias de temperatura acima de 2ºC?
-5. Quais são as anomalias de temperatura projetadas para os municípios de Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus em outubro, novembro e dezembro?
-
-Prioridade 2: Anomalias de temperatura observadas (setembro)
-
-1. Qual é o percentual do território da Pan-Amazônia com anomalia de temperatura mensal observada acima de 1ºC em setembro? E o percentual de anomalia de temperatura mensal observada acima de 2ºC?
-2. Entre as bacias hidrográficas da Amazônia, qual é o percentual do território afetado por anomalias de temperatura acima de 1ºC para cada bacia?
-3. Quais bacias hidrográficas da Amazônia foram mais afetadas, em percentual do território, por anomalias de temperatura acima de 2ºC?
-4. Quais estados da Amazônia brasileira foram mais afetados, em proporção ao território, por anomalias de temperatura acima de 1ºC em setembro? Quantos foram mais afetados, em percentual do território, por anomalias de temperatura acima de 2ºC?
-5. (apenas se for viável no tempo curto) Quantos municípios na Amazônia brasileira foram mais afetados, em proporção ao território, por anomalias de temperatura acima de 1ºC em setembro? Dentre esses municípios, quantos foram mais afetados, em proporção ao território, por anomalias de temperatura acima de 2ºC?
-6. Quais são as anomalias de temperatura observadas para os municípios de Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus em setembro?
-
-
-
 ```{r}
 #| label: dados
 
 dd <- here::here("2026_09-el_nino/dados/raw")
-tidy <- here::here("2026_09-el_nino/dados/tidy")
+dir_labclim <- here::here(dd, "LABCLIM_AnomaliasChuvaTemperatura")
 
-tbl_precip_09_municipios <- readr::read_csv(here::here(tidy, "tbl_precip_09_municipios.csv"))
+# Anomalias observadas (Labclim, versão de 03/11/2026). Cada mês vem em um
+# arquivo com várias camadas; a primeira é a anomalia. Setembro e outubro
+# estão na mesma grade e são empilhados em um único raster, uma camada por mês.
+ler_observado <- function(arquivos, meses = c(setembro = "202609", outubro = "202610")) {
+  r <- here::here(dir_labclim, paste0(arquivos, meses, ".nc")) |>
+    purrr::map(\(f) terra::rast(f)[[1]]) |>
+    terra::rast()
+  names(r) <- names(meses)
+  r
+}
 
-obs_precip_09 <- here::here(
-  dd, "LABCLIM_AnomaliasChuvaTemperatura",
-  "OBSERVADO-CHUVA-Anomalia_Mensal_202609.nc"
-) |>
-  terra::rast()
+# Chuva: MERGE (INPE), grade de 0,1°, normal 1998-2024
+obs_precip <- ler_observado("CHUVA_JUL-OUT/MERGE_anomalia_chuva_")
+# Temperatura: SAMeT (INPE), 0,05°, cobre toda a América do Sul. Recorte na
+# região da Amazônia Legal.
+obs_temp <- ler_observado("TEMP_JUL-OUT/SAMeT_anomalia_tmed_") |>
+  terra::crop(terra::ext(-80, -41, -21, 6))
 
-bacia_am <- sf::read_sf(here::here(dd, "RAISG_Cuencas_2025")) |>
-  terra::vect() |>
-  terra::project(terra::crs(obs_precip_09))
-
+# Amazônia Legal: os 9 estados inteiros (inclusive todo o Maranhão, e não só
+# a parte a oeste do meridiano de 44°)
 ufs <- geobr::read_state(year = 2025) |>
   dplyr::filter(abbrev_state %in% c(
     "AM", "AC", "RO", "RR", "PA", "AP", "TO", "MA", "MT"
   )) |>
   terra::vect() |>
-  terra::project(terra::crs(obs_precip_09))
+  terra::project("EPSG:4326")
+amazonia_legal <- terra::aggregate(ufs)
 
-# Mesorregiões hidrográficas com mais da metade da área na Pan-Amazônia
+# Mesorregiões hidrográficas com mais da metade da área na Amazônia Legal
 sf::sf_use_s2(FALSE)
-bacia_am_sf <- sf::read_sf(here::here(dd, "RAISG_Cuencas_2025")) |>
+amazonia_legal_sf <- sf::st_as_sf(amazonia_legal) |>
   sf::st_make_valid()
 bacias_sf <- sf::read_sf(here::here(dd, "ibge_rh_meso")) |>
   sf::st_make_valid() |>
-  sf::st_transform(sf::st_crs(bacia_am_sf)) |>
+  sf::st_transform(sf::st_crs(amazonia_legal_sf)) |>
   dplyr::mutate(area_total = as.numeric(sf::st_area(geometry)))
-cd_bacias_am <- bacias_sf |>
-  sf::st_intersection(sf::st_geometry(bacia_am_sf)) |>
+cd_bacias_al <- bacias_sf |>
+  sf::st_intersection(sf::st_geometry(amazonia_legal_sf)) |>
   dplyr::mutate(frac = as.numeric(sf::st_area(geometry)) / area_total) |>
   dplyr::filter(frac > 0.5) |>
   dplyr::pull(cd_mesoRH)
 sf::sf_use_s2(TRUE)
 
 bacias <- bacias_sf |>
-  dplyr::filter(cd_mesoRH %in% cd_bacias_am) |>
-  terra::vect() |>
-  terra::project(terra::crs(obs_precip_09))
-```
-
-# Precipitação
-
-## Projeções
-
-```{r}
-#| label: dados-projecao
-
-# Anomalia projetada = previsão ECMWF (set/2026) - normal INMET 1991-2020,
-# grade de 1° (ver 4_comparacao_normais.r)
-anom_proj <- here::here(tidy, "comparacao_normais", "anomalia_mm.tif") |>
-  terra::rast() |>
-  terra::subset(c("2026-10", "2026-11", "2026-12"))
-names(anom_proj) <- c("outubro", "novembro", "dezembro")
-area_cel <- terra::cellSize(anom_proj[[1]], unit = "km")
-
-# Fração da área de cada polígono com anomalia < limiar, por mês. Cada célula
-# de 1° pesa pela área que de fato cai dentro do polígono; células sem normal
-# (fora do Brasil) não entram no denominador.
-pct_area_anomalia <- function(v, limiar = -50) {
-  terra::extract(c(anom_proj, area_cel), v, exact = TRUE) |>
-    tibble::as_tibble() |>
-    tidyr::pivot_longer(
-      c(outubro, novembro, dezembro), names_to = "mes", values_to = "anomalia"
-    ) |>
-    dplyr::filter(!is.na(anomalia)) |>
-    dplyr::mutate(peso = fraction * area) |>
-    dplyr::summarise(
-      pct = sum(peso * (anomalia < limiar)) / sum(peso),
-      .by = c(ID, mes)
-    ) |>
-    dplyr::mutate(mes = factor(mes, c("outubro", "novembro", "dezembro")))
-}
-
-# Parte brasileira da Pan-Amazônia (única com normal INMET). Sem esse recorte,
-# células de 1° na fronteira levariam área de países vizinhos ao denominador.
-bacia_am_4326 <- terra::project(bacia_am, "EPSG:4326")
-bacia_br <- geobr::read_country(year = 2020) |>
-  terra::vect() |>
-  terra::project("EPSG:4326") |>
-  terra::intersect(terra::aggregate(bacia_am_4326))
-area_bacia_total <- sum(terra::expanse(bacia_am_4326, unit = "km"))
-area_bacia_br <- sum(terra::expanse(bacia_br, unit = "km"))
-
-ufs_4326 <- terra::project(ufs, "EPSG:4326")
-bacias_am <- terra::project(bacias, "EPSG:4326")
-
-municipios_amazonia <- readxl::read_excel(
-  here::here(dd, "amazonia_legal.xls")
-)
-municipios_al <- geobr::read_municipality(year = 2024) |>
-  dplyr::filter(code_muni %in% municipios_amazonia$CD_MUN) |>
+  dplyr::filter(cd_mesoRH %in% cd_bacias_al) |>
   terra::vect() |>
   terra::project("EPSG:4326")
 
-proj_bacia <- pct_area_anomalia(bacia_br)
-proj_bacias <- pct_area_anomalia(bacias_am) |>
-  dplyr::mutate(bacia = bacias_am$nm_mesoRH[ID])
-proj_ufs <- pct_area_anomalia(ufs_4326) |>
-  dplyr::mutate(uf = ufs_4326$abbrev_state[ID])
-proj_municipios <- pct_area_anomalia(municipios_al) |>
-  dplyr::mutate(
-    municipio = municipios_al$name_muni[ID],
-    uf = municipios_al$abbrev_state[ID]
-  )
-
-pct_mes <- function(tbl, m) {
-  scales::percent(tbl$pct[tbl$mes == m], 0.1, decimal.mark = ",")
-}
-n_municipios <- function(m, minimo = 0) {
-  sum(proj_municipios$pct[proj_municipios$mes == m] > minimo)
-}
-uf_top <- proj_ufs |>
-  dplyr::filter(mes == "outubro") |>
-  dplyr::slice_max(pct, n = 3) |>
-  dplyr::pull(uf)
-```
-
-- `r pct_mes(proj_bacia, "outubro")` da parte brasileira da Bacia Amazônica deve ter anomalia de precipitação abaixo de -50mm em outubro, `r pct_mes(proj_bacia, "novembro")` em novembro e `r pct_mes(proj_bacia, "dezembro")` em dezembro (@tbl-proj-bacia)
-- Entre as bacias hidrográficas, Alto Tocantins, Araguaia, Baixo Tocantins, Trombetas/Uatumã e Xingu já aparecem com mais de 90% do território abaixo de -50mm em outubro; em novembro, 9 das 13 bacias têm mais de 80% do território nessa situação. Japurá e Javari/Juruá, no oeste do Amazonas, são as menos afetadas nos três meses; a do Negro é a menos afetada em outubro (@tbl-proj-bacias)
-- Em outubro, os estados mais afetados em proporção ao território são `r paste(uf_top, collapse = ", ")`; em dezembro, todos os estados da Amazônia Legal têm mais de 80% do território com anomalia abaixo de -50mm (@tbl-proj-ufs)
-- `r n_municipios("outubro")` dos `r nrow(municipios_al)` municípios da Amazônia Legal devem ter alguma parte do território com anomalia abaixo de -50mm em outubro; em `r n_municipios("outubro", 0.5)` deles, isso vale para mais da metade do território. Em dezembro, são `r n_municipios("dezembro")` e `r n_municipios("dezembro", 0.5)`, respectivamente (@tbl-proj-municipios)
-- Humaitá, Manicoré, Borba, Nova Olinda do Norte e Manaus devem ter 85% ou mais do território com anomalia abaixo de -50mm já em outubro. Novo Aripuanã é o menos afetado no mês (55%). Em novembro, os seis municípios passam de 85%, e em dezembro todos chegam a 100% (@fig-proj-municipios-selecionados)
-
-::: {.callout-note}
-## Como as anomalias foram calculadas
-
-A anomalia projetada é a diferença entre a previsão mensal de precipitação do ECMWF (rodada de setembro de 2026, grade de 1°, cerca de 110 km) e a normal climatológica do INMET (1991-2020) para o mesmo mês. Algumas limitações:
-
-- As normais do INMET cobrem apenas o Brasil. Por isso, os percentuais da Pan-Amazônia se referem à parte brasileira da bacia, que corresponde a `r scales::percent(area_bacia_br / area_bacia_total, 1)` da área total.
-- A previsão é a saída bruta do modelo, comparada com uma normal observada. Se o modelo tem tendência sistemática de subestimar ou superestimar a chuva na região, essa diferença aparece como anomalia. O ideal seria comparar com a climatologia do próprio modelo (hindcast), que não está disponível nos dados recebidos.
-- As normais do INMET foram obtidas a partir dos mapas publicados, em faixas de 10mm a 40mm de largura. Cada faixa foi convertida para o valor central.
-- Com células de 1°, municípios pequenos ficam dentro de uma ou duas células, e o resultado reflete a média da região ao redor.
-:::
-
-```{r}
-#| label: tbl-proj-bacia
-#| tbl-cap: Percentual do território da Bacia Amazônica (parte brasileira) com anomalia de precipitação projetada abaixo de -50mm.
-
-proj_bacia |>
-  dplyr::transmute(mes, pct_territorio = scales::percent(pct, 0.1)) |>
-  knitr::kable()
-```
-
-```{r}
-#| label: fig-proj-bacia
-#| fig-cap: Anomalia de precipitação projetada (mm) na Bacia Amazônica (parte brasileira), outubro a dezembro de 2026
-
-anom_proj |>
-  terra::crop(bacia_br, mask = TRUE, touches = TRUE) |>
-  terra::plot(
-    breaks = c(-250, -150, -100, -50, 0, 50, 100, 150, 300),
-    col = hcl.colors(8, "BrBG"),
-    main = names(anom_proj),
-    nc = 3,
-    plg = list(cex = 0.7),
-    mar = c(2, 2, 2, 5),
-    fun = \() terra::lines(ufs_4326)
-  )
-```
-
-```{r}
-#| label: tbl-proj-bacias
-#| tbl-cap: Percentual do território das bacias hidrográficas da Amazônia com anomalia de precipitação projetada abaixo de -50mm.
-
-proj_bacias |>
-  dplyr::select(bacia, mes, pct) |>
-  tidyr::pivot_wider(names_from = mes, values_from = pct) |>
-  dplyr::arrange(dplyr::desc(outubro)) |>
-  dplyr::mutate(dplyr::across(-bacia, \(x) scales::percent(x, 1))) |>
-  knitr::kable()
-```
-
-```{r}
-#| label: tbl-proj-ufs
-#| tbl-cap: Percentual do território dos estados da Amazônia Legal com anomalia de precipitação projetada abaixo de -50mm.
-
-proj_ufs |>
-  dplyr::select(uf, mes, pct) |>
-  tidyr::pivot_wider(names_from = mes, values_from = pct) |>
-  dplyr::arrange(dplyr::desc(outubro)) |>
-  dplyr::mutate(dplyr::across(-uf, \(x) scales::percent(x, 1))) |>
-  knitr::kable()
-```
-
-```{r}
-#| label: tbl-proj-municipios
-#| tbl-cap: Municípios da Amazônia Legal com anomalia de precipitação projetada abaixo de -50mm, em percentual do território.
-
-proj_municipios |>
-  dplyr::select(municipio, uf, mes, pct) |>
-  tidyr::pivot_wider(names_from = mes, values_from = pct) |>
-  dplyr::filter(outubro > 0 | novembro > 0 | dezembro > 0) |>
-  dplyr::arrange(dplyr::desc(outubro), dplyr::desc(novembro)) |>
-  dplyr::mutate(
-    dplyr::across(c(outubro, novembro, dezembro), \(x) scales::percent(x, 1))
-  )
-```
-
-```{r}
-#| label: fig-proj-municipios-selecionados
-#| fig-cap: Anomalia de precipitação projetada em Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus, em proporção ao território
-
-municipios_selecionados <- municipios_al[
-  municipios_al$abbrev_state == "AM" &
-    municipios_al$name_muni %in% c(
-      "Humaitá", "Manicoré", "Novo Aripuanã", "Borba",
-      "Nova Olinda do Norte", "Manaus"
-    ),
-]
-
-terra::extract(c(anom_proj, area_cel), municipios_selecionados, exact = TRUE) |>
-  tibble::as_tibble() |>
-  dplyr::mutate(municipio = municipios_selecionados$name_muni[ID]) |>
-  tidyr::pivot_longer(
-    c(outubro, novembro, dezembro), names_to = "mes", values_to = "anomalia"
-  ) |>
-  dplyr::filter(!is.na(anomalia)) |>
-  dplyr::mutate(
-    mes = factor(mes, c("outubro", "novembro", "dezembro")),
-    faixa_anomalia = dplyr::case_when(
-      anomalia < -50 ~ "anomalia < -50mm",
-      anomalia < 0 ~ "anomalia entre -50mm e 0mm",
-      TRUE ~ "anomalia >= 0mm"
-    )
-  ) |>
-  dplyr::summarise(
-    peso = sum(fraction * area), .by = c(municipio, mes, faixa_anomalia)
-  ) |>
-  dplyr::mutate(pct = peso / sum(peso), .by = c(municipio, mes)) |>
-  dplyr::mutate(pct_label = scales::percent(pct, 1)) |>
-  ggplot2::ggplot(ggplot2::aes(
-    x = pct, y = municipio, fill = faixa_anomalia,
-    label = pct_label, group = faixa_anomalia
-  )) +
-  ggplot2::geom_col() +
-  ggplot2::geom_text(position = ggplot2::position_stack(0.5)) +
-  ggplot2::facet_wrap(ggplot2::vars(mes), ncol = 1) +
-  ggplot2::theme_minimal()
-```
-
-
-## Dados observados
-
-- 6,8% do território da Bacia Amazônica apresentou anomalia de precipitação abaixo de -50mm em setembro (@tbl-precip-09-bacia)
-- Roraima foi o estado mais afetado, com 81% do território com anomalia de precipitação abaixo de -50mm (@tbl-precip-09-ufs)
-- 56 dos 773 municípios da Amazônia Legal apresentaram anomalia de precipitação abaixo de -50mm em setembro (@tbl-municipios-precip-09)
-
-```{r}
-#| label: tbl-precip-09-bacia
-#| tbl-cap: Percentual do território da Bacia Amazônica com anomalia de precipitação abaixo de -50mm em setembro.
-
-obs_precip_09 |>
-  terra::crop(bacia_am, mask = TRUE) |>
-  tibble::as_tibble() |>
-  dplyr::count(prec < -50) |>
-  janitor::adorn_percentages("col") |>
-  janitor::adorn_pct_formatting() |>
-  knitr::kable()
-```
-
-```{r}
-#| label: plot-precip-09-bacia
-#| fig-cap: Anomalia de precipitação observada em setembro de 2026 na Bacia Amazônica
-
-obs_precip_09 |>
-  terra::crop(bacia_am, mask = TRUE) |>
-  terra::plot()
-terra::plot(ufs, add = TRUE)
-
-```
-
-```{r}
-#| label: tbl-precip-09-bacias
-#| tbl-cap: Bacias hidrográficas com anomalia de precipitação abaixo de -50mm em setembro
-
-bacias$nm_mesoRH |>
-  purrr::map(\(x) {
-    obs_precip_09 |>
-      terra::crop(bacias[bacias$nm_mesoRH == x, ], mask = TRUE) |>
-      tibble::as_tibble() |>
-      dplyr::count(prec < -50) |>
-      janitor::adorn_percentages("col") |>
-      janitor::adorn_pct_formatting() |>
-      dplyr::mutate(nm_mesoRH = x)
-  }) |>
-  dplyr::bind_rows() |>
-  dplyr::filter(`prec < -50`) |>
-  dplyr::transmute(mesorregião = nm_mesoRH, pct_territorio = n) |>
-  dplyr::arrange(dplyr::desc(pct_territorio)) |>
-  knitr::kable()
-
-```
-
-```{r}
-#| label: plot-precip-09-bacias
-#| fig-cap: Anomalia de precipitação observada em setembro de 2026 em bacias hidrográficas da Amazônia
-
-obs_precip_09 |>
-  terra::crop(bacias, mask = TRUE) |>
-  terra::plot()
-terra::plot(bacias, add = TRUE)
-```
-
-
-```{r}
-#| label: tbl-precip-09-ufs
-#| tbl-cap: Estados da Amazônia brasileira com anomalia de precipitação abaixo de -50mm em setembro.
-
-
-ufs$abbrev_state |>
-  purrr::map(\(x) {
-    obs_precip_09 |>
-      terra::crop(ufs[ufs$abbrev_state == x, ], mask = TRUE) |>
-      tibble::as_tibble() |>
-      dplyr::count(prec < -50) |>
-      janitor::adorn_percentages("col") |>
-      janitor::adorn_pct_formatting() |>
-      dplyr::mutate(abbrev_state = x)
-  }) |>
-  dplyr::bind_rows() |>
-  dplyr::filter(`prec < -50`) |>
-  dplyr::transmute(uf = abbrev_state, pct_territorio = n) |>
-  dplyr::arrange(dplyr::desc(pct_territorio)) |>
-  knitr::kable()
-
-```
-
-
-```{r}
-#| label: tbl-municipios-precip-09
-#| tbl-cap: Municípios da Amazônia Legal com anomalia de precipitação abaixo de -50mm em setembro.
-
-tbl_precip_09_municipios |>
-  dplyr::summarise(
-    n = sum(prec < -50), total = dplyr::n(),
-    .by = c("code_muni", "municipio", "uf")
-  ) |>
-  dplyr::mutate(pct_territorio = n / total) |>
-  dplyr::filter(n > 0) |>
-  dplyr::arrange(dplyr::desc(pct_territorio)) |>
-  dplyr::transmute(municipio, uf, pct_territorio = scales::percent(pct_territorio, 1)) |>
-  knitr::kable()
-
-```
-
-
-```{r}
-#| label: plot-precip-09-municipios
-#| fig-cap: Anomalia de precipitação observada em setembro de 2026 em Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus
-
-tbl_precip_09_municipios |>
-  dplyr::filter(uf == "AM", municipio %in% c(
-    "Humaitá", "Manicoré", "Novo Aripuanã", "Borba",
-    "Nova Olinda do Norte", "Manaus"
-  )) |>
-  dplyr::mutate(
-    faixa_anomalia = dplyr::case_when(
-      prec < -50 ~ "anomalia < -50mm",
-      prec >= -50 & prec < 0 ~ "anomalia entre -50mm e 0mm",
-      prec >= 0 ~ "anomalia >= 0mm"
-    )
-  ) |>
-  dplyr::count(municipio, faixa_anomalia) |>
-  dplyr::mutate(pct = n / sum(n), .by = municipio) |>
-  dplyr::mutate(pct_label = scales::percent(pct, 1)) |>
-  ggplot2::ggplot(ggplot2::aes(
-    x = pct, y = municipio, fill = faixa_anomalia,
-    label = pct_label, group = faixa_anomalia
-  )) +
-  ggplot2::geom_col() +
-  ggplot2::geom_text(position = ggplot2::position_stack(0.5)) +
-  ggplot2::theme_minimal()
-```
-
-
-# Temperatura
-
-```{r}
-#| label: dados-temp
-
-anom_temp_proj <- here::here(tidy, "comparacao_normais", "anomalia_temp_c.tif") |>
-  terra::rast() |>
-  terra::subset(c("2026-10", "2026-11", "2026-12"))
-names(anom_temp_proj) <- c("outubro", "novembro", "dezembro")
-
-# SAMeT (INPE), 0,05°, cobre toda a América do Sul. Recorte na região da
-# Pan-Amazônia e da Amazônia Legal.
-obs_temp_09 <- here::here(
-  dd, "LABCLIM_AnomaliasChuvaTemperatura",
-  "OBSERVADO-TEMP-Anomalia_Mensal_202609.nc"
-) |>
-  terra::rast() |>
-  terra::crop(terra::ext(-80, -41, -21, 6))
-names(obs_temp_09) <- "setembro"
-
-# Anomalia média e fração da área de cada polígono acima de 1 °C e de 2 °C,
-# por mês, ponderadas pela área das células. Na grade de 1° da projeção, cada
-# célula pesa pela fração que cai dentro do polígono (exact = TRUE). Na grade
-# de 0,05° do SAMeT, basta o centro da célula estar no polígono, e o cálculo
-# exato seria lento demais com o contorno detalhado da Pan-Amazônia.
-resumo_temp <- function(r, v, exact = TRUE) {
-  meses <- names(r)
-  area_celula <- terra::cellSize(r[[1]], unit = "km")
-  names(area_celula) <- "area_celula"
-  terra::extract(c(r, area_celula), v, exact = exact) |>
-    tibble::as_tibble() |>
-    (\(x) if (exact) x else dplyr::mutate(x, fraction = 1))() |>
-    tidyr::pivot_longer(
-      dplyr::all_of(meses), names_to = "mes", values_to = "anomalia"
-    ) |>
-    dplyr::filter(!is.na(anomalia)) |>
-    dplyr::mutate(peso = fraction * area_celula) |>
-    dplyr::summarise(
-      anomalia_media = sum(peso * anomalia) / sum(peso),
-      acima_1 = sum(peso * (anomalia > 1)) / sum(peso),
-      acima_2 = sum(peso * (anomalia > 2)) / sum(peso),
-      .by = c(ID, mes)
-    ) |>
-    dplyr::mutate(mes = factor(mes, meses))
-}
-
-# Tabela larga com o percentual do território acima de 1 °C e 2 °C por mês
-tabela_temp <- function(tbl, id_cols) {
-  tbl |>
-    dplyr::select(dplyr::all_of(id_cols), mes, `>1°C` = acima_1, `>2°C` = acima_2) |>
-    tidyr::pivot_wider(
-      names_from = mes, values_from = c(`>1°C`, `>2°C`),
-      names_glue = "{mes} {.value}", names_vary = "slowest"
-    ) |>
-    dplyr::mutate(dplyr::across(
-      -dplyr::all_of(id_cols), \(x) scales::percent(x, 1)
-    ))
-}
+# Todos os municípios dos 9 estados
+municipios_al <- geobr::read_municipality(year = 2025) |>
+  dplyr::filter(abbrev_state %in% ufs$abbrev_state) |>
+  terra::vect() |>
+  terra::project("EPSG:4326")
 
 municipios_selecionados_nomes <- c(
   "Humaitá", "Manicoré", "Novo Aripuanã", "Borba",
@@ -488,93 +81,591 @@ municipios_selecionados <- municipios_al[
     municipios_al$name_muni %in% municipios_selecionados_nomes,
 ]
 
+# Anomalia média e fração da área de cada polígono em cada faixa, por mês,
+# ponderadas pela área das células. Na grade de 1° da projeção, cada célula
+# pesa pela fração que cai dentro do polígono (exact = TRUE). Nas grades finas
+# dos dados observados, basta o centro da célula estar no polígono (o cálculo
+# exato seria lento demais com o contorno detalhado da Amazônia Legal); com
+# touches = TRUE, entram também as células que tocam o contorno, o que garante
+# dados para municípios pequenos.
+resumo_anomalia <- function(r, v, exact = TRUE, touches = FALSE) {
+  meses <- names(r)
+  area_celula <- terra::cellSize(r[[1]], unit = "km")
+  names(area_celula) <- "area_celula"
+  ex <- if (exact) {
+    terra::extract(c(r, area_celula), v, exact = TRUE)
+  } else {
+    terra::extract(c(r, area_celula), v, touches = touches) |>
+      dplyr::mutate(fraction = 1)
+  }
+  ex |>
+    tibble::as_tibble() |>
+    tidyr::pivot_longer(
+      dplyr::all_of(meses), names_to = "mes", values_to = "anomalia"
+    ) |>
+    dplyr::filter(!is.na(anomalia)) |>
+    dplyr::mutate(peso = fraction * area_celula) |>
+    dplyr::summarise(
+      anomalia_media = sum(peso * anomalia) / sum(peso),
+      abaixo_0 = sum(peso * (anomalia < 0)) / sum(peso),
+      abaixo_50 = sum(peso * (anomalia < -50)) / sum(peso),
+      acima_1 = sum(peso * (anomalia > 1)) / sum(peso),
+      acima_2 = sum(peso * (anomalia > 2)) / sum(peso),
+      .by = c(ID, mes)
+    ) |>
+    dplyr::mutate(mes = factor(mes, meses))
+}
+
 com_nomes_municipios <- function(tbl, v = municipios_al) {
   dplyr::mutate(tbl, municipio = v$name_muni[ID], uf = v$abbrev_state[ID])
 }
 
-temp_proj_bacia <- resumo_temp(anom_temp_proj, bacia_br)
-temp_proj_bacias <- resumo_temp(anom_temp_proj, bacias_am) |>
-  dplyr::mutate(bacia = bacias_am$nm_mesoRH[ID])
-temp_proj_ufs <- resumo_temp(anom_temp_proj, ufs_4326) |>
-  dplyr::mutate(uf = ufs_4326$abbrev_state[ID])
-temp_proj_municipios <- resumo_temp(anom_temp_proj, municipios_al) |>
-  com_nomes_municipios()
-temp_proj_selecionados <- resumo_temp(anom_temp_proj, municipios_selecionados) |>
-  com_nomes_municipios(municipios_selecionados)
-
-temp_obs_bacia <- resumo_temp(obs_temp_09, bacia_am, exact = FALSE)
-temp_obs_bacias <- resumo_temp(obs_temp_09, bacias, exact = FALSE) |>
-  dplyr::mutate(bacia = bacias$nm_mesoRH[ID])
-temp_obs_ufs <- resumo_temp(obs_temp_09, ufs, exact = FALSE) |>
-  dplyr::mutate(uf = ufs$abbrev_state[ID])
-temp_obs_municipios <- resumo_temp(obs_temp_09, municipios_al, exact = FALSE) |>
-  com_nomes_municipios()
-temp_obs_selecionados <- resumo_temp(obs_temp_09, municipios_selecionados, exact = FALSE) |>
-  com_nomes_municipios(municipios_selecionados)
-
-pct_temp <- function(tbl, m, col) {
-  scales::percent(tbl[[col]][tbl$mes == m], 0.1, decimal.mark = ",")
+# Formatação para o texto
+fmt_pct <- function(x, acc = 1) scales::percent(x, acc, decimal.mark = ",")
+fmt_num <- function(x, sufixo) {
+  scales::number(x, 0.1, decimal.mark = ",", suffix = sufixo)
 }
-n_municipios_temp <- function(tbl, m, col, minimo = 0) {
+lista <- function(x) {
+  if (length(x) <= 1) return(x)
+  paste(paste(x[-length(x)], collapse = ", "), "e", x[length(x)])
+}
+pct_mes <- function(tbl, m, col, acc = 0.1) {
+  fmt_pct(tbl[[col]][tbl$mes == m], acc)
+}
+n_mun <- function(tbl, m, col, minimo = 0) {
   sum(tbl[[col]][tbl$mes == m] > minimo)
+}
+# Os n maiores (ou menores) valores do mês. Empates no percentual arredondado
+# entram todos na lista, para não escolher arbitrariamente entre, por exemplo,
+# várias bacias com 100%.
+top_lista <- function(tbl, m, col, id, n = 3, menor = FALSE) {
+  x <- tbl |>
+    dplyr::filter(mes == m) |>
+    dplyr::mutate(arred = round(.data[[col]], 2))
+  corte <- sort(x$arred, decreasing = !menor)[min(n, nrow(x))]
+  x |>
+    dplyr::filter(if (menor) arred <= corte else arred >= corte) |>
+    dplyr::arrange(if (menor) .data[[col]] else dplyr::desc(.data[[col]])) |>
+    dplyr::mutate(lab = paste0(.data[[id]], " (", fmt_pct(.data[[col]]), ")")) |>
+    dplyr::pull(lab) |>
+    lista()
+}
+fundo_lista <- function(tbl, m, col, id, n = 2) {
+  top_lista(tbl, m, col, id, n, menor = TRUE)
+}
+# Intervalo de valores do mês ("100%" se todos arredondam igual)
+faixa <- function(tbl, m, col, filtro = TRUE) {
+  x <- fmt_pct(range(tbl[[col]][tbl$mes == m & filtro]))
+  if (x[1] == x[2]) x[1] else paste("entre", x[1], "e", x[2])
+}
+# Linhas com o menor valor (arredondado) do mês, para descrever os empates
+no_minimo <- function(tbl, m, col) {
+  arred <- round(tbl[[col]], 2)
+  arred == min(arred[tbl$mes == m])
+}
+lista_municipios <- function(tbl, m, col) {
+  tbl |>
+    dplyr::filter(mes == m) |>
+    dplyr::arrange(dplyr::desc(.data[[col]])) |>
+    dplyr::mutate(lab = paste0(municipio, " (", fmt_pct(.data[[col]]), ")")) |>
+    dplyr::pull(lab) |>
+    lista()
+}
+
+# Nomes de coluna legíveis nas tabelas
+rotulos <- c(
+  Município = "municipio", UF = "uf", Bacia = "bacia", Mês = "mes",
+  `Anomalia média` = "anomalia_media"
+)
+rotular <- function(tbl) {
+  dplyr::rename(tbl, dplyr::any_of(rotulos))
+}
+
+# Tabela larga com o percentual do território por mês, em uma ou mais faixas.
+# As linhas seguem a ordem em que chegam; as colunas, a ordem dos meses.
+tabela_larga <- function(tbl, id_cols, cols) {
+  meses <- levels(tbl$mes)
+  larga <- tbl |>
+    dplyr::select(dplyr::all_of(id_cols), mes, dplyr::all_of(cols)) |>
+    tidyr::pivot_wider(
+      names_from = mes, values_from = dplyr::all_of(names(cols)),
+      names_glue = "{mes} {.value}", names_vary = "slowest"
+    ) |>
+    dplyr::mutate(dplyr::across(
+      -dplyr::all_of(id_cols), \(x) fmt_pct(x)
+    ))
+  cols_meses <- unlist(lapply(meses, \(m) {
+    grep(paste0("^", m, " "), names(larga), value = TRUE)
+  }))
+  larga |>
+    dplyr::select(dplyr::all_of(id_cols), dplyr::all_of(cols_meses)) |>
+    rotular()
+}
+cols_precip <- c(`<0mm` = "abaixo_0", `<-50mm` = "abaixo_50")
+cols_temp <- c(`>1°C` = "acima_1", `>2°C` = "acima_2")
+
+# Gráfico de faixas de anomalia de precipitação nos municípios selecionados
+faixas_precip_selecionados <- function(r, exact = TRUE, touches = FALSE) {
+  meses <- names(r)
+  area_celula <- terra::cellSize(r[[1]], unit = "km")
+  names(area_celula) <- "area_celula"
+  ex <- if (exact) {
+    terra::extract(c(r, area_celula), municipios_selecionados, exact = TRUE)
+  } else {
+    terra::extract(
+      c(r, area_celula), municipios_selecionados, touches = touches
+    ) |>
+      dplyr::mutate(fraction = 1)
+  }
+  ex |>
+    tibble::as_tibble() |>
+    dplyr::mutate(municipio = municipios_selecionados$name_muni[ID]) |>
+    tidyr::pivot_longer(
+      dplyr::all_of(meses), names_to = "mes", values_to = "anomalia"
+    ) |>
+    dplyr::filter(!is.na(anomalia)) |>
+    dplyr::mutate(
+      mes = factor(mes, meses),
+      faixa_anomalia = dplyr::case_when(
+        anomalia < -50 ~ "anomalia < -50mm",
+        anomalia < 0 ~ "anomalia entre -50mm e 0mm",
+        TRUE ~ "anomalia >= 0mm"
+      )
+    ) |>
+    dplyr::summarise(
+      peso = sum(fraction * area_celula),
+      .by = c(municipio, mes, faixa_anomalia)
+    ) |>
+    dplyr::mutate(pct = peso / sum(peso), .by = c(municipio, mes)) |>
+    dplyr::mutate(pct_label = fmt_pct(pct)) |>
+    ggplot2::ggplot(ggplot2::aes(
+      x = pct, y = municipio, fill = faixa_anomalia,
+      label = pct_label, group = faixa_anomalia
+    )) +
+    ggplot2::geom_col() +
+    ggplot2::geom_text(position = ggplot2::position_stack(0.5)) +
+    ggplot2::facet_wrap(ggplot2::vars(mes), ncol = 1) +
+    ggplot2::theme_minimal()
 }
 ```
 
-## Projeções
+# Precipitação
 
-- `r pct_temp(temp_proj_bacia, "outubro", "acima_1")` da parte brasileira da Pan-Amazônia deve ter anomalia de temperatura acima de 1°C em outubro, `r pct_temp(temp_proj_bacia, "novembro", "acima_1")` em novembro e `r pct_temp(temp_proj_bacia, "dezembro", "acima_1")` em dezembro. Acima de 2°C, são `r pct_temp(temp_proj_bacia, "outubro", "acima_2")`, `r pct_temp(temp_proj_bacia, "novembro", "acima_2")` e `r pct_temp(temp_proj_bacia, "dezembro", "acima_2")`, respectivamente (@tbl-temp-proj-bacia)
-- Entre as bacias hidrográficas, o aquecimento se concentra no leste. Alto Tocantins e Araguaia são as mais afetadas em outubro, com cerca de dois terços do território acima de 1°C. Em novembro e dezembro, Alto Tocantins, Baixo Tocantins, Xingu, Trombetas/Uatumã e Araguaia passam de 80% do território acima de 1°C. Acima de 2°C, as mais afetadas são Alto Tocantins (94% em novembro e 90% em dezembro), Baixo Tocantins (65% e 85%) e Araguaia (76% e 74%). Javari/Juruá e Negro praticamente não têm área acima de 1°C nos três meses (@tbl-temp-proj-bacias)
-- Tocantins é o estado mais afetado: `r pct_temp(dplyr::filter(temp_proj_ufs, uf == "TO"), "outubro", "acima_1")` do território acima de 1°C em outubro e todo o território acima de 2°C em novembro e dezembro. Em seguida vêm Pará e Maranhão, com mais de 75% do território acima de 1°C em novembro e dezembro e, em dezembro, `r pct_temp(dplyr::filter(temp_proj_ufs, uf == "PA"), "dezembro", "acima_2")` (PA) e `r pct_temp(dplyr::filter(temp_proj_ufs, uf == "MA"), "dezembro", "acima_2")` (MA) acima de 2°C. O Acre não tem área com anomalia acima de 1°C em nenhum dos três meses (@tbl-temp-proj-ufs)
-- Em outubro, `r n_municipios_temp(temp_proj_municipios, "outubro", "acima_1")` dos `r nrow(municipios_al)` municípios da Amazônia Legal devem ter alguma parte do território com anomalia acima de 1°C (em `r n_municipios_temp(temp_proj_municipios, "outubro", "acima_1", 0.5)`, mais da metade do território); acima de 2°C, são `r n_municipios_temp(temp_proj_municipios, "outubro", "acima_2")` (`r n_municipios_temp(temp_proj_municipios, "outubro", "acima_2", 0.5)` com mais da metade do território). Em dezembro, os números sobem para `r n_municipios_temp(temp_proj_municipios, "dezembro", "acima_1")` (`r n_municipios_temp(temp_proj_municipios, "dezembro", "acima_1", 0.5)`) acima de 1°C e `r n_municipios_temp(temp_proj_municipios, "dezembro", "acima_2")` (`r n_municipios_temp(temp_proj_municipios, "dezembro", "acima_2", 0.5)`) acima de 2°C (@tbl-temp-proj-municipios)
-- Em Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus, a anomalia projetada fica abaixo de 1°C em outubro. Em dezembro, cinco dos seis municípios têm anomalia média entre 1,6°C e 1,9°C, com quase todo o território acima de 1°C; a exceção é Manaus (0,7°C). Nova Olinda do Norte é o mais afetado em novembro, com anomalia média de 2,0°C (@tbl-temp-proj-municipios-selecionados)
+```{r}
+#| label: dados-precip
+
+precip_obs_al <- resumo_anomalia(obs_precip, amazonia_legal, exact = FALSE)
+precip_obs_bacias <- resumo_anomalia(obs_precip, bacias, exact = FALSE) |>
+  dplyr::mutate(bacia = bacias$nm_mesoRH[ID])
+precip_obs_ufs <- resumo_anomalia(obs_precip, ufs, exact = FALSE) |>
+  dplyr::mutate(uf = ufs$abbrev_state[ID])
+precip_obs_municipios <- resumo_anomalia(
+  obs_precip, municipios_al, exact = FALSE, touches = TRUE
+) |>
+  com_nomes_municipios()
+precip_obs_selecionados <- resumo_anomalia(
+  obs_precip, municipios_selecionados, exact = FALSE, touches = TRUE
+) |>
+  com_nomes_municipios(municipios_selecionados)
+
+# Anomalias projetadas: previsão sazonal do ECMWF (rodada de outubro de 2026)
+# em relação à climatologia do próprio modelo, preparada pelo Labclim. Grade
+# global de 1°, longitude de 0 a 360 (daí o rotate). TP já vem em mm/mês e
+# T2M em K (diferença igual em °C).
+ler_projecao <- function(variavel, meses = c(novembro = "NOVEMBRO", dezembro = "DEZEMBRO")) {
+  r <- here::here(dir_labclim, paste0("PREV-", meses, "-novo.nc")) |>
+    purrr::map(\(f) terra::rast(f)[[variavel]]) |>
+    terra::rast() |>
+    terra::rotate()
+  names(r) <- names(meses)
+  r
+}
+anom_proj <- ler_projecao("TP")
+
+precip_proj_al <- resumo_anomalia(anom_proj, amazonia_legal)
+precip_proj_bacias <- resumo_anomalia(anom_proj, bacias) |>
+  dplyr::mutate(bacia = bacias$nm_mesoRH[ID])
+precip_proj_ufs <- resumo_anomalia(anom_proj, ufs) |>
+  dplyr::mutate(uf = ufs$abbrev_state[ID])
+precip_proj_municipios <- resumo_anomalia(anom_proj, municipios_al) |>
+  com_nomes_municipios()
+precip_proj_selecionados <- resumo_anomalia(anom_proj, municipios_selecionados) |>
+  com_nomes_municipios(municipios_selecionados)
+```
+
+## Dados observados (setembro e outubro)
+
+- Em outubro, `r pct_mes(precip_obs_al, "outubro", "abaixo_0")` do território da Amazônia Legal teve chuva abaixo da média, e `r pct_mes(precip_obs_al, "outubro", "abaixo_50")` teve anomalia de precipitação abaixo de -50mm. Em setembro, foram `r pct_mes(precip_obs_al, "setembro", "abaixo_0")` e `r pct_mes(precip_obs_al, "setembro", "abaixo_50")`, respectivamente (@tbl-precip-obs-al)
+- Entre as bacias hidrográficas, as com maior parte do território abaixo de -50mm em outubro foram `r top_lista(precip_obs_bacias, "outubro", "abaixo_50", "bacia")`; as com menor parte foram `r fundo_lista(precip_obs_bacias, "outubro", "abaixo_50", "bacia")`. Nessas, a parte do território com chuva abaixo da média foi `r faixa(precip_obs_bacias, "outubro", "abaixo_0", no_minimo(precip_obs_bacias, "outubro", "abaixo_50"))` (@tbl-precip-obs-bacias)
+- Os estados com maior parte do território abaixo de -50mm em outubro foram `r top_lista(precip_obs_ufs, "outubro", "abaixo_50", "uf")`. Em setembro, foram `r top_lista(precip_obs_ufs, "setembro", "abaixo_50", "uf")` (@tbl-precip-obs-ufs)
+- `r n_mun(precip_obs_municipios, "outubro", "abaixo_50")` dos `r nrow(municipios_al)` municípios da Amazônia Legal tiveram alguma parte do território com anomalia abaixo de -50mm em outubro; em `r n_mun(precip_obs_municipios, "outubro", "abaixo_50", 0.5)` deles, isso valeu para mais da metade do território. Em setembro, foram `r n_mun(precip_obs_municipios, "setembro", "abaixo_50")` e `r n_mun(precip_obs_municipios, "setembro", "abaixo_50", 0.5)`, respectivamente (@tbl-precip-obs-municipios)
+- Percentual do território com anomalia abaixo de -50mm em outubro nos municípios selecionados: `r lista_municipios(precip_obs_selecionados, "outubro", "abaixo_50")` (@fig-precip-obs-municipios-selecionados)
 
 ::: {.callout-note}
-## Como as anomalias de temperatura foram calculadas
+## Como as anomalias observadas foram calculadas
 
-A anomalia projetada é a diferença entre a temperatura do ar a 2 metros prevista pelo ECMWF e a normal de temperatura média compensada do INMET (1991-2020), com as mesmas limitações da precipitação (parte brasileira da Pan-Amazônia, `r scales::percent(area_bacia_br / area_bacia_total, 1)` da área total; saída bruta do modelo; células de 1°). Na temperatura, pesam ainda:
-
-- As normais do INMET foram obtidas a partir dos mapas publicados, em faixas de 2°C, e cada faixa foi convertida para o valor central. A normal pode ter erro de até 1°C, o mesmo tamanho do limiar de 1°C usado nas perguntas. Os resultados acima de 2°C são mais robustos.
-- Cada célula de 1° do modelo representa a média de uma área de cerca de 110 km, que pode incluir serras, lagoas ou mar, enquanto a normal vem de estações meteorológicas. Isso gera anomalias fortes e pouco confiáveis em áreas como as serras do norte de Roraima.
+As anomalias observadas de precipitação foram fornecidas pelo Labclim, a partir do MERGE (INPE), em grade de 0,1° (cerca de 11 km). A anomalia é a diferença entre a chuva acumulada no mês e a normal de 1998-2024. A Amazônia Legal considerada aqui são os 9 estados inteiros (AC, AM, AP, MA, MT, PA, RO, RR e TO), incluindo todo o Maranhão, e as bacias hidrográficas são as mesorregiões hidrográficas do IBGE com mais da metade da área nesses estados. Cada célula entra no cálculo quando seu centro cai dentro da área analisada, com peso proporcional à sua área. Nos municípios, entram também as células que tocam o contorno, o que pode aumentar um pouco a contagem de municípios pequenos.
 :::
 
 ```{r}
-#| label: tbl-temp-proj-bacia
-#| tbl-cap: Percentual do território da Pan-Amazônia (parte brasileira) com anomalia de temperatura projetada acima de 1°C e de 2°C.
+#| label: tbl-precip-obs-al
+#| tbl-cap: Percentual do território da Amazônia Legal com anomalia de precipitação observada abaixo de 0mm e de -50mm.
 
-temp_proj_bacia |>
+precip_obs_al |>
   dplyr::transmute(
     mes,
-    anomalia_media = scales::number(anomalia_media, 0.1, suffix = "°C"),
-    `>1°C` = scales::percent(acima_1, 0.1),
-    `>2°C` = scales::percent(acima_2, 0.1)
+    anomalia_media = fmt_num(anomalia_media, "mm"),
+    `<0mm` = fmt_pct(abaixo_0, 0.1),
+    `<-50mm` = fmt_pct(abaixo_50, 0.1)
   ) |>
+  rotular() |>
   knitr::kable()
 ```
 
 ```{r}
-#| label: fig-temp-proj-bacia
-#| fig-cap: Anomalia de temperatura projetada (°C) na Pan-Amazônia (parte brasileira), outubro a dezembro de 2026
+#| label: fig-precip-obs-al
+#| fig-cap: Anomalia de precipitação observada (mm) na Amazônia Legal, setembro e outubro de 2026
+
+obs_precip |>
+  terra::crop(amazonia_legal, mask = TRUE) |>
+  terra::plot(
+    breaks = c(-500, -150, -100, -50, 0, 50, 100, 150, 500),
+    col = hcl.colors(8, "BrBG"),
+    main = names(obs_precip),
+    nc = 2,
+    plg = list(cex = 0.7),
+    mar = c(2, 2, 2, 5),
+    fun = \() terra::lines(ufs)
+  )
+```
+
+```{r}
+#| label: tbl-precip-obs-bacias
+#| tbl-cap: Percentual do território das bacias hidrográficas da Amazônia Legal com anomalia de precipitação observada abaixo de 0mm e de -50mm.
+
+precip_obs_bacias |>
+  dplyr::arrange(dplyr::desc(mes), dplyr::desc(abaixo_50)) |>
+  tabela_larga("bacia", cols_precip) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-precip-obs-bacias
+#| fig-cap: Anomalia de precipitação observada (mm) em bacias hidrográficas da Amazônia Legal, setembro e outubro de 2026
+
+obs_precip |>
+  terra::crop(bacias, mask = TRUE) |>
+  terra::plot(
+    breaks = c(-500, -150, -100, -50, 0, 50, 100, 150, 500),
+    col = hcl.colors(8, "BrBG"),
+    main = names(obs_precip),
+    nc = 2,
+    plg = list(cex = 0.7),
+    mar = c(2, 2, 2, 5),
+    fun = \() terra::lines(bacias)
+  )
+```
+
+```{r}
+#| label: tbl-precip-obs-ufs
+#| tbl-cap: Percentual do território dos estados da Amazônia Legal com anomalia de precipitação observada abaixo de 0mm e de -50mm.
+
+precip_obs_ufs |>
+  dplyr::arrange(dplyr::desc(mes), dplyr::desc(abaixo_50)) |>
+  tabela_larga("uf", cols_precip) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-precip-obs-municipios
+#| tbl-cap: Municípios da Amazônia Legal com anomalia de precipitação observada abaixo de -50mm, em percentual do território.
+
+precip_obs_municipios |>
+  dplyr::filter(any(abaixo_50 > 0), .by = ID) |>
+  dplyr::arrange(dplyr::desc(mes), dplyr::desc(abaixo_50)) |>
+  tabela_larga(c("municipio", "uf"), cols_precip)
+```
+
+```{r}
+#| label: fig-precip-obs-municipios-selecionados
+#| fig-cap: Anomalia de precipitação observada em Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus, em proporção ao território, setembro e outubro de 2026
+
+faixas_precip_selecionados(obs_precip, exact = FALSE, touches = TRUE)
+```
+
+## Projeções (novembro e dezembro)
+
+- `r pct_mes(precip_proj_al, "novembro", "abaixo_50")` do território da Amazônia Legal deve ter anomalia de precipitação abaixo de -50mm em novembro, e `r pct_mes(precip_proj_al, "dezembro", "abaixo_50")` em dezembro. Chuva abaixo da média deve atingir `r pct_mes(precip_proj_al, "novembro", "abaixo_0")` do território em novembro e `r pct_mes(precip_proj_al, "dezembro", "abaixo_0")` em dezembro (@tbl-precip-proj-al)
+- Entre as bacias hidrográficas, as com maior parte do território abaixo de -50mm em novembro devem ser `r top_lista(precip_proj_bacias, "novembro", "abaixo_50", "bacia")`; as com menor parte, `r fundo_lista(precip_proj_bacias, "novembro", "abaixo_50", "bacia")`. Em dezembro, as com menor parte devem ser `r fundo_lista(precip_proj_bacias, "dezembro", "abaixo_50", "bacia")` (@tbl-precip-proj-bacias)
+- Os estados com maior parte do território abaixo de -50mm em novembro devem ser `r top_lista(precip_proj_ufs, "novembro", "abaixo_50", "uf")`; em dezembro, os com menor parte devem ser `r fundo_lista(precip_proj_ufs, "dezembro", "abaixo_50", "uf")` (@tbl-precip-proj-ufs)
+- `r n_mun(precip_proj_municipios, "novembro", "abaixo_50")` dos `r nrow(municipios_al)` municípios da Amazônia Legal devem ter alguma parte do território com anomalia abaixo de -50mm em novembro; em `r n_mun(precip_proj_municipios, "novembro", "abaixo_50", 0.5)` deles, isso vale para mais da metade do território. Em dezembro, são `r n_mun(precip_proj_municipios, "dezembro", "abaixo_50")` e `r n_mun(precip_proj_municipios, "dezembro", "abaixo_50", 0.5)`, respectivamente (@tbl-precip-proj-municipios)
+- Percentual do território com anomalia abaixo de -50mm nos municípios selecionados em novembro: `r lista_municipios(precip_proj_selecionados, "novembro", "abaixo_50")`. Em dezembro: `r lista_municipios(precip_proj_selecionados, "dezembro", "abaixo_50")` (@fig-precip-proj-municipios-selecionados)
+
+::: {.callout-note}
+## Como as anomalias projetadas foram calculadas
+
+As anomalias projetadas foram fornecidas pelo Labclim a partir da previsão sazonal do ECMWF (rodada de outubro de 2026). A anomalia é calculada em relação à climatologia do próprio modelo, o que remove a tendência média do modelo de subestimar ou superestimar a chuva na região. A grade é de 1° (cerca de 110 km), e cada célula entra no cálculo com peso proporcional à área que cai dentro do território analisado. Com células desse tamanho, municípios pequenos ficam dentro de uma ou duas células, e o resultado reflete a média da região ao redor.
+:::
+
+```{r}
+#| label: tbl-precip-proj-al
+#| tbl-cap: Percentual do território da Amazônia Legal com anomalia de precipitação projetada abaixo de 0mm e de -50mm.
+
+precip_proj_al |>
+  dplyr::transmute(
+    mes,
+    anomalia_media = fmt_num(anomalia_media, "mm"),
+    `<0mm` = fmt_pct(abaixo_0, 0.1),
+    `<-50mm` = fmt_pct(abaixo_50, 0.1)
+  ) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-precip-proj-al
+#| fig-cap: Anomalia de precipitação projetada (mm) na Amazônia Legal, novembro e dezembro de 2026
+
+anom_proj |>
+  terra::crop(amazonia_legal, mask = TRUE, touches = TRUE) |>
+  terra::plot(
+    breaks = c(-250, -150, -100, -50, 0, 50, 100, 150, 300),
+    col = hcl.colors(8, "BrBG"),
+    main = names(anom_proj),
+    nc = 2,
+    plg = list(cex = 0.7),
+    mar = c(2, 2, 2, 5),
+    fun = \() terra::lines(ufs)
+  )
+```
+
+```{r}
+#| label: tbl-precip-proj-bacias
+#| tbl-cap: Percentual do território das bacias hidrográficas da Amazônia Legal com anomalia de precipitação projetada abaixo de -50mm.
+
+precip_proj_bacias |>
+  dplyr::arrange(mes, dplyr::desc(abaixo_50)) |>
+  tabela_larga("bacia", cols_precip["<-50mm"]) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-precip-proj-ufs
+#| tbl-cap: Percentual do território dos estados da Amazônia Legal com anomalia de precipitação projetada abaixo de -50mm.
+
+precip_proj_ufs |>
+  dplyr::arrange(mes, dplyr::desc(abaixo_50)) |>
+  tabela_larga("uf", cols_precip["<-50mm"]) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-precip-proj-municipios
+#| tbl-cap: Municípios da Amazônia Legal com anomalia de precipitação projetada abaixo de -50mm, em percentual do território.
+
+precip_proj_municipios |>
+  dplyr::filter(any(abaixo_50 > 0), .by = ID) |>
+  dplyr::arrange(mes, dplyr::desc(abaixo_50)) |>
+  tabela_larga(c("municipio", "uf"), cols_precip["<-50mm"])
+```
+
+```{r}
+#| label: fig-precip-proj-municipios-selecionados
+#| fig-cap: Anomalia de precipitação projetada em Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus, em proporção ao território, novembro e dezembro de 2026
+
+faixas_precip_selecionados(anom_proj)
+```
+
+
+# Temperatura
+
+```{r}
+#| label: dados-temp
+
+temp_obs_al <- resumo_anomalia(obs_temp, amazonia_legal, exact = FALSE)
+temp_obs_bacias <- resumo_anomalia(obs_temp, bacias, exact = FALSE) |>
+  dplyr::mutate(bacia = bacias$nm_mesoRH[ID])
+temp_obs_ufs <- resumo_anomalia(obs_temp, ufs, exact = FALSE) |>
+  dplyr::mutate(uf = ufs$abbrev_state[ID])
+temp_obs_municipios <- resumo_anomalia(
+  obs_temp, municipios_al, exact = FALSE, touches = TRUE
+) |>
+  com_nomes_municipios()
+temp_obs_selecionados <- resumo_anomalia(
+  obs_temp, municipios_selecionados, exact = FALSE
+) |>
+  com_nomes_municipios(municipios_selecionados)
+
+anom_temp_proj <- ler_projecao("T2M")
+
+temp_proj_al <- resumo_anomalia(anom_temp_proj, amazonia_legal)
+temp_proj_bacias <- resumo_anomalia(anom_temp_proj, bacias) |>
+  dplyr::mutate(bacia = bacias$nm_mesoRH[ID])
+temp_proj_ufs <- resumo_anomalia(anom_temp_proj, ufs) |>
+  dplyr::mutate(uf = ufs$abbrev_state[ID])
+temp_proj_municipios <- resumo_anomalia(anom_temp_proj, municipios_al) |>
+  com_nomes_municipios()
+temp_proj_selecionados <- resumo_anomalia(anom_temp_proj, municipios_selecionados) |>
+  com_nomes_municipios(municipios_selecionados)
+
+media_municipios <- function(tbl, m) {
+  tbl |>
+    dplyr::filter(mes == m) |>
+    dplyr::arrange(dplyr::desc(anomalia_media)) |>
+    dplyr::mutate(lab = paste0(municipio, " (", fmt_num(anomalia_media, "°C"), ")")) |>
+    dplyr::pull(lab) |>
+    lista()
+}
+```
+
+## Dados observados (setembro e outubro)
+
+- Em outubro, `r pct_mes(temp_obs_al, "outubro", "acima_1")` do território da Amazônia Legal teve anomalia de temperatura acima de 1°C, e `r pct_mes(temp_obs_al, "outubro", "acima_2")`, acima de 2°C. Em setembro, foram `r pct_mes(temp_obs_al, "setembro", "acima_1")` e `r pct_mes(temp_obs_al, "setembro", "acima_2")`, respectivamente (@tbl-temp-obs-al)
+- Entre as bacias hidrográficas, as com maior parte do território acima de 1°C em outubro foram `r top_lista(temp_obs_bacias, "outubro", "acima_1", "bacia")`. Acima de 2°C, foram `r top_lista(temp_obs_bacias, "outubro", "acima_2", "bacia")`. Em setembro, a bacia com maior parte do território acima de 1°C foi `r top_lista(temp_obs_bacias, "setembro", "acima_1", "bacia", 1)` (@tbl-temp-obs-bacias)
+- Os estados com maior parte do território acima de 1°C em outubro foram `r top_lista(temp_obs_ufs, "outubro", "acima_1", "uf")`. Acima de 2°C, foram `r top_lista(temp_obs_ufs, "outubro", "acima_2", "uf")` (@tbl-temp-obs-ufs)
+- `r n_mun(temp_obs_municipios, "outubro", "acima_1")` dos `r nrow(municipios_al)` municípios da Amazônia Legal tiveram alguma parte do território com anomalia acima de 1°C em outubro, `r n_mun(temp_obs_municipios, "outubro", "acima_1", 0.5)` deles em mais da metade do território. Acima de 2°C, foram `r n_mun(temp_obs_municipios, "outubro", "acima_2")` municípios, `r n_mun(temp_obs_municipios, "outubro", "acima_2", 0.5)` deles em mais da metade do território. Em setembro, foram `r n_mun(temp_obs_municipios, "setembro", "acima_1")` municípios acima de 1°C (`r n_mun(temp_obs_municipios, "setembro", "acima_1", 0.5)` em mais da metade do território) e `r n_mun(temp_obs_municipios, "setembro", "acima_2")` acima de 2°C (`r n_mun(temp_obs_municipios, "setembro", "acima_2", 0.5)` em mais da metade do território) (@tbl-temp-obs-municipios)
+- Anomalia média de temperatura em outubro nos municípios selecionados: `r media_municipios(temp_obs_selecionados, "outubro")`. Em setembro: `r media_municipios(temp_obs_selecionados, "setembro")` (@tbl-temp-obs-municipios-selecionados)
+
+A anomalia observada vem do SAMeT (INPE), em grade de 0,05° (cerca de 5 km), e é a diferença entre a temperatura média do mês e a normal climatológica mensal do SAMeT. O cálculo segue o mesmo critério da precipitação observada: nos municípios, entram também as células que tocam o contorno.
+
+```{r}
+#| label: tbl-temp-obs-al
+#| tbl-cap: Percentual do território da Amazônia Legal com anomalia de temperatura observada acima de 1°C e de 2°C.
+
+temp_obs_al |>
+  dplyr::transmute(
+    mes,
+    anomalia_media = fmt_num(anomalia_media, "°C"),
+    `>1°C` = fmt_pct(acima_1, 0.1),
+    `>2°C` = fmt_pct(acima_2, 0.1)
+  ) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-temp-obs-al
+#| fig-cap: Anomalia de temperatura observada (°C) na Amazônia Legal, setembro e outubro de 2026
+
+obs_temp |>
+  terra::crop(amazonia_legal, mask = TRUE) |>
+  terra::plot(
+    breaks = c(-9, -2, -1, 0, 1, 2, 3, 9),
+    col = rev(hcl.colors(7, "RdBu")),
+    main = names(obs_temp),
+    nc = 2,
+    plg = list(cex = 0.7),
+    mar = c(2, 2, 2, 5),
+    fun = \() terra::lines(ufs)
+  )
+```
+
+```{r}
+#| label: tbl-temp-obs-bacias
+#| tbl-cap: Percentual do território das bacias hidrográficas da Amazônia Legal com anomalia de temperatura observada acima de 1°C e de 2°C.
+
+temp_obs_bacias |>
+  dplyr::arrange(dplyr::desc(mes), dplyr::desc(acima_1)) |>
+  tabela_larga("bacia", cols_temp) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-temp-obs-ufs
+#| tbl-cap: Percentual do território dos estados da Amazônia Legal com anomalia de temperatura observada acima de 1°C e de 2°C.
+
+temp_obs_ufs |>
+  dplyr::arrange(dplyr::desc(mes), dplyr::desc(acima_1)) |>
+  tabela_larga("uf", cols_temp) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-temp-obs-municipios
+#| tbl-cap: Municípios da Amazônia Legal com anomalia de temperatura observada acima de 1°C, em percentual do território.
+
+temp_obs_municipios |>
+  dplyr::filter(any(acima_1 > 0), .by = ID) |>
+  dplyr::arrange(dplyr::desc(mes), dplyr::desc(acima_2), dplyr::desc(acima_1)) |>
+  tabela_larga(c("municipio", "uf"), cols_temp)
+```
+
+```{r}
+#| label: tbl-temp-obs-municipios-selecionados
+#| tbl-cap: Anomalia de temperatura observada em Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus.
+
+temp_obs_selecionados |>
+  dplyr::arrange(municipio, mes) |>
+  dplyr::transmute(
+    municipio, mes,
+    anomalia_media = fmt_num(anomalia_media, "°C"),
+    `>1°C` = fmt_pct(acima_1),
+    `>2°C` = fmt_pct(acima_2)
+  ) |>
+  rotular() |>
+  knitr::kable()
+```
+
+## Projeções (novembro e dezembro)
+
+- `r pct_mes(temp_proj_al, "novembro", "acima_1")` do território da Amazônia Legal deve ter anomalia de temperatura acima de 1°C em novembro, e `r pct_mes(temp_proj_al, "dezembro", "acima_1")` em dezembro. Acima de 2°C, são `r pct_mes(temp_proj_al, "novembro", "acima_2")` e `r pct_mes(temp_proj_al, "dezembro", "acima_2")`, respectivamente (@tbl-temp-proj-al)
+- Entre as bacias hidrográficas, as com maior parte do território acima de 2°C devem ser `r top_lista(temp_proj_bacias, "novembro", "acima_2", "bacia")` em novembro e `r top_lista(temp_proj_bacias, "dezembro", "acima_2", "bacia")` em dezembro. Acima de 1°C, a parte do território de cada bacia deve ser `r faixa(temp_proj_bacias, "novembro", "acima_1")` em novembro e `r faixa(temp_proj_bacias, "dezembro", "acima_1")` em dezembro (@tbl-temp-proj-bacias)
+- Os estados com maior parte do território acima de 2°C devem ser `r top_lista(temp_proj_ufs, "novembro", "acima_2", "uf")` em novembro e `r top_lista(temp_proj_ufs, "dezembro", "acima_2", "uf")` em dezembro. Acima de 1°C, a parte do território de cada estado deve ser `r faixa(temp_proj_ufs, "novembro", "acima_1")` em novembro e `r faixa(temp_proj_ufs, "dezembro", "acima_1")` em dezembro (@tbl-temp-proj-ufs)
+- Em novembro, `r n_mun(temp_proj_municipios, "novembro", "acima_1")` dos `r nrow(municipios_al)` municípios da Amazônia Legal devem ter alguma parte do território com anomalia acima de 1°C (em `r n_mun(temp_proj_municipios, "novembro", "acima_1", 0.5)`, mais da metade do território); acima de 2°C, são `r n_mun(temp_proj_municipios, "novembro", "acima_2")` (`r n_mun(temp_proj_municipios, "novembro", "acima_2", 0.5)` com mais da metade do território). Em dezembro, são `r n_mun(temp_proj_municipios, "dezembro", "acima_1")` municípios acima de 1°C (`r n_mun(temp_proj_municipios, "dezembro", "acima_1", 0.5)` em mais da metade do território) e `r n_mun(temp_proj_municipios, "dezembro", "acima_2")` acima de 2°C (`r n_mun(temp_proj_municipios, "dezembro", "acima_2", 0.5)` em mais da metade do território) (@tbl-temp-proj-municipios)
+- Anomalia média de temperatura projetada nos municípios selecionados em novembro: `r media_municipios(temp_proj_selecionados, "novembro")`. Em dezembro: `r media_municipios(temp_proj_selecionados, "dezembro")` (@tbl-temp-proj-municipios-selecionados)
+
+::: {.callout-note}
+## Como as anomalias de temperatura projetadas foram calculadas
+
+A anomalia projetada é a anomalia da temperatura do ar a 2 metros na previsão sazonal do ECMWF (rodada de outubro de 2026), em relação à climatologia do próprio modelo, fornecida pelo Labclim. Valem as mesmas observações da precipitação: grade de 1° (cerca de 110 km), com cada célula pesando pela área que cai dentro do território analisado, o que suaviza diferenças locais e faz municípios pequenos refletirem a média da região ao redor.
+:::
+
+```{r}
+#| label: tbl-temp-proj-al
+#| tbl-cap: Percentual do território da Amazônia Legal com anomalia de temperatura projetada acima de 1°C e de 2°C.
+
+temp_proj_al |>
+  dplyr::transmute(
+    mes,
+    anomalia_media = fmt_num(anomalia_media, "°C"),
+    `>1°C` = fmt_pct(acima_1, 0.1),
+    `>2°C` = fmt_pct(acima_2, 0.1)
+  ) |>
+  rotular() |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-temp-proj-al
+#| fig-cap: Anomalia de temperatura projetada (°C) na Amazônia Legal, novembro e dezembro de 2026
 
 anom_temp_proj |>
-  terra::crop(bacia_br, mask = TRUE, touches = TRUE) |>
+  terra::crop(amazonia_legal, mask = TRUE, touches = TRUE) |>
   terra::plot(
     breaks = c(-9, -2, -1, 0, 1, 2, 3, 9),
     col = rev(hcl.colors(7, "RdBu")),
     main = names(anom_temp_proj),
-    nc = 3,
+    nc = 2,
     plg = list(cex = 0.7),
     mar = c(2, 2, 2, 5),
-    fun = \() terra::lines(ufs_4326)
+    fun = \() terra::lines(ufs)
   )
 ```
 
 ```{r}
 #| label: tbl-temp-proj-bacias
-#| tbl-cap: Percentual do território das bacias hidrográficas da Amazônia com anomalia de temperatura projetada acima de 1°C e de 2°C.
+#| tbl-cap: Percentual do território das bacias hidrográficas da Amazônia Legal com anomalia de temperatura projetada acima de 1°C e de 2°C.
 
 temp_proj_bacias |>
   dplyr::arrange(mes, dplyr::desc(acima_1)) |>
-  tabela_temp("bacia") |>
+  tabela_larga("bacia", cols_temp) |>
+  rotular() |>
   knitr::kable()
 ```
 
@@ -584,7 +675,8 @@ temp_proj_bacias |>
 
 temp_proj_ufs |>
   dplyr::arrange(mes, dplyr::desc(acima_1)) |>
-  tabela_temp("uf") |>
+  tabela_larga("uf", cols_temp) |>
+  rotular() |>
   knitr::kable()
 ```
 
@@ -595,7 +687,7 @@ temp_proj_ufs |>
 temp_proj_municipios |>
   dplyr::filter(any(acima_1 > 0), .by = ID) |>
   dplyr::arrange(mes, dplyr::desc(acima_2), dplyr::desc(acima_1)) |>
-  tabela_temp(c("municipio", "uf"))
+  tabela_larga(c("municipio", "uf"), cols_temp)
 ```
 
 ```{r}
@@ -606,93 +698,10 @@ temp_proj_selecionados |>
   dplyr::arrange(municipio, mes) |>
   dplyr::transmute(
     municipio, mes,
-    anomalia_media = scales::number(anomalia_media, 0.1, suffix = "°C"),
-    `>1°C` = scales::percent(acima_1, 1),
-    `>2°C` = scales::percent(acima_2, 1)
+    anomalia_media = fmt_num(anomalia_media, "°C"),
+    `>1°C` = fmt_pct(acima_1),
+    `>2°C` = fmt_pct(acima_2)
   ) |>
+  rotular() |>
   knitr::kable()
 ```
-
-## Dados observados
-
-- `r pct_temp(temp_obs_bacia, "setembro", "acima_1")` do território da Pan-Amazônia apresentou anomalia de temperatura acima de 1°C em setembro, e `r pct_temp(temp_obs_bacia, "setembro", "acima_2")`, acima de 2°C (@tbl-temp-obs-bacia)
-- Trombetas/Uatumã foi a bacia mais afetada, com `r pct_temp(dplyr::filter(temp_obs_bacias, bacia == "Trombetas/Uatumã"), "setembro", "acima_1")` do território acima de 1°C e `r pct_temp(dplyr::filter(temp_obs_bacias, bacia == "Trombetas/Uatumã"), "setembro", "acima_2")` acima de 2°C. Nas demais bacias, a área acima de 1°C não passa de 30%, e a área acima de 2°C não passa de 5% (@tbl-temp-obs-bacias)
-- Roraima foi o estado mais afetado por anomalias acima de 1°C (`r pct_temp(dplyr::filter(temp_obs_ufs, uf == "RR"), "setembro", "acima_1")` do território), seguido por Pará e Amazonas. Acima de 2°C, os mais afetados foram Amazonas (`r pct_temp(dplyr::filter(temp_obs_ufs, uf == "AM"), "setembro", "acima_2")`), Pará (`r pct_temp(dplyr::filter(temp_obs_ufs, uf == "PA"), "setembro", "acima_2")`) e Roraima (`r pct_temp(dplyr::filter(temp_obs_ufs, uf == "RR"), "setembro", "acima_2")`) (@tbl-temp-obs-ufs)
-- `r n_municipios_temp(temp_obs_municipios, "setembro", "acima_1")` municípios da Amazônia Legal tiveram alguma parte do território com anomalia acima de 1°C em setembro, `r n_municipios_temp(temp_obs_municipios, "setembro", "acima_1", 0.5)` deles em mais da metade do território. Acima de 2°C, foram `r n_municipios_temp(temp_obs_municipios, "setembro", "acima_2")` municípios, `r n_municipios_temp(temp_obs_municipios, "setembro", "acima_2", 0.5)` deles em mais da metade do território (@tbl-temp-obs-municipios)
-- Entre Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus, os mais afetados em setembro foram Manaus e Nova Olinda do Norte, com anomalia média de cerca de 2°C e todo o território acima de 1°C, seguidos por Borba (1,3°C). Em Humaitá, Manicoré e Novo Aripuanã, a anomalia média ficou abaixo de 1°C (@tbl-temp-obs-municipios-selecionados)
-
-A anomalia observada vem do SAMeT (INPE), em grade de 0,05° (cerca de 5 km) que cobre toda a Pan-Amazônia. Por isso, ao contrário das projeções, os percentuais da Pan-Amazônia incluem a parte fora do Brasil.
-
-```{r}
-#| label: tbl-temp-obs-bacia
-#| tbl-cap: Percentual do território da Pan-Amazônia com anomalia de temperatura acima de 1°C e de 2°C em setembro.
-
-temp_obs_bacia |>
-  dplyr::transmute(
-    mes,
-    anomalia_media = scales::number(anomalia_media, 0.1, suffix = "°C"),
-    `>1°C` = scales::percent(acima_1, 0.1),
-    `>2°C` = scales::percent(acima_2, 0.1)
-  ) |>
-  knitr::kable()
-```
-
-```{r}
-#| label: fig-temp-obs-bacia
-#| fig-cap: Anomalia de temperatura observada (°C) em setembro de 2026 na Pan-Amazônia
-
-obs_temp_09 |>
-  terra::crop(bacia_am, mask = TRUE) |>
-  terra::plot(
-    breaks = c(-9, -2, -1, 0, 1, 2, 3, 9),
-    col = rev(hcl.colors(7, "RdBu")),
-    main = "setembro",
-    fun = \() terra::lines(ufs)
-  )
-```
-
-```{r}
-#| label: tbl-temp-obs-bacias
-#| tbl-cap: Percentual do território das bacias hidrográficas da Amazônia com anomalia de temperatura acima de 1°C e de 2°C em setembro.
-
-temp_obs_bacias |>
-  dplyr::arrange(dplyr::desc(acima_1)) |>
-  tabela_temp("bacia") |>
-  knitr::kable()
-```
-
-```{r}
-#| label: tbl-temp-obs-ufs
-#| tbl-cap: Percentual do território dos estados da Amazônia Legal com anomalia de temperatura acima de 1°C e de 2°C em setembro.
-
-temp_obs_ufs |>
-  dplyr::arrange(dplyr::desc(acima_1)) |>
-  tabela_temp("uf") |>
-  knitr::kable()
-```
-
-```{r}
-#| label: tbl-temp-obs-municipios
-#| tbl-cap: Municípios da Amazônia Legal com anomalia de temperatura acima de 1°C em setembro, em percentual do território.
-
-temp_obs_municipios |>
-  dplyr::filter(acima_1 > 0) |>
-  dplyr::arrange(dplyr::desc(acima_2), dplyr::desc(acima_1)) |>
-  tabela_temp(c("municipio", "uf"))
-```
-
-```{r}
-#| label: tbl-temp-obs-municipios-selecionados
-#| tbl-cap: Anomalia de temperatura observada em setembro em Humaitá, Manicoré, Novo Aripuanã, Borba, Nova Olinda do Norte e Manaus.
-
-temp_obs_selecionados |>
-  dplyr::arrange(municipio) |>
-  dplyr::transmute(
-    municipio,
-    anomalia_media = scales::number(anomalia_media, 0.1, suffix = "°C"),
-    `>1°C` = scales::percent(acima_1, 1),
-    `>2°C` = scales::percent(acima_2, 1)
-  ) |>
-  knitr::kable()
-```
-
